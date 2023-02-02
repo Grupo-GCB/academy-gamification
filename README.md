@@ -16,7 +16,7 @@ O objetivo principal é incentivar o pessoal da empresa a colaborarem com os int
 
 - É possível transferir pontos para outro colaborador, só o dono dos pontos podem transferir.
 
-- Quando um Academy estiver fazendo um estágio o gestor responsável não ganhará pontos.
+- Quando um Academy estiver fazendo um estágio, o gestor responsável não ganhará pontos.
 
 ## Como ganhar pontos?
 
@@ -39,12 +39,12 @@ O objetivo principal é incentivar o pessoal da empresa a colaborarem com os int
 
 ## Como usar os pontos?
 
-- Comprar um projeto (0.000 gc_coins)
+- Comprar um projeto
   - Simples (15.000 gc_coins)
   - Médio (45.000 gc_coins)
   - Complexo (200.000 gc_coins)
 - Comprar um Academy (50.000 gc_coins)
-- Comprar crédito no Peer (0.000 gc_coins)
+- Comprar crédito no Peer (X gc_coins)
 
 ## Preocupações Futuras
 
