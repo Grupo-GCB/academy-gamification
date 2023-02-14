@@ -1,5 +1,7 @@
 # Gamificação do Academy
 
+A Gamificação do Academy é um projeto inovador que busca incentivar a colaboração entre os profissionais dos times principais e os Academy do Grupo GCB. Por meio de um sistema de recompensas baseado em gc_coins, os colaboradores são incentivados a compartilhar seus conhecimentos e habilidades, contribuindo para o desenvolvimento técnico, ajudar na necessidade dos Academys e o crescimento da empresa.
+
 ## Objetivo
 
 O objetivo principal é incentivar o pessoal da empresa a colaborarem com os integrantes do GCB Academy, como, por exemplo, ajudar com o Code Review, apresentar uma nova tecnologia, tirar dúvidas, etc.
