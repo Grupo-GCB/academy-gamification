@@ -1,6 +1,6 @@
 # Gamificação do Academy
 
-A Gamificação do Academy é um projeto inovador que busca incentivar a colaboração entre os profissionais dos times principais e os Academy do Grupo GCB. Por meio de um sistema de recompensas baseado em gc_coins, os colaboradores são incentivados a compartilhar seus conhecimentos e habilidades, contribuindo para o desenvolvimento técnico, ajudar na necessidade dos Academys e o crescimento da empresa.
+A Gamificação do Academy é um projeto inovador que busca incentivar a colaboração entre os profissionais dos times principais e os Academy do Grupo GCB. Por meio de um sistema de recompensas baseado em GCBits, os colaboradores são incentivados a compartilhar seus conhecimentos e habilidades, contribuindo para o desenvolvimento técnico, ajudar na necessidade dos Academys e o crescimento da empresa.
 
 ## Objetivo
 
@@ -28,11 +28,11 @@ O objetivo principal é incentivar o pessoal da empresa a colaborarem com os int
 
 ##### Contratação de Academys:
   - A contratação de um Academy deve ser feita exclusivamente por meio do conhecimento e autorização do gestor responsável;
-  - O colaborador terá seu saldo de gc_coins debitado, e é sua responsabilidade estar ciente do limite máximo de gc_coins negativos permitido (100.000 gc_coins).
+  - O colaborador terá seu saldo de GCBits debitado, e é sua responsabilidade estar ciente do limite máximo de GCBits negativos permitido (100.000 GCBits).
 
 ##### Compra de Créditos:
-  - Qualquer compra de créditos no PeerBR com gc_coins deve ser alinhada previamente com o responsável do Academy;
-  - A compra de créditos no PeerBR utilizando gc_coins são permitidas mediante ao relacionamento direto com o projeto. 
+  - Qualquer compra de créditos no PeerBR com GCBits deve ser alinhada previamente com o responsável do Academy;
+  - A compra de créditos no PeerBR utilizando GCBits são permitidas mediante ao relacionamento direto com o projeto. 
   - Não é permitido ficar negativado na compra.
 
 ##### Compra de Projeto Sob Demanda:
@@ -46,22 +46,22 @@ O objetivo principal é incentivar o pessoal da empresa a colaborarem com os int
 
 ## Como ganhar pontos?
 
-- Realizar um Code Review: 3000 gc_coins
-  - Serão acrescentados 300 gc_coins para cada comentário adicional
+- Realizar um Code Review: 3000 GCBits
+  - Serão acrescentados 300 GCBits para cada comentário adicional
   - O merge só será realizado quando houver aprovação de duas pessoas, que receberão a pontuação juntas
-- Participar do Comitê do Academy: 5000 gc_coins
-- Chamar o Academy para participar de uma cerimônia do time: 5000 gc_coins
-- Chamar o Academy para fazer um Pair Programming: 4 horas de duração (equivalente a 1 dia do Academy) por 7000 gc_coins
-- Dar um direcionamento ou tirar dúvidas: 1000 gc_coins por dia (máximo de 1 vez por dia)
-- Elaborar um desafio de lógica: 3000 gc_coins
-- Fazer uma avaliação de um Academy: 6000 gc_coins (máximo de 1 vez por mês)
+- Participar do Comitê do Academy: 5000 GCBits
+- Chamar o Academy para participar de uma cerimônia do time: 5000 GCBits
+- Chamar o Academy para fazer um Pair Programming: 4 horas de duração (equivalente a 1 dia do Academy) por 7000 GCBits
+- Dar um direcionamento ou tirar dúvidas: 1000 GCBits por dia (máximo de 1 vez por dia)
+- Elaborar um desafio de lógica: 3000 GCBits
+- Fazer uma avaliação de um Academy: 6000 GCBits (máximo de 1 vez por mês)
 
 
 ## Como usar os pontos?
 
 - Comprar um projeto
-  - Simples (15.000 gc_coins)
-  - Médio (45.000 gc_coins)
-  - Complexo (200.000 gc_coins)
-- Comprar um Academy (50.000 gc_coins)
-- Comprar crédito no Peer (X gc_coins)
+  - Simples (15.000 GCBits)
+  - Médio (45.000 GCBits)
+  - Complexo (200.000 GCBits)
+- Comprar um Academy (50.000 GCBits)
+- Comprar crédito no Peer (X GCBits)
