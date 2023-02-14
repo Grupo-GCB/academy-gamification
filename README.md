@@ -46,22 +46,16 @@ O objetivo principal é incentivar o pessoal da empresa a colaborarem com os int
 
 ## Como ganhar pontos?
 
-- Fazer um Code Review (Acréscimos por comentário)
-  - É necessário 2 pessoas revisando para dar um merge e só dar a pontuação para as 2 pessoas depois do merge
-  - Code Review = 3000 gc_coins
-  - Comentário (Adicional) = 300 gc_coins
-- Participar do Comitê do Academy
-  - 5000 gc_coins
-- Chamar o Academy para participar de uma cerimônia do time
-  - 5000 gc_coins
-- Chamar o Academy para fazer um Pair Programming
-  - 1 dia do Academy, ou seja, 4 horas = 7000 gc_coins
-- Dar um direcionamento ou tirar dúvidas (1x por dia)
-  - 1000 gc_coins
-- Elaborar um desafio de lógica
-  - 3000 gc_coins
-- Fazer uma avaliação de um Academy (1x por mês)
-  - 6000 gc_coins
+- Realizar um Code Review: 3000 gc_coins
+  - Serão acrescentados 300 gc_coins para cada comentário adicional
+  - O merge só será realizado quando houver aprovação de duas pessoas, que receberão a pontuação juntas
+- Participar do Comitê do Academy: 5000 gc_coins
+- Chamar o Academy para participar de uma cerimônia do time: 5000 gc_coins
+- Chamar o Academy para fazer um Pair Programming: 4 horas de duração (equivalente a 1 dia do Academy) por 7000 gc_coins
+- Dar um direcionamento ou tirar dúvidas: 1000 gc_coins por dia (máximo de 1 vez por dia)
+- Elaborar um desafio de lógica: 3000 gc_coins
+- Fazer uma avaliação de um Academy: 6000 gc_coins (máximo de 1 vez por mês)
+
 
 ## Como usar os pontos?
 
@@ -71,9 +65,3 @@ O objetivo principal é incentivar o pessoal da empresa a colaborarem com os int
   - Complexo (200.000 gc_coins)
 - Comprar um Academy (50.000 gc_coins)
 - Comprar crédito no Peer (X gc_coins)
-
-## Preocupações Futuras
-
-- Automatizar tudo possível
-- Feedback da qualidade da ajuda
-- Juros sobre pontos negativos
