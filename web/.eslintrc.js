@@ -52,7 +52,7 @@ module.exports = {
   rules: {
     "react/jsx-props-no-spreading": 0,
     "import/extensions": [
-      "warn",
+      0,
       "ignorePackages",
       {
         js: "never",
