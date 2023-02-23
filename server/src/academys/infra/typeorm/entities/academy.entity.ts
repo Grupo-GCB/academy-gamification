@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('academys')
 export class Academy {
@@ -11,6 +11,9 @@ export class Academy {
 
   @Column()
   email: string;
+
+  @CreateDateColumn()
+  created_at: Date;
 
   constructor() {
     if (!this.id) this.id = randomUUID();
