@@ -1,7 +1,8 @@
 import { Academy } from './../../infra/typeorm/entities/academy.entity';
 import { IAcademysRepository } from 'src/academys/interfaces/IAcademysRepository';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, Injectable } from '@nestjs/common';
 
+@Injectable()
 export class FindByIdUseCase {
   constructor(private academysRepository: IAcademysRepository) {}
 
