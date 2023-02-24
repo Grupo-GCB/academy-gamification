@@ -15,14 +15,14 @@ describe('Find Collaboration by Academy id', () => {
   });
 
   it('should find academy with passed collaboration status passed', async () => {
-    const collaboration1 = await inMemoryCollaborationRepository.create({
+    const collaboration1 = await inMemoryCollaborationRepository.register({
       collaboration_type_id: '123456',
       collaborator_id: '123456',
       academy_id: 'academy123456',
       status: CollaborationsStatus.pending,
     });
 
-    const collaboration2 = await inMemoryCollaborationRepository.create({
+    const collaboration2 = await inMemoryCollaborationRepository.register({
       collaboration_type_id: '654321',
       collaborator_id: '123456',
       academy_id: 'academy123456',
