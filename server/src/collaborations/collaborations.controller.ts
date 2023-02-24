@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateCollaborationDto } from './dto/create-collaboration.dto';
+import { RegisterCollaborationDto } from './dto/register-collaboration.dto';
 import { UpdateCollaborationDto } from './dto/update-collaboration.dto';
 import { CollaborationsService } from './use-cases/collaborations.service';
 
@@ -16,8 +16,8 @@ export class CollaborationsController {
   constructor(private readonly collaborationsService: CollaborationsService) {}
 
   @Post()
-  create(@Body() createCollaborationDto: CreateCollaborationDto) {
-    return this.collaborationsService.create(createCollaborationDto);
+  create(@Body() registerCollaborationDto: RegisterCollaborationDto) {
+    return this.collaborationsService.create(registerCollaborationDto);
   }
 
   @Get()

@@ -1,3 +1,5 @@
+import { CollaborationsStatus } from '@collaborations/infra/typeorm/entities/collaboration.entity';
+import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/inMemoryCollaborationsRepository';
 import { RegisterCollaborationUseCase } from './register-collaboration';
 
 describe('Register a Collaboration', () => {
@@ -15,13 +17,16 @@ describe('Register a Collaboration', () => {
 
   it('should be able to register a Collaboration', async () => {
     const collaboration = {
-      collaborator: 'Flávio',
-      academyHelped: 'Gustavo',
-      description: 'Ajudou com dúvidas sobre arquitetura',
+      id: '1',
+      collaboration_type_id: '1',
+      collaborator_id: '1',
+      academy_id: '1',
+      status: CollaborationsStatus.pending,
+      created_at: new Date(),
     };
 
-    expect(registerCollaborationUseCase.execute(collaboration)).toEqual(
-      collaboration,
-    );
+    await expect(
+      registerCollaborationUseCase.execute(collaboration),
+    ).resolves.toEqual(collaboration);
   });
 });

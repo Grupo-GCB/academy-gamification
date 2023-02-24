@@ -1,14 +1,14 @@
-import { CreateCollaborationDto } from './../../dto/create-collaboration.dto';
+import { FilterCollaborationByStatusDto } from '@collaborations/dto/filter-collaboration-by-status.dto';
+import { RegisterCollaborationDto } from '@collaborations/dto/register-collaboration.dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
-import { FilterCollaborationByStatusDto } from '@collaborations/dto/filter-collaboration-by-status.dto';
 
 export class InMemoryCollaborationsRepository
   implements ICollaborationsRepository
 {
   collaborations: Collaboration[] = [];
 
-  async create(data: CreateCollaborationDto): Promise<Collaboration> {
+  async register(data: RegisterCollaborationDto): Promise<Collaboration> {
     const collaboration = new Collaboration();
 
     Object.assign(collaboration, data);

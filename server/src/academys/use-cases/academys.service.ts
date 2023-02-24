@@ -1,10 +1,10 @@
+import { RegisterAcademyDto } from '@academys/dto/create-academy.dto';
 import { Injectable } from '@nestjs/common';
-import { CreateAcademyDto } from '../dto/create-academy.dto';
 import { UpdateAcademyDto } from '../dto/update-academy.dto';
 
 @Injectable()
 export class AcademysService {
-  create(createAcademyDto: CreateAcademyDto) {
+  create(register: RegisterAcademyDto) {
     return 'This action adds a new academy';
   }
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCollaborationDto } from '../dto/create-collaboration.dto';
+import { RegisterCollaborationDto } from '../dto/register-collaboration.dto';
 import { UpdateCollaborationDto } from '../dto/update-collaboration.dto';
 
 @Injectable()
 export class CollaborationsService {
-  create(createCollaborationDto: CreateCollaborationDto) {
+  create(registerCollaborationDto: RegisterCollaborationDto) {
     return 'This action adds a new collaboration';
   }
 
