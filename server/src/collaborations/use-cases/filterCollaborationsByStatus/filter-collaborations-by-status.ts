@@ -1,27 +1,23 @@
 import { NotFoundException } from '@nestjs/common';
-import {
-  Collaboration,
-  CollaborationsStatus,
-} from '@collaborations/infra/typeorm/entities/collaboration.entity';
+import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
+import { FilterCollaborationByStatusDto } from '@collaborations/dto/filter-collaboration-by-status.dto';
 
-export class FindPendingCollaborations {
+export class FilterCollaborationsByStatus {
   constructor(private collaborationsRepository: ICollaborationsRepository) {}
 
-  async execute(
-    status: CollaborationsStatus,
-    id: string,
-  ): Promise<Collaboration[]> {
+  async execute({
+    status,
+    id,
+  }: FilterCollaborationByStatusDto): Promise<Collaboration[]> {
     const pendingCollaborations =
-      await this.collaborationsRepository.filterCollaborationsByStatus(
+      await this.collaborationsRepository.filterCollaborationsByStatus({
         status,
         id,
-      );
+      });
 
     if (pendingCollaborations.length === 0) {
-      throw new NotFoundException(
-        `Academy does not have ${status} collaborations`,
-      );
+      throw new NotFoundException('No collaborations were found');
     }
 
     return pendingCollaborations;
