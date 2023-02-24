@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateAcademyDto } from './dto/create-academy.dto';
+import { RegisterAcademyDto } from './dto/create-academy.dto';
 import { UpdateAcademyDto } from './dto/update-academy.dto';
 import { AcademysService } from './use-cases/academys.service';
 
@@ -16,8 +16,8 @@ export class AcademysController {
   constructor(private readonly academysService: AcademysService) {}
 
   @Post()
-  create(@Body() createAcademyDto: CreateAcademyDto) {
-    return this.academysService.create(createAcademyDto);
+  create(@Body() registerAcademyDto: RegisterAcademyDto) {
+    return this.academysService.create(registerAcademyDto);
   }
 
   @Get()
