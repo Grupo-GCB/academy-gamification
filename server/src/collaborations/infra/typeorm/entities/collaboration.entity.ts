@@ -1,1 +1,53 @@
-export class Collaboration {}
+import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
+import { randomUUID } from 'crypto';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+export enum CollaborationsStatus {
+  pending,
+  approved,
+  rejected,
+}
+
+@Entity('collaboration')
+export class Collaboration {
+  @PrimaryColumn()
+  id: string;
+
+  @Column()
+  collaboration_type_id: string;
+
+  @Column()
+  collaborator_id: string;
+
+  @ManyToMany(() => Academy)
+  @JoinTable({
+    name: 'collaboration_academy',
+    joinColumns: [{ name: 'collaboration_id' }],
+    inverseJoinColumns: [{ name: 'academy_id' }],
+  })
+  academy_id: string;
+
+  @Column()
+  status: CollaborationsStatus;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  approved_at?: Date;
+
+  @UpdateDateColumn()
+  rejected_at?: Date;
+
+  constructor() {
+    if (!this.id) this.id = randomUUID();
+  }
+}
