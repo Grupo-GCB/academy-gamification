@@ -22,7 +22,8 @@
     "resolveJsonModule": true,
     "paths": {
       "@academys/*": ["academys/*"],
-      "@collaborations/*": ["collaborations/*"]
+      "@collaborations/*": ["collaborations/*"],
+      "@shared/*": ["shared/*"],
     }
   }
 }
