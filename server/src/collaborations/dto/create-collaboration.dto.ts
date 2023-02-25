@@ -12,7 +12,7 @@ export class CreateCollaborationDTO {
 
   @IsNotEmpty()
   @IsString()
-  academy_id: string;
+  academy_id: string[];
 
   @IsNotEmpty()
   @IsEnum(CollaborationsStatus)

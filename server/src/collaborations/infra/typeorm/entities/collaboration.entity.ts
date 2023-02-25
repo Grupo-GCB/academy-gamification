@@ -1,6 +1,6 @@
 import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
 import { randomUUID } from 'node:crypto';
-import { CollaborationsStatus } from 'shared/constants';
+import { CollaborationsStatus } from '@shared/constants';
 import {
   Column,
   CreateDateColumn,
@@ -28,7 +28,7 @@ export class Collaboration {
     joinColumns: [{ name: 'collaboration_id' }],
     inverseJoinColumns: [{ name: 'academy_id' }],
   })
-  academy_id: string;
+  academy_id: string[];
 
   @Column()
   status: CollaborationsStatus;

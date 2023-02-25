@@ -21,8 +21,8 @@ export class InMemoryCollaborationsRepository
     status,
     academy_id,
   }: FilterCollaborationByStatusDTO): Promise<Collaboration[]> {
-    const academyCollaborations = this.collaborations.filter(
-      (collaboration) => collaboration.academy_id === academy_id,
+    const academyCollaborations = this.collaborations.filter((collaboration) =>
+      collaboration.academy_id.includes(academy_id),
     );
 
     return academyCollaborations.filter(
