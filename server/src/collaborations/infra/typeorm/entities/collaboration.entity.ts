@@ -1,5 +1,6 @@
 import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
 import { randomUUID } from 'crypto';
+import { CollaborationsStatus } from 'shared/constants';
 import {
   Column,
   CreateDateColumn,
@@ -9,12 +10,6 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum CollaborationsStatus {
-  pending,
-  approved,
-  rejected,
-}
 
 @Entity('collaboration')
 export class Collaboration {

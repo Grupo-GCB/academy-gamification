@@ -1,7 +1,7 @@
 import { FilterCollaborationsByStatus } from './filter-collaborations-by-status';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/inMemoryCollaborationsRepository';
-import { CollaborationsStatus } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { NotFoundException } from '@nestjs/common';
+import { CollaborationsStatus } from 'shared/constants';
 
 describe('Find Collaboration by Academy id', () => {
   let inMemoryCollaborationRepository: InMemoryCollaborationsRepository;
