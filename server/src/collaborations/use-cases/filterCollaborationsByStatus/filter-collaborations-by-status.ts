@@ -16,9 +16,8 @@ export class FilterCollaborationsByStatus {
         academy_id,
       });
 
-    if (pendingCollaborations.length === 0) {
+    if (pendingCollaborations.length === 0)
       throw new NotFoundException('No collaborations were found');
-    }
 
     return pendingCollaborations;
   }

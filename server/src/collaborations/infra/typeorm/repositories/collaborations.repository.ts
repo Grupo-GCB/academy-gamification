@@ -10,7 +10,7 @@ export class CollaborationsRepository {
     private collaborationsRepository: Repository<Collaboration>,
   ) {}
 
-  async filterByStatus(
+  async filterByAcademyAndStatus(
     status: CollaborationsStatus,
     academy_id: string,
   ): Promise<Collaboration[]> {

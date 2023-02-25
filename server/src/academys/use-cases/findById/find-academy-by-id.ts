@@ -9,9 +9,7 @@ export class FindByIdUseCase {
   async execute(id: string): Promise<Academy> {
     const academy = await this.academysRepository.findById(id);
 
-    if (!academy) {
-      throw new NotFoundException('Academy does not exist');
-    }
+    if (!academy) throw new NotFoundException('Academy does not exist');
 
     return academy;
   }
