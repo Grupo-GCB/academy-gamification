@@ -17,9 +17,9 @@ describe('Find Academy by id', () => {
       email: 'academy@academy.com',
     });
 
-    const academyFinded = await findByIdUseCase.execute(academy.id);
+    const sut = await findByIdUseCase.execute(academy.id);
 
-    expect(academyFinded).toEqual(
+    expect(sut).toEqual(
       expect.objectContaining({
         id: academy.id,
         name: academy.name,
