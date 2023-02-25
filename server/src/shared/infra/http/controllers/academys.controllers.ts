@@ -5,7 +5,7 @@ import { FindByIdUseCase } from '../../../../academys/use-cases/findById/find-ac
 export class AcademysController {
   constructor(private findByIdUseCase: FindByIdUseCase) {}
 
-  @Get('academys/:id')
+  @Get(':id')
   findById(@Param('id') id: string): Promise<Academy> {
     return this.findByIdUseCase.execute(id);
   }

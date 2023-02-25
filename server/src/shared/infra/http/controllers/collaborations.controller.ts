@@ -8,7 +8,7 @@ export class CollaborationsController {
     private filterCollaborationsByStatus: FilterCollaborationsByStatus,
   ) {}
 
-  @Get('collaborations/academy/:id')
+  @Get('academy/:id')
   filterByStatus(
     @Body()
     { status, academy_id }: FilterCollaborationByStatusDto,
