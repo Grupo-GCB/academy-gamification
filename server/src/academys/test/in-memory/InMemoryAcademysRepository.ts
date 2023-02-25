@@ -1,11 +1,11 @@
-import { CreateAcademyDto } from '@academys/dto/create-academy.dto';
+import { CreateAcademyDTO } from '@academys/dto/create-academy.dto';
 import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
 import { IAcademysRepository } from '@academys/interfaces';
 
 export class InMemoryAcademysRepository implements IAcademysRepository {
   academys: Academy[] = [];
 
-  async create(data: CreateAcademyDto): Promise<Academy> {
+  async create(data: CreateAcademyDTO): Promise<Academy> {
     const academy = new Academy();
 
     Object.assign(academy, data);

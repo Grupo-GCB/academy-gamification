@@ -38,10 +38,17 @@ describe('Find Collaboration by Academy id', () => {
   });
 
   it('should throw an error if academy does not have collaborations with passed status', async () => {
+    const collaboration = await inMemoryCollaborationRepository.create({
+      collaboration_type_id: '654321',
+      collaborator_id: '123456',
+      academy_id: 'academy123456',
+      status: CollaborationsStatus.pending,
+    });
+
     await expect(
       filterCollaborationsByStatus.execute({
         status: CollaborationsStatus.pending,
-        academy_id: 'Invalid',
+        academy_id: 'academy',
       }),
     ).rejects.toEqual(new NotFoundException('No collaborations were found'));
   });
