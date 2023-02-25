@@ -29,8 +29,8 @@ describe('Find Academy by id', () => {
   });
 
   it('should not be able to find a nonexistent academy id', async () => {
-    await expect(
-      findByIdUseCase.execute('Inexistent Specialty'),
-    ).rejects.toEqual(new NotFoundException('Academy does not exist'));
+    await expect(findByIdUseCase.execute('Invalid Id')).rejects.toEqual(
+      new NotFoundException('Academy does not exist'),
+    );
   });
 });
