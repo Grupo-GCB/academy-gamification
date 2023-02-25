@@ -1,5 +1,5 @@
-import { CollaborationsStatus } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { CollaborationsStatus } from 'shared/constants';
 
 export class CreateCollaborationDto {
   @IsNotEmpty()
