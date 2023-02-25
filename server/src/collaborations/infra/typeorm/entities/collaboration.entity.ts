@@ -1,5 +1,5 @@
 import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { CollaborationsStatus } from 'shared/constants';
 import {
   Column,
