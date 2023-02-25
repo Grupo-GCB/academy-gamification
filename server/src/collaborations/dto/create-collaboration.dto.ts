@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { CollaborationsStatus } from 'shared/constants';
+import { CollaborationsStatus } from '@shared/constants';
 
 export class CreateCollaborationDTO {
   @IsNotEmpty()

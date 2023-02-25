@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CollaborationsStatus } from 'shared/constants';
+import { CollaborationsStatus } from '@shared/constants';
 import { Repository } from 'typeorm';
 import { Collaboration } from '../entities/collaboration.entity';
 @Injectable()
