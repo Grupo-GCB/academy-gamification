@@ -14,7 +14,7 @@ describe('Find Collaboration by Academy id', () => {
     );
   });
 
-  it('should find academy with passed collaboration status passed', async () => {
+  it('should find academy with collaboration status passed', async () => {
     const collaboration1 = await inMemoryCollaborationRepository.create({
       collaboration_type_id: '0a1b5baa-a8dd-4aff-90cd-5accc7a266f0',
       collaborator_id: 'f8007e10-b750-4e24-9342-21c1f51e1f99',
@@ -37,7 +37,7 @@ describe('Find Collaboration by Academy id', () => {
     expect(pendingCollaborations).toEqual([collaboration1, collaboration2]);
   });
 
-  it('should throw an error if academy does not have collaborations with passed status', async () => {
+  it('should throw an error if academy does not have collaborations with status passed', async () => {
     const collaboration = await inMemoryCollaborationRepository.create({
       collaboration_type_id: '3b581175-13f2-471a-bda8-f08987ca9506',
       collaborator_id: '012f000f-bcdb-4c5f-b1bf-d917dac65426',
