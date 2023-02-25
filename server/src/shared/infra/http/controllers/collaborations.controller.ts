@@ -11,8 +11,8 @@ export class CollaborationsController {
   @Get('collaborations/academy/:id')
   filterByStatus(
     @Body()
-    { status, id }: FilterCollaborationByStatusDto,
+    { status, academy_id }: FilterCollaborationByStatusDto,
   ) {
-    return this.filterCollaborationsByStatus.execute({ status, id });
+    return this.filterCollaborationsByStatus.execute({ status, academy_id });
   }
 }

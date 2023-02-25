@@ -7,5 +7,5 @@ export class FilterCollaborationByStatusDto {
 
   @IsNotEmpty()
   @IsString()
-  id: string;
+  academy_id: string;
 }

@@ -19,10 +19,10 @@ export class InMemoryCollaborationsRepository
   }
   async filterCollaborationsByStatus({
     status,
-    id,
+    academy_id,
   }: FilterCollaborationByStatusDto): Promise<Collaboration[]> {
     const academyCollaborations = this.collaborations.filter(
-      (collaboration) => collaboration.academy_id === id,
+      (collaboration) => collaboration.academy_id === academy_id,
     );
 
     return academyCollaborations.filter(

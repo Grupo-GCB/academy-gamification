@@ -7,6 +7,6 @@ export abstract class ICollaborationsRepository {
 
   abstract filterCollaborationsByStatus({
     status,
-    id,
+    academy_id,
   }: FilterCollaborationByStatusDto): Promise<Collaboration[]>;
 }

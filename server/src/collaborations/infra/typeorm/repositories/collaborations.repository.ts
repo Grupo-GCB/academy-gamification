@@ -14,10 +14,10 @@ export class CollaborationsRepository {
 
   async filterByStatus(
     status: CollaborationsStatus,
-    id: string,
+    academy_id: string,
   ): Promise<Collaboration[]> {
     const academyCollaborations = await this.collaborationsRepository.find({
-      where: { id },
+      where: { academy_id },
     });
 
     return academyCollaborations.filter(

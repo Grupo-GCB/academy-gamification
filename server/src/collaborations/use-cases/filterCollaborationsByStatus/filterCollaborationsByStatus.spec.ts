@@ -31,7 +31,7 @@ describe('Find Collaboration by Academy id', () => {
 
     const pendingCollaborations = await filterCollaborationsByStatus.execute({
       status: CollaborationsStatus.pending,
-      id: 'academy123456',
+      academy_id: 'academy123456',
     });
 
     expect(pendingCollaborations).toEqual([collaboration1, collaboration2]);
@@ -41,7 +41,7 @@ describe('Find Collaboration by Academy id', () => {
     await expect(
       filterCollaborationsByStatus.execute({
         status: CollaborationsStatus.pending,
-        id: 'Invalid',
+        academy_id: 'Invalid',
       }),
     ).rejects.toEqual(new NotFoundException('No collaborations were found'));
   });

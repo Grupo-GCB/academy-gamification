@@ -8,12 +8,12 @@ export class FilterCollaborationsByStatus {
 
   async execute({
     status,
-    id,
+    academy_id,
   }: FilterCollaborationByStatusDto): Promise<Collaboration[]> {
     const pendingCollaborations =
       await this.collaborationsRepository.filterCollaborationsByStatus({
         status,
-        id,
+        academy_id,
       });
 
     if (pendingCollaborations.length === 0) {
