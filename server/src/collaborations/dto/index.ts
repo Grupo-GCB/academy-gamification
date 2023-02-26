@@ -1,2 +1,2 @@
 export * from './create-collaboration.dto';
-export * from './filter-collaboration-by-status.dto';
+export * from './filter-by-academy-and-status';
