@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CollaborationsStatus } from '@shared/constants';
 import { Repository } from 'typeorm';
-import { Collaboration } from '../entities/collaboration.entity';
+
+import { CollaborationsStatus } from '@shared/constants';
+import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 @Injectable()
 export class CollaborationsRepository {
   constructor(

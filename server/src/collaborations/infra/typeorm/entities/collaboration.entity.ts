@@ -1,6 +1,4 @@
-import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
 import { randomUUID } from 'node:crypto';
-import { CollaborationsStatus } from '@shared/constants';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +8,9 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
+import { CollaborationsStatus } from '@shared/constants';
 
 @Entity('collaboration')
 export class Collaboration {

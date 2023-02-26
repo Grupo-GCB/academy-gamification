@@ -1,4 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
+
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
 import { FilterByAcademyAndStatusDTO } from '@collaborations/dto/filter-by-academy-and-status';

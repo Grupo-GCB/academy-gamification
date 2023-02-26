@@ -1,6 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
+
 import { InMemoryAcademysRepository } from '@academys/test/in-memory/InMemoryAcademysRepository';
-import { FindByIdUseCase } from './find-academy-by-id';
+import { FindByIdUseCase } from '@academys/use-cases/findById/find-academy-by-id';
 
 describe('Find Academy by id', () => {
   let inMemoryAcademysRepository: InMemoryAcademysRepository;

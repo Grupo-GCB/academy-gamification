@@ -1,4 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+
 import { CollaborationsStatus } from '@shared/constants';
 export class FilterByAcademyAndStatusDTO {
   @IsNotEmpty()

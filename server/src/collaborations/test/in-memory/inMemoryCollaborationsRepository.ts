@@ -1,4 +1,4 @@
-import { CreateCollaborationDTO } from './../../dto/create-collaboration.dto';
+import { CreateCollaborationDTO } from '@collaborations/dto/create-collaboration.dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
 import { FilterByAcademyAndStatusDTO } from '@collaborations/dto/filter-by-academy-and-status';
