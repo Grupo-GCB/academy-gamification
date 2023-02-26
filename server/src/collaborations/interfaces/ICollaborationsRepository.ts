@@ -5,7 +5,7 @@ import { FilterCollaborationByStatusDTO } from '@collaborations/dto/filter-colla
 export abstract class ICollaborationsRepository {
   abstract create(data: CreateCollaborationDTO): Promise<Collaboration>;
 
-  abstract filterCollaborationsByStatus({
+  abstract filterByAcademyAndStatus({
     status,
     academy_id,
   }: FilterCollaborationByStatusDTO): Promise<Collaboration[]>;

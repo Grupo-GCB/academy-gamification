@@ -17,7 +17,7 @@ export class InMemoryCollaborationsRepository
 
     return collaboration;
   }
-  async filterCollaborationsByStatus({
+  async filterByAcademyAndStatus({
     status,
     academy_id,
   }: FilterCollaborationByStatusDTO): Promise<Collaboration[]> {
