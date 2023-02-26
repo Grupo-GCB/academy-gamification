@@ -1,5 +1,5 @@
 export enum CollaborationsStatus {
-  pending,
-  approved,
-  rejected,
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
 }
