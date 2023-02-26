@@ -15,6 +15,9 @@ export class Academy {
   @CreateDateColumn()
   created_at: Date;
 
+  @CreateDateColumn()
+  deleted_at: Date;
+
   constructor() {
     if (!this.id) this.id = randomUUID();
   }
