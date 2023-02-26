@@ -21,7 +21,7 @@ export class Academy {
   @CreateDateColumn()
   created_at: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ default: null })
   deleted_at: Date;
 
   constructor() {
