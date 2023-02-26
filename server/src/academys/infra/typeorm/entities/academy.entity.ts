@@ -1,5 +1,11 @@
 import { randomUUID } from 'node:crypto';
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity('academys')
 export class Academy {
@@ -15,7 +21,7 @@ export class Academy {
   @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn()
+  @DeleteDateColumn()
   deleted_at: Date;
 
   constructor() {
