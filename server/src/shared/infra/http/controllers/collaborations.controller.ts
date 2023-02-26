@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param } from '@nestjs/common';
 
 import { FilterByAcademyAndStatusDTO } from '@collaborations/dto/filter-by-academy-and-status';
 import { FilterByAcademyAndStatus } from '@collaborations/use-cases/filterByAcademyAndStatus/filter-by-academy-and-status';
@@ -7,10 +7,10 @@ import { FilterByAcademyAndStatus } from '@collaborations/use-cases/filterByAcad
 export class CollaborationsController {
   constructor(private filterByAcademyAndStatus: FilterByAcademyAndStatus) {}
 
-  @Get('academy/:id')
+  @Get('academy/:academy_id')
   filterByStatus(
-    @Body()
-    { status, academy_id }: FilterByAcademyAndStatusDTO,
+    @Param() { academy_id }: FilterByAcademyAndStatusDTO,
+    @Body() { status }: FilterByAcademyAndStatusDTO,
   ) {
     return this.filterByAcademyAndStatus.execute({ status, academy_id });
   }
