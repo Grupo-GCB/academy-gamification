@@ -3,7 +3,7 @@ import { Collaboration } from '@collaborations/infra/typeorm/entities/collaborat
 import { ICollaborationsRepository } from '@collaborations/interfaces';
 import { FilterCollaborationByStatusDTO } from '@collaborations/dto/filter-collaboration-by-status.dto';
 
-export class FilterCollaborationsByStatus {
+export class FilterByAcademyAndStatus {
   constructor(private collaborationsRepository: ICollaborationsRepository) {}
 
   async execute({

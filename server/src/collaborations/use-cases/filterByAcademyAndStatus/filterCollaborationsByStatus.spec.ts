@@ -1,15 +1,15 @@
-import { FilterCollaborationsByStatus } from './filter-collaborations-by-status';
+import { FilterByAcademyAndStatus } from './filter-collaborations-by-status';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/inMemoryCollaborationsRepository';
 import { NotFoundException } from '@nestjs/common';
 import { CollaborationsStatus } from '@shared/constants';
 
 describe('Find Collaboration by Academy id', () => {
   let inMemoryCollaborationRepository: InMemoryCollaborationsRepository;
-  let filterCollaborationsByStatus: FilterCollaborationsByStatus;
+  let filterByAcademyAndStatus: FilterByAcademyAndStatus;
 
   beforeEach(() => {
     inMemoryCollaborationRepository = new InMemoryCollaborationsRepository();
-    filterCollaborationsByStatus = new FilterCollaborationsByStatus(
+    filterByAcademyAndStatus = new FilterByAcademyAndStatus(
       inMemoryCollaborationRepository,
     );
   });
@@ -29,7 +29,7 @@ describe('Find Collaboration by Academy id', () => {
       status: CollaborationsStatus.pending,
     });
 
-    const pendingCollaborations = await filterCollaborationsByStatus.execute({
+    const pendingCollaborations = await filterByAcademyAndStatus.execute({
       status: CollaborationsStatus.pending,
       academy_id: 'bb324053-cfe0-49ad-9c24-1d6bd368555e',
     });
@@ -46,7 +46,7 @@ describe('Find Collaboration by Academy id', () => {
     });
 
     await expect(
-      filterCollaborationsByStatus.execute({
+      filterByAcademyAndStatus.execute({
         status: CollaborationsStatus.pending,
         academy_id: 'academy',
       }),
