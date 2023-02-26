@@ -1,6 +1,6 @@
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { CreateCollaborationDTO } from '@collaborations/dto/create-collaboration.dto';
-import { FilterCollaborationByStatusDTO } from '@collaborations/dto/filter-collaboration-by-status.dto';
+import { FilterByAcademyAndStatusDTO } from '@collaborations/dto/filter-by-academy-and-status';
 
 export abstract class ICollaborationsRepository {
   abstract create(data: CreateCollaborationDTO): Promise<Collaboration>;
@@ -8,5 +8,5 @@ export abstract class ICollaborationsRepository {
   abstract filterByAcademyAndStatus({
     status,
     academy_id,
-  }: FilterCollaborationByStatusDTO): Promise<Collaboration[]>;
+  }: FilterByAcademyAndStatusDTO): Promise<Collaboration[]>;
 }

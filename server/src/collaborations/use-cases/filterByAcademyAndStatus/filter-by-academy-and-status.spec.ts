@@ -1,4 +1,4 @@
-import { FilterByAcademyAndStatus } from './filter-collaborations-by-status';
+import { FilterByAcademyAndStatus } from './filter-by-academy-and-status';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/inMemoryCollaborationsRepository';
 import { NotFoundException } from '@nestjs/common';
 import { CollaborationsStatus } from '@shared/constants';

@@ -1,7 +1,7 @@
 import { CreateCollaborationDTO } from './../../dto/create-collaboration.dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
-import { FilterCollaborationByStatusDTO } from '@collaborations/dto/filter-collaboration-by-status.dto';
+import { FilterByAcademyAndStatusDTO } from '@collaborations/dto/filter-by-academy-and-status';
 
 export class InMemoryCollaborationsRepository
   implements ICollaborationsRepository
@@ -20,7 +20,7 @@ export class InMemoryCollaborationsRepository
   async filterByAcademyAndStatus({
     status,
     academy_id,
-  }: FilterCollaborationByStatusDTO): Promise<Collaboration[]> {
+  }: FilterByAcademyAndStatusDTO): Promise<Collaboration[]> {
     const academyPendingCollaborations = this.collaborations.filter(
       (collaboration) =>
         collaboration.academy_id.includes(academy_id) &&
