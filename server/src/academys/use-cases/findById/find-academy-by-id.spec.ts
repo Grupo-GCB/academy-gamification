@@ -14,7 +14,7 @@ describe('Find Academy by id', () => {
   it('should be able to find a academy by id', async () => {
     const academy = await inMemoryAcademysRepository.create({
       name: 'Academy',
-      email: 'academy@academy.com',
+      email: 'academy@gcbinvestimentos.com',
     });
 
     const sut = await findByIdUseCase.execute(academy.id);
