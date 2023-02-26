@@ -6,9 +6,7 @@ export class InMemoryAcademysRepository implements IAcademysRepository {
   academys: Academy[] = [];
 
   async create(data: CreateAcademyDTO): Promise<Academy> {
-    const academy = new Academy();
-
-    Object.assign(academy, data);
+    const academy = Object.assign(new Academy(), data);
 
     this.academys.push(academy);
 
