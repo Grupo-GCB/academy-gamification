@@ -16,11 +16,9 @@ export class CollaborationsRepository {
     academy_id: string,
   ): Promise<Collaboration[]> {
     const academyCollaborations = await this.collaborationsRepository.find({
-      where: { academy_id },
+      where: { academy_id, status },
     });
 
-    return academyCollaborations.filter(
-      (collaboration) => collaboration.status === status,
-    );
+    return academyCollaborations;
   }
 }
