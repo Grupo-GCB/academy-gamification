@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 import { CollaborationsStatus } from '@shared/constants';
 
@@ -12,7 +12,8 @@ export class CreateCollaborationDTO {
   collaborator_id: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   academy_id: string[];
 
   @IsNotEmpty()
