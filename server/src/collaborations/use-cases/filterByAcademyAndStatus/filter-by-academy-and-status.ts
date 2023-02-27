@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
@@ -11,6 +11,8 @@ export class FilterByAcademyAndStatus {
     status,
     academy_id,
   }: FilterByAcademyAndStatusDTO): Promise<Collaboration[]> {
+    if (!status || !academy_id)
+      throw new BadRequestException('Id and Status are required!');
     const pendingCollaborations: Collaboration[] =
       await this.collaborationsRepository.filterByAcademyAndStatus({
         status,
