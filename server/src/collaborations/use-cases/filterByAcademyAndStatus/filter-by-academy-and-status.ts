@@ -11,7 +11,7 @@ export class FilterByAcademyAndStatus {
     status,
     academy_id,
   }: FilterByAcademyAndStatusDTO): Promise<Collaboration[]> {
-    const pendingCollaborations =
+    const pendingCollaborations: Collaboration[] =
       await this.collaborationsRepository.filterByAcademyAndStatus({
         status,
         academy_id,
