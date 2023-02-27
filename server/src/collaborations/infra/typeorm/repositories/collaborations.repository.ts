@@ -15,10 +15,12 @@ export class CollaborationsRepository {
     status: CollaborationsStatus,
     academy_id: string,
   ): Promise<Collaboration[]> {
-    const academyCollaborations = await this.collaborationsRepository.find({
-      where: { academy_id, status },
-    });
-
+    const academyCollaborations = await this.collaborationsRepository
+      .createQueryBuilder('collaboration')
+      .leftJoin('collaboration.academies', 'academy')
+      .where('academy.id = :academyId', { academy_id })
+      .andWhere('collaboration.status = :status', { status })
+      .getMany();
     return academyCollaborations;
   }
 }
