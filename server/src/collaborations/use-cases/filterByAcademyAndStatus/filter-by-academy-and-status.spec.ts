@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/inMemoryCollaborationsRepository';
 import { CollaborationsStatus } from '@shared/constants';
@@ -52,5 +52,14 @@ describe('Find Collaboration by Academy id', () => {
         academy_id: 'academy',
       }),
     ).rejects.toEqual(new NotFoundException('No collaborations were found'));
+  });
+
+  it('should throw and error if academy_id or status are not passed', async () => {
+    await expect(
+      filterByAcademyAndStatus.execute({
+        status: null,
+        academy_id: '',
+      }),
+    ).rejects.toEqual(new BadRequestException('Id and Status are required!'));
   });
 });
