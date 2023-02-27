@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 import { InMemoryAcademysRepository } from '@academys/test/in-memory/InMemoryAcademysRepository';
 import { FindByIdUseCase } from '@academys/use-cases';
@@ -32,6 +32,12 @@ describe('Find Academy by id', () => {
   it('should not be able to find a nonexistent academy id', async () => {
     await expect(findByIdUseCase.execute('Invalid Id')).rejects.toEqual(
       new NotFoundException('Academy does not exist'),
+    );
+  });
+
+  it('should throw an error if id is not passed', async () => {
+    await expect(findByIdUseCase.execute('')).rejects.toEqual(
+      new BadRequestException('Id is required'),
     );
   });
 });
