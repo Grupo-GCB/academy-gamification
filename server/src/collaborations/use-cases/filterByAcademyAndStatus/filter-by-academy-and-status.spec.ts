@@ -1,8 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 
-import { FilterByAcademyAndStatus } from './filter-by-academy-and-status';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/inMemoryCollaborationsRepository';
 import { CollaborationsStatus } from '@shared/constants';
+import { FilterByAcademyAndStatus } from '@collaborations/use-cases';
 
 describe('Find Collaboration by Academy id', () => {
   let inMemoryCollaborationRepository: InMemoryCollaborationsRepository;

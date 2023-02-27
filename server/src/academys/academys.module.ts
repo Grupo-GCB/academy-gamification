@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 
 import { AcademysController } from '@shared/infra/http/controllers/academys.controllers';
 import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
-import { FindByIdUseCase } from '@academys/use-cases/findById/find-academy-by-id';
+import { FindByIdUseCase } from '@academys/use-cases';
 import { IAcademysRepository } from '@academys/interfaces';
 import { AcademysRepository } from '@academys/infra/typeorm/repositories/academys.repository';
 

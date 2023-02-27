@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param } from '@nestjs/common';
 
 import { FilterByAcademyAndStatusDTO } from '@collaborations/dto/filter-by-academy-and-status';
-import { FilterByAcademyAndStatus } from '@collaborations/use-cases/filterByAcademyAndStatus/filter-by-academy-and-status';
+import { FilterByAcademyAndStatus } from '@collaborations/use-cases';
 
 @Controller('collaborations')
 export class CollaborationsController {
