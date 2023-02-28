@@ -16,9 +16,7 @@ export class FindByStatus {
     if (!status) throw new BadRequestException('Status is required');
 
     const collaborations: Collaboration[] =
-      await this.collaborationsRepository.findByStatus(
-        CollaborationsStatus.PENDING,
-      );
+      await this.collaborationsRepository.findByStatus(status);
 
     if (!collaborations?.length)
       throw new NotFoundException('No collaborations found');
