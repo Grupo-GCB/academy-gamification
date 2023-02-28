@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCollaborationDto } from '../dto/create-collaboration.dto';
+import { CreateCollaborationDto } from '../dto/register-collaboration.dto';
 import { UpdateCollaborationDto } from '../dto/update-collaboration.dto';
 
 @Injectable()
