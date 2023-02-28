@@ -1,30 +1,30 @@
 version: '3'
 
 services:
-  academy_gamefication_database:
+  academy_gamification_database:
     image: postgres
-    container_name: academy_gamefication_database
+    container_name: academy_gamification_database
     restart: always
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=academy
       - POSTGRES_PASSWORD=gcb123
-      - POSTGRES_DB=academy_gamefication_database
+      - POSTGRES_DB=academy_gamification_database
     volumes:
       - pgdata:/data/postgres
 
   app:
     build: .
-    container_name: academy_gamefication
+    container_name: academy_gamification
     ports:
       - 3333:3333
     volumes:
       - .:/usr/app
     links:
-      - academy_gamefication_database
+      - academy_gamification_database
     depends_on:
-      - academy_gamefication_database
+      - academy_gamification_database
 
 volumes:
   pgdata:
