@@ -20,7 +20,8 @@ export class FindByStatus {
         CollaborationsStatus.PENDING,
       );
 
-    if (!collaborations) throw new NotFoundException('No collaborations found');
+    if (!collaborations?.length)
+      throw new NotFoundException('No collaborations found');
 
     return collaborations;
   }
