@@ -23,7 +23,7 @@
     "paths": {
       "@academys/*": ["academys/*"],
       "@collaborations/*": ["collaborations/*"],
-      "@shared/*": ["shared/*"],
+      "@shared/*": ["shared/*"]
     }
   }
 }
