@@ -18,9 +18,9 @@ export class FilterByAcademyAndStatus {
     if (!status || !academy_id)
       throw new BadRequestException('Id and Status are required!');
 
-      const academy = await this.academysRepository.findById(academy_id);
+    const academy = await this.academysRepository.findById(academy_id);
 
-      if (!academy) throw new NotFoundException('Academy not found');
+    if (!academy) throw new NotFoundException('Academy not found');
 
     const pendingCollaborations: Collaboration[] =
       await this.collaborationsRepository.filterByAcademyAndStatus({
