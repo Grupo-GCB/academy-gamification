@@ -32,19 +32,19 @@ describe('Find collaborations by status', () => {
       type: 'Logic Exercise',
       url: 'www.notion.so/logicexercise',
       collaborator_id: 'f8007e10-b750-4e24-9342-21c1f51e1f99',
-      status: CollaborationsStatus.PENDING,
+      status: 'pending',
     });
 
     const collaboration2 = await inMemoryCollaborationsRepository.register({
       type: 'Code Review',
       url: 'github.com/repoName',
       collaborator_id: '69de5f11-6b66-45df-bf92-a633dc3382c7',
-      status: CollaborationsStatus.PENDING,
+      status: 'pending',
     });
 
-    await expect(
-      findByStatus.execute(CollaborationsStatus.APPROVED),
-    ).rejects.toEqual(new NotFoundException('No collaborations found'));
+    await expect(findByStatus.execute('approved')).rejects.toEqual(
+      new NotFoundException('No collaborations found'),
+    );
   });
 
   it('should return all collaborations that matches status passed', async () => {
@@ -52,17 +52,17 @@ describe('Find collaborations by status', () => {
       type: 'Logic Exercise',
       url: 'www.notion.so/logicexercise',
       collaborator_id: 'f8007e10-b750-4e24-9342-21c1f51e1f99',
-      status: CollaborationsStatus.PENDING,
+      status: 'pending',
     });
 
     const collaboration2 = await inMemoryCollaborationsRepository.register({
       type: 'Code Review',
       url: 'github.com/repoName',
       collaborator_id: '69de5f11-6b66-45df-bf92-a633dc3382c7',
-      status: CollaborationsStatus.PENDING,
+      status: 'pending',
     });
 
-    const sut = await findByStatus.execute(CollaborationsStatus.PENDING);
+    const sut = await findByStatus.execute('pending');
 
     await expect(sut).toEqual([collaboration1, collaboration2]);
   });
