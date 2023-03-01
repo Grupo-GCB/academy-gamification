@@ -27,11 +27,11 @@ export class Collaboration {
   @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn()
-  approved_at?: Date = null;
+  @UpdateDateColumn({ default: null })
+  approved_at?: Date;
 
-  @UpdateDateColumn()
-  rejected_at?: Date = null;
+  @UpdateDateColumn({ default: null })
+  rejected_at?: Date;
 
   constructor() {
     if (!this.id) this.id = randomUUID();
