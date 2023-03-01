@@ -2,7 +2,6 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { FindByStatus } from '@collaborations/use-cases';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
-import { CollaborationsStatus } from '@shared/constants';
 
 describe('Find collaborations by status', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
