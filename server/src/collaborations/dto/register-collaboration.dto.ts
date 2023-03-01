@@ -17,5 +17,6 @@ export class RegisterCollaborationDTO {
 
   @IsNotEmpty()
   @IsEnum(CollaborationsStatus)
+  @IsString()
   status: string;
 }
