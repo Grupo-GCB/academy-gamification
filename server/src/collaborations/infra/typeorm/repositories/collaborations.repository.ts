@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
-import { CollaborationsStatus } from '@shared/constants';
 
 @Injectable()
 export class CollaborationsRepository {
@@ -12,7 +11,7 @@ export class CollaborationsRepository {
     private collaborationsRepository: Repository<Collaboration>,
   ) {}
 
-  async filterByStatus(status: CollaborationsStatus): Promise<Collaboration[]> {
+  async filterByStatus(status: string): Promise<Collaboration[]> {
     const collaborations = await this.collaborationsRepository.find({
       where: { status },
     });
