@@ -16,7 +16,7 @@ export class FindByStatus {
     if (!status) throw new BadRequestException('Status is required');
 
     const enumStatus = Object.keys(CollaborationsStatus).find(
-      (key) => CollaborationsStatus[key] === status,
+      (key) => CollaborationsStatus[key] === status.toUpperCase(),
     );
 
     if (!enumStatus) {
