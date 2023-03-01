@@ -16,7 +16,7 @@ export class InMemoryCollaborationsRepository
     return collaboration;
   }
 
-  async findByStatus(status: CollaborationsStatus): Promise<Collaboration[]> {
+  async findByStatus(status: string): Promise<Collaboration[]> {
     const collaborations = this.collaborations.filter(
       (collaboration) => collaboration.status === status,
     );

@@ -5,5 +5,5 @@ import { Collaboration } from '@collaborations/infra/typeorm/entities/collaborat
 export abstract class ICollaborationsRepository {
   abstract register(data: RegisterCollaborationDTO): Promise<Collaboration>;
 
-  abstract findByStatus(status: CollaborationsStatus): Promise<Collaboration[]>;
+  abstract findByStatus(status: string): Promise<Collaboration[]>;
 }
