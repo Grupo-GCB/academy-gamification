@@ -20,6 +20,13 @@ describe('Find collaborations by status', () => {
     );
   });
 
+  it('should throw an error if status passed is not in CollaborationsStatus enum', async () => {
+    const sut = findByStatus.execute('delivering');
+    await expect(sut).rejects.toEqual(
+      new BadRequestException('Status passed is invalid'),
+    );
+  });
+
   it('should throw an error if no collaboration with status passed is found', async () => {
     const collaboration1 = await inMemoryCollaborationsRepository.register({
       type: 'Logic Exercise',
