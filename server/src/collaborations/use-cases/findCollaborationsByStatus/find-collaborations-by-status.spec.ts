@@ -5,23 +5,21 @@ import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory
 
 describe('Find collaborations by status', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
-  let findByStatus: FindByStatus;
+  let sut: FindByStatus;
 
   beforeEach(() => {
     inMemoryCollaborationsRepository = new InMemoryCollaborationsRepository();
-    findByStatus = new FindByStatus(inMemoryCollaborationsRepository);
+    sut = new FindByStatus(inMemoryCollaborationsRepository);
   });
 
   it('should throw an error if status is not passed', async () => {
-    const sut = findByStatus.execute(null);
-    await expect(sut).rejects.toEqual(
+    await expect(sut.execute(null)).rejects.toEqual(
       new BadRequestException('Status is required'),
     );
   });
 
   it('should throw an error if status passed is not in CollaborationsStatus enum', async () => {
-    const sut = findByStatus.execute('delivering');
-    await expect(sut).rejects.toEqual(
+    await expect(sut.execute('delivering')).rejects.toEqual(
       new BadRequestException('Status passed is invalid'),
     );
   });
@@ -41,7 +39,7 @@ describe('Find collaborations by status', () => {
       status: 'pending',
     });
 
-    await expect(findByStatus.execute('approved')).rejects.toEqual(
+    await expect(sut.execute('approved')).rejects.toEqual(
       new NotFoundException('No collaborations found'),
     );
   });
@@ -61,8 +59,8 @@ describe('Find collaborations by status', () => {
       status: 'pending',
     });
 
-    const sut = await findByStatus.execute('pending');
+    const collaborations = await sut.execute('pending');
 
-    await expect(sut).toEqual([collaboration1, collaboration2]);
+    await expect(collaborations).toEqual([collaboration1, collaboration2]);
   });
 });
