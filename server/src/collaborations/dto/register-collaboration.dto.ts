@@ -21,7 +21,7 @@ export class RegisterCollaborationDTO {
   @IsNotEmpty()
   @IsUrl()
   @ApiProperty({
-    example: 'github.com/RepoName',
+    example: 'https://github.com/example/example',
     description: 'Url da colaboração realizada',
     type: 'string',
     required: true,
@@ -32,7 +32,7 @@ export class RegisterCollaborationDTO {
   @IsUUID()
   @ApiProperty({
     example: 'e7c2956b-e528-4ed1-9470-ce8d4f10cabc',
-    description: 'Id do colaborador que reliazou a colaboração',
+    description: 'Id do colaborador que realizou a colaboração',
     type: 'string',
     required: true,
   })
