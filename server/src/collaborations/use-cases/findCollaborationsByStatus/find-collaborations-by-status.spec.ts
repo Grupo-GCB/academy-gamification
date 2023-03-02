@@ -2,7 +2,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { FindByStatus } from '@collaborations/use-cases';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
-import { CollaborationsStatus } from '@shared/constants';
+import { CollaborationsStatus, CollaborationsTypes } from '@shared/constants';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 
 describe('Find collaborations by status', () => {
@@ -17,14 +17,14 @@ describe('Find collaborations by status', () => {
     sut = new FindByStatus(inMemoryCollaborationsRepository);
 
     collaboration1 = await inMemoryCollaborationsRepository.register({
-      type: 'Logic Exercise',
+      type: CollaborationsTypes.LOGICEXERCISE,
       url: 'www.notion.so/logicexercise',
       collaborator_id: 'f8007e10-b750-4e24-9342-21c1f51e1f99',
       status: CollaborationsStatus.PENDING,
     });
 
     collaboration2 = await inMemoryCollaborationsRepository.register({
-      type: 'Code Review',
+      type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/validatorjs/validator.js',
       collaborator_id: '69de5f11-6b66-45df-bf92-a633dc3382c7',
       status: CollaborationsStatus.PENDING,
