@@ -40,8 +40,8 @@ export class RegisterCollaborationDTO {
   @ApiProperty({
     example: 'pending',
     description: 'Status que a colaboração se encontra',
-    type: 'string',
+    type: 'CollaborationsStatus',
     required: true,
   })
-  status: string;
+  status: CollaborationsStatus;
 }

@@ -1,3 +1,4 @@
+import { FindCollaborationsByStatusDTO } from '@collaborations/dto/find-collaborations-by-status';
 import { RegisterCollaborationDTO } from '@collaborations/dto/register-collaboration.dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
@@ -18,7 +19,9 @@ export class InMemoryCollaborationsRepository
     return collaboration;
   }
 
-  async findByStatus(status: string): Promise<Collaboration[]> {
+  async findByStatus({
+    status,
+  }: FindCollaborationsByStatusDTO): Promise<Collaboration[]> {
     const collaborations: Collaboration[] = this.collaborations.filter(
       (collaboration) => collaboration.status === status,
     );

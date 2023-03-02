@@ -3,6 +3,7 @@ import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
 
 import { FindByStatus } from '@collaborations/use-cases';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
+import { CollaborationsStatus } from '@shared/constants';
 
 @Controller('collaborations')
 export class CollaborationsController {
@@ -16,7 +17,9 @@ export class CollaborationsController {
     description: 'Não foi possível encontrar colaborações!',
   })
   @Get()
-  filterByStatus(@Query('status') status: string): Promise<Collaboration[]> {
-    return this.findByStatus.execute(status);
+  filterByStatus(
+    @Query('status') status: CollaborationsStatus,
+  ): Promise<Collaboration[]> {
+    return this.findByStatus.execute({ status: status });
   }
 }

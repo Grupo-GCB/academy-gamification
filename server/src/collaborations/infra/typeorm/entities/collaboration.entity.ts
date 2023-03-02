@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { CollaborationsStatus } from '@shared/constants';
+
 @Entity('collaboration')
 export class Collaboration {
   @PrimaryColumn()
@@ -22,7 +24,7 @@ export class Collaboration {
   collaborator_id: string;
 
   @Column()
-  status: string;
+  status: CollaborationsStatus;
 
   @CreateDateColumn()
   created_at: Date;
