@@ -8,3 +8,10 @@ export enum CollaborationsTypes {
   LOGICEXERCISE = 'LOGIC EXERCISE',
   CODEREVIEW = 'CODE REVIEW',
 }
+
+export enum BusinessUnits {
+  ADIANTE = 'ADIANTE',
+  PEERBR = 'PEERBR',
+  FMI = 'FMI',
+  GRUPOGCB = 'GRUPOGCB',
+}
