@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ormconfig } from './ormconfig';
 import { CollaborationsModule } from './collaborations/collaborations.module';
 
