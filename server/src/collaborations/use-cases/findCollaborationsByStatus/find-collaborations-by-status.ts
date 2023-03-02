@@ -6,7 +6,6 @@ import {
 
 import { ICollaborationsRepository } from '@collaborations/interfaces';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
-import { CollaborationsStatus } from '@shared/constants';
 import { FindCollaborationsByStatusDTO } from '@collaborations/dto/find-collaborations-by-status';
 
 @Injectable()

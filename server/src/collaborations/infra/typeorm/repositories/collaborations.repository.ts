@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
-import { FindCollaborationsByStatusDTO } from '@collaborations/dto/find-collaborations-by-status';
+import { FindCollaborationsByStatusDTO } from '@collaborations/dto';
 
 @Injectable()
 export class CollaborationsRepository {

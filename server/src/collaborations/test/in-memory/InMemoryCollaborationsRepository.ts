@@ -1,5 +1,7 @@
-import { FindCollaborationsByStatusDTO } from '@collaborations/dto/find-collaborations-by-status';
-import { RegisterCollaborationDTO } from '@collaborations/dto/register-collaboration.dto';
+import {
+  FindCollaborationsByStatusDTO,
+  RegisterCollaborationDTO,
+} from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
 
