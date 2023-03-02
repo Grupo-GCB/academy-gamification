@@ -13,7 +13,7 @@ describe('Find collaborations by status', () => {
   });
 
   it('should throw an error if status is not passed', async () => {
-    await expect(sut.execute(null)).rejects.toEqual(
+    await expect(sut.execute(undefined)).rejects.toEqual(
       new BadRequestException('Status is required'),
     );
   });
