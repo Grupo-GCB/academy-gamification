@@ -7,7 +7,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { CollaborationsStatus, CollaborationsTypes } from '@shared/constants';
+import {
+  BusinessUnits,
+  CollaborationsStatus,
+  CollaborationsTypes,
+} from '@shared/constants';
 
 @Entity('collaboration')
 export class Collaboration {
@@ -22,6 +26,9 @@ export class Collaboration {
 
   @Column()
   collaborator_id: string;
+
+  @Column()
+  BusinessUnit: BusinessUnits;
 
   @Column()
   status: CollaborationsStatus;

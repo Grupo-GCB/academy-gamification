@@ -1,15 +1,19 @@
 import { IsEnum, IsNotEmpty, IsString, IsUrl, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CollaborationsStatus, CollaborationsTypes } from '@shared/constants';
+import {
+  BusinessUnits,
+  CollaborationsStatus,
+  CollaborationsTypes,
+} from '@shared/constants';
 
 export class RegisterCollaborationDTO {
   @IsNotEmpty()
-  @IsString()
+  @IsEnum(CollaborationsTypes)
   @ApiProperty({
     example: 'Logic Exercise',
     description: 'Tipo de colaboração realizada',
-    type: 'string',
+    type: 'CollaborationsTypes',
     required: true,
   })
   type: CollaborationsTypes;
@@ -33,6 +37,16 @@ export class RegisterCollaborationDTO {
     required: true,
   })
   collaborator_id: string;
+
+  @IsNotEmpty()
+  @IsEnum(BusinessUnits)
+  @ApiProperty({
+    example: 'e7c2956b-e528-4ed1-9470-ce8d4f10cabc',
+    description: 'Unidade de negócio do colaborador',
+    type: 'BusinessUnits',
+    required: true,
+  })
+  businessUnit: BusinessUnits;
 
   @IsNotEmpty()
   @IsEnum(CollaborationsStatus)
