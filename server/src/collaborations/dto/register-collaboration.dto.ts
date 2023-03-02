@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsUrl, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { CollaborationsStatus } from '@shared/constants';
@@ -25,7 +25,7 @@ export class RegisterCollaborationDTO {
   url: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsUUID()
   @ApiProperty({
     example: 'e7c2956b-e528-4ed1-9470-ce8d4f10cabc',
     description: 'Id do colaborador que reliazou a colaboração',
