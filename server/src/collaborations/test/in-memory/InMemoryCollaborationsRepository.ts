@@ -8,7 +8,10 @@ export class InMemoryCollaborationsRepository
   collaborations: Collaboration[] = [];
 
   async register(data: RegisterCollaborationDTO): Promise<Collaboration> {
-    const collaboration = Object.assign(new Collaboration(), data);
+    const collaboration: Collaboration = Object.assign(
+      new Collaboration(),
+      data,
+    );
 
     this.collaborations.push(collaboration);
 
@@ -16,7 +19,7 @@ export class InMemoryCollaborationsRepository
   }
 
   async findByStatus(status: string): Promise<Collaboration[]> {
-    const collaborations = this.collaborations.filter(
+    const collaborations: Collaboration[] = this.collaborations.filter(
       (collaboration) => collaboration.status === status,
     );
 

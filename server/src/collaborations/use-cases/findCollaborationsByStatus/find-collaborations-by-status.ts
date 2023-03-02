@@ -15,9 +15,8 @@ export class FindByStatus {
   async execute(status: string): Promise<Collaboration[]> {
     if (!status) throw new BadRequestException('Status is required');
 
-    const enumStatus = Object.keys(CollaborationsStatus).find(
-      (key) => CollaborationsStatus[key] === status.toUpperCase(),
-    );
+    const enumStatus: CollaborationsStatus =
+      CollaborationsStatus[status.toUpperCase()];
 
     if (!enumStatus) {
       throw new BadRequestException('Status passed is invalid');

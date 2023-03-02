@@ -12,9 +12,10 @@ export class CollaborationsRepository {
   ) {}
 
   async filterByStatus(status: string): Promise<Collaboration[]> {
-    const collaborations = await this.collaborationsRepository.find({
-      where: { status },
-    });
+    const collaborations: Collaboration[] =
+      await this.collaborationsRepository.find({
+        where: { status },
+      });
 
     return collaborations;
   }
