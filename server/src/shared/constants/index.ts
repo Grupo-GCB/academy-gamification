@@ -3,3 +3,8 @@ export enum CollaborationsStatus {
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
 }
+
+export enum CollaborationsTypes {
+  LOGICEXERCISE = 'LOGIC EXERCISE',
+  CODEREVIEW = 'CODE REVIEW',
+}
