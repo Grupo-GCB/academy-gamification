@@ -2,7 +2,11 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { FindByStatus } from '@collaborations/use-cases';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
-import { CollaborationsStatus, CollaborationsTypes } from '@shared/constants';
+import {
+  BusinessUnits,
+  CollaborationsStatus,
+  CollaborationsTypes,
+} from '@shared/constants';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 
 describe('Find collaborations by status', () => {
@@ -20,13 +24,15 @@ describe('Find collaborations by status', () => {
       type: CollaborationsTypes.LOGICEXERCISE,
       url: 'www.notion.so/logicexercise',
       collaborator_id: 'f8007e10-b750-4e24-9342-21c1f51e1f99',
+      businessUnit: BusinessUnits.ADIANTE,
       status: CollaborationsStatus.PENDING,
     });
 
     collaboration2 = await inMemoryCollaborationsRepository.register({
       type: CollaborationsTypes.CODEREVIEW,
-      url: 'https://github.com/validatorjs/validator.js',
+      url: 'https://github.com/example/example',
       collaborator_id: '69de5f11-6b66-45df-bf92-a633dc3382c7',
+      businessUnit: BusinessUnits.PEERBR,
       status: CollaborationsStatus.PENDING,
     });
   });
