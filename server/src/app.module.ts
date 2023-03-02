@@ -1,18 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AcademysModule } from './academys/academys.module';
-import { AdminModule } from './admin/admin.module';
-import { CollaborationsModule } from './collaborations/collaborations.module';
-import { CollaboratorModule } from './collaborator/collaborator.module';
-import { ormconfig } from './ormconfig';
 
+import { ormconfig } from './ormconfig';
+import { CollaborationsModule } from './collaborations/collaborations.module';
+
+require('dotenv/config');
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(ormconfig),
-    AcademysModule,
-    CollaborationsModule,
-    CollaboratorModule,
-    AdminModule,
-  ],
+  imports: [TypeOrmModule.forRoot(ormconfig), CollaborationsModule],
 })
 export class AppModule {}
