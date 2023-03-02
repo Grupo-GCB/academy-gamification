@@ -7,8 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Academy-Doctor-Crud')
-    .setDescription('AcadeMe')
+    .setTitle('Academy-Gamification')
+    .setDescription('Academy Gamification')
     .setVersion('1.0')
     .addTag('collaborations')
     .build();
