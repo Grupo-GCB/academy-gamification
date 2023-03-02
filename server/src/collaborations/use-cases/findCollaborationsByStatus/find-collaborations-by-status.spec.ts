@@ -32,15 +32,21 @@ describe('Find collaborations by status', () => {
   });
 
   it('should throw an error if status is not passed', async () => {
-    await expect(sut.execute(undefined)).rejects.toEqual(
-      new BadRequestException('Status is required'),
-    );
+    try {
+      await sut.execute({ status: undefined });
+    } catch (err) {
+      expect(err).toBeInstanceOf(BadRequestException);
+      expect(err.message).toBe('Status is required');
+    }
   });
 
   it('should throw an error if no collaboration with status passed is found', async () => {
-    await expect(
-      sut.execute({ status: CollaborationsStatus.APPROVED }),
-    ).rejects.toEqual(new NotFoundException('No collaborations found'));
+    try {
+      await sut.execute({ status: CollaborationsStatus.APPROVED });
+    } catch (err) {
+      expect(err).toBeInstanceOf(NotFoundException);
+      expect(err.message).toBe('No collaborations found');
+    }
   });
 
   it('should return all collaborations that matches status passed', async () => {
