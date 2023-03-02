@@ -34,7 +34,7 @@ describe('Find collaborations by status', () => {
 
     const collaboration2 = await inMemoryCollaborationsRepository.register({
       type: 'Code Review',
-      url: 'github.com/repoName',
+      url: 'https://github.com/validatorjs/validator.js',
       collaborator_id: '69de5f11-6b66-45df-bf92-a633dc3382c7',
       status: 'pending',
     });
@@ -54,7 +54,7 @@ describe('Find collaborations by status', () => {
 
     const collaboration2 = await inMemoryCollaborationsRepository.register({
       type: 'Code Review',
-      url: 'github.com/repoName',
+      url: 'https://github.com/validatorjs/validator.js',
       collaborator_id: '69de5f11-6b66-45df-bf92-a633dc3382c7',
       status: 'pending',
     });
