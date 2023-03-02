@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { CollaborationsStatus } from '@shared/constants';
+import { CollaborationsStatus, CollaborationsTypes } from '@shared/constants';
 
 @Entity('collaboration')
 export class Collaboration {
@@ -15,7 +15,7 @@ export class Collaboration {
   id: string;
 
   @Column()
-  type: string;
+  type: CollaborationsTypes;
 
   @Column()
   url: string;

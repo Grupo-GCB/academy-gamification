@@ -1,7 +1,7 @@
 import { IsEnum, IsNotEmpty, IsString, IsUrl, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CollaborationsStatus } from '@shared/constants';
+import { CollaborationsStatus, CollaborationsTypes } from '@shared/constants';
 
 export class RegisterCollaborationDTO {
   @IsNotEmpty()
@@ -12,7 +12,7 @@ export class RegisterCollaborationDTO {
     type: 'string',
     required: true,
   })
-  type: string;
+  type: CollaborationsTypes;
 
   @IsNotEmpty()
   @IsUrl()
