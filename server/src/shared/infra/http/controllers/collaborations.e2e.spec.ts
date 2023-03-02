@@ -4,10 +4,13 @@ import request from 'supertest';
 
 import { AppModule } from './../../../../app.module';
 import { FindByStatus } from '@collaborations/use-cases';
+import { CollaborationsStatus } from '@shared/constants';
 
 describe('Collaborations Controller', () => {
   const findByStatus = {
-    execute: () => 'pending',
+    execute: () => ({
+      status: CollaborationsStatus.PENDING,
+    }),
   };
 
   let app: INestApplication;
@@ -33,6 +36,13 @@ describe('Collaborations Controller', () => {
       return request(app.getHttpServer())
         .get('/collaborations/?status=pending')
         .expect(200)
+        .expect(findByStatus.execute());
+    });
+
+    it('should return 404 status code if no collaboration with passed status is found', () => {
+      return request(app.getHttpServer())
+        .get('/collaborations/?status=approved')
+        .expect(404)
         .expect(findByStatus.execute());
     });
   });
