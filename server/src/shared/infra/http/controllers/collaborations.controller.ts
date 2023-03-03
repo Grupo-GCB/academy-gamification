@@ -1,13 +1,38 @@
-import { Controller, Get, HttpStatus, Query } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 
-import { FindByStatus } from '@collaborations/use-cases';
+import { RegisterCollaborationDTO } from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
+import { FindByStatus, RegisterCollaboration } from '@collaborations/use-cases';
 import { CollaborationsStatus } from '@shared/constants';
 
 @Controller('collaborations')
 export class CollaborationsController {
-  constructor(private findByStatus: FindByStatus) {}
+  constructor(
+    private findByStatus: FindByStatus,
+    private registerCollaboration: RegisterCollaboration,
+  ) {}
+
+  @Post()
+  @ApiCreatedResponse({
+    status: HttpStatus.CREATED,
+    description: 'Colaboração registrada com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Falha ao registrar uma colaboração',
+  })
+  register(
+    @Body()
+    data: RegisterCollaborationDTO,
+  ): Promise<Collaboration> {
+    return this.registerCollaboration.execute(data);
+  }
 
   @ApiOkResponse({
     status: HttpStatus.OK,
@@ -20,6 +45,6 @@ export class CollaborationsController {
   filterByStatus(
     @Query('status') status: CollaborationsStatus,
   ): Promise<Collaboration[]> {
-    return this.findByStatus.execute({ status: status });
+    return this.findByStatus.execute({ status });
   }
 }

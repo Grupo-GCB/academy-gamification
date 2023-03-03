@@ -28,13 +28,13 @@ export class Collaboration {
   collaborator_id: string;
 
   @Column()
-  BusinessUnit: BusinessUnits;
+  businessUnit: BusinessUnits;
 
   @Column()
   status: CollaborationsStatus;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at?: Date;
 
   @UpdateDateColumn({ default: null })
   approved_at?: Date;
