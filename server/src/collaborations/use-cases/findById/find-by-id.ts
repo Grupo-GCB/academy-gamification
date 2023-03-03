@@ -12,7 +12,7 @@ export class FindById {
       await this.collaborationsRepository.findOne(collaboration_id);
 
     if (!collaboration)
-      throw new NotFoundException('Collaborations does not exist');
+      throw new NotFoundException('Collaboration does not exist');
 
     return collaboration;
   }
