@@ -1,12 +1,12 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-
-import { FindByStatus } from '@collaborations/use-cases';
-import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
 import {
   BusinessUnits,
   CollaborationsStatus,
   CollaborationsTypes,
 } from '@shared/constants';
+
+import { FindByStatus } from '@collaborations/use-cases';
+import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 
 describe('Find collaborations by status', () => {
