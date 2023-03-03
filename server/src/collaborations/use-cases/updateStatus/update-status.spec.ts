@@ -4,7 +4,7 @@ import {
   CollaborationsTypes,
   BusinessUnits,
   CollaborationsStatus,
-} from '@shared/constants/index';
+} from '@shared/constants';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
 import { UpdateStatus } from '@collaborations/use-cases';
 
