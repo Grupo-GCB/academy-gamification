@@ -1,4 +1,6 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+
+import { CollaborationsStatus } from '@shared/constants';
 
 export class UpdateStatusDTO {
   @IsNotEmpty()
@@ -6,6 +8,6 @@ export class UpdateStatusDTO {
   collaboration_id: string;
 
   @IsNotEmpty()
-  @IsString()
-  newStatus: string;
+  @IsEnum(CollaborationsStatus)
+  newStatus: CollaborationsStatus;
 }
