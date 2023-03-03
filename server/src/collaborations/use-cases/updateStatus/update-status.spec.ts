@@ -1,3 +1,5 @@
+import { BadRequestException } from '@nestjs/common';
+
 import {
   CollaborationsTypes,
   BusinessUnits,
@@ -45,10 +47,10 @@ describe('Update a collaboration status', () => {
         collaboration_id: '52ec6f4e-091f-46e5-ac7b-6ef8c4d895af',
         newStatus: CollaborationsStatus.APPROVED,
       }),
-    ).rejects.toThrow('Collaboration does not exist!');
+    ).rejects.toThrow('Collaboration not found!');
   });
 
-  it('should not be able to update a collaboration status to invalid status', async () => {
+  it('should throw error if collaboration_id or new status are not passed', async () => {
     const collaboration = await inMemoryCollaborationsRepository.register({
       type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
@@ -62,6 +64,6 @@ describe('Update a collaboration status', () => {
         collaboration_id: collaboration.id,
         newStatus: undefined,
       }),
-    ).rejects.toThrow('Invalid status!');
+    ).rejects.toThrow(new BadRequestException('newStatus is required'));
   });
 });
