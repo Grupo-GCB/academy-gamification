@@ -1,6 +1,7 @@
 import {
   FindCollaborationsByStatusDTO,
   RegisterCollaborationDTO,
+  UpdateStatusDTO,
 } from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
@@ -21,6 +22,12 @@ export class InMemoryCollaborationsRepository
     return collaboration;
   }
 
+  async findOne(collaboration_id: string): Promise<Collaboration> {
+    return this.collaborations.find(
+      (collaboration) => collaboration.id === collaboration_id,
+    );
+  }
+
   async findByStatus({
     status,
   }: FindCollaborationsByStatusDTO): Promise<Collaboration[]> {
@@ -29,5 +36,16 @@ export class InMemoryCollaborationsRepository
     );
 
     return collaborations;
+  }
+
+  async updateStatus({
+    collaboration_id,
+    newStatus,
+  }: UpdateStatusDTO): Promise<Collaboration> {
+    const collaboration = await this.findOne(collaboration_id);
+
+    collaboration.status = newStatus;
+
+    return collaboration;
   }
 }
