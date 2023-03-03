@@ -1,4 +1,10 @@
-import { UpdateStatus } from './update-status';
+import {
+  CollaborationsTypes,
+  BusinessUnits,
+  CollaborationsStatus,
+} from '@shared/constants/index';
+import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
+import { UpdateStatus } from '@collaborations/use-cases';
 
 describe('Update a collaboration status', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
@@ -11,23 +17,24 @@ describe('Update a collaboration status', () => {
 
   it('should be able to update a collaboration status', async () => {
     const collaboration = await inMemoryCollaborationsRepository.register({
-      type: 'Code Review',
+      type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
-      collaborator_id: '1',
-      status: 'pending',
+      businessUnit: BusinessUnits.PEERBR,
+      collaborator_id: 'f69524cd-eed9-4f22-af64-b9c3e8ba850c',
+      status: CollaborationsStatus.PENDING,
     });
 
     const updatedCollaboration = await sut.execute({
-      collaboration_id: collaboration.collaboration_id,
-      newStatus: 'approved',
+      collaboration_id: collaboration.id,
+      newStatus: CollaborationsStatus.APPROVED,
     });
-    expect(updatedCollaboration.status).toEqual('approved');
+    expect(updatedCollaboration.status).toEqual(CollaborationsStatus.APPROVED);
 
     await expect(
-      inMemoryCollaborationsRepository.findById(collaboration.collaboration_id),
+      inMemoryCollaborationsRepository.findOne(collaboration.id),
     ).resolves.toEqual(
       expect.objectContaining({
-        status: 'approved',
+        status: CollaborationsStatus.APPROVED,
       }),
     );
   });
@@ -36,23 +43,24 @@ describe('Update a collaboration status', () => {
     await expect(
       sut.execute({
         collaboration_id: '52ec6f4e-091f-46e5-ac7b-6ef8c4d895af',
-        newStatus: 'approved',
+        newStatus: CollaborationsStatus.APPROVED,
       }),
     ).rejects.toThrow('Collaboration does not exist!');
   });
 
   it('should not be able to update a collaboration status to invalid status', async () => {
     const collaboration = await inMemoryCollaborationsRepository.register({
-      type: 'Code Review',
+      type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
-      collaborator_id: '1',
-      status: 'pending',
+      businessUnit: BusinessUnits.ADIANTE,
+      collaborator_id: 'f69524cd-eed9-4f22-af64-b9c3e8ba850c',
+      status: CollaborationsStatus.PENDING,
     });
 
     await expect(
       sut.execute({
-        collaboration_id: collaboration.collaboration_id,
-        newStatus: 'invalid status',
+        collaboration_id: collaboration.id,
+        newStatus: undefined,
       }),
     ).rejects.toThrow('Invalid status!');
   });
