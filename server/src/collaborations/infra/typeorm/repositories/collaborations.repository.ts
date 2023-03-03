@@ -3,7 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
-import { FindCollaborationsByStatusDTO } from '@collaborations/dto';
+import {
+  FindCollaborationsByStatusDTO,
+  UpdateStatusDTO,
+} from '@collaborations/dto';
 
 @Injectable()
 export class CollaborationsRepository {
@@ -21,5 +24,23 @@ export class CollaborationsRepository {
       });
 
     return collaborations;
+  }
+
+  async findOne(collaboration_id: string): Promise<Collaboration> {
+    return this.collaborationsRepository.findOne({
+      where: { id: collaboration_id },
+    });
+  }
+
+  async updateStatus({
+    collaboration_id,
+    newStatus,
+  }: UpdateStatusDTO): Promise<Collaboration> {
+    await this.collaborationsRepository.update(
+      { id: collaboration_id },
+      { status: newStatus },
+    );
+
+    return this.findOne(collaboration_id);
   }
 }
