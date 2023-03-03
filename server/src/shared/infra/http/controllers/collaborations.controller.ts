@@ -1,11 +1,19 @@
-import { Body, Controller, Get, HttpStatus, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Put,
+  Query,
+} from '@nestjs/common';
 import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
 
-import { FindByStatus, UpdateStatus } from '@collaborations/use-cases';
+import { FindByStatus, UpdateStatus, FindOne } from '@collaborations/use-cases';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { CollaborationsStatus } from '@shared/constants';
 import { UpdateStatusDTO } from '@collaborations/dto';
@@ -15,6 +23,7 @@ export class CollaborationsController {
   constructor(
     private findByStatus: FindByStatus,
     private updateCollaborationStatus: UpdateStatus,
+    private findOneCollaborations: FindOne,
   ) {}
 
   @ApiOkResponse({
@@ -29,6 +38,18 @@ export class CollaborationsController {
     @Query('status') status: CollaborationsStatus,
   ): Promise<Collaboration[]> {
     return this.findByStatus.execute({ status: status });
+  }
+
+  @Get(':id')
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar a colaboração!',
+  })
+  findOne(@Param('id') id: string): Promise<Collaboration> {
+    return this.findOneCollaborations.execute(id);
   }
 
   @Put()
