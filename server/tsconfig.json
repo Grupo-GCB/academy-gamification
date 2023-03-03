@@ -22,7 +22,8 @@
     "resolveJsonModule": true,
     "paths": {
       "@collaborations/*": ["collaborations/*"],
-      "@shared/*": ["shared/*"]
+      "@shared/*": ["shared/*"],
+      "@/*": ["*"]
     }
   }
 }
