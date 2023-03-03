@@ -1,5 +1,5 @@
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
-import { FindById } from '@collaborations/use-cases';
+import { FindOne } from '@collaborations/use-cases';
 import {
   BusinessUnits,
   CollaborationsStatus,
@@ -8,11 +8,11 @@ import {
 
 describe('Find a collaboration by id', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
-  let sut: FindById;
+  let sut: FindOne;
 
   beforeEach(() => {
     inMemoryCollaborationsRepository = new InMemoryCollaborationsRepository();
-    sut = new FindById(inMemoryCollaborationsRepository);
+    sut = new FindOne(inMemoryCollaborationsRepository);
   });
 
   it('should be able to find a collaboration by id', async () => {

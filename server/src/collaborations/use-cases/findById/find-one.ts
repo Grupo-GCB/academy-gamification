@@ -4,7 +4,7 @@ import { Collaboration } from '@collaborations/infra/typeorm/entities/collaborat
 import { ICollaborationsRepository } from '@collaborations/interfaces';
 
 @Injectable()
-export class FindById {
+export class FindOne {
   constructor(private collaborationsRepository: ICollaborationsRepository) {}
 
   async execute(collaboration_id: string): Promise<Collaboration> {
