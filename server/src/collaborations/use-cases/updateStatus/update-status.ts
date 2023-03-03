@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 
 import { UpdateStatusDTO } from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
@@ -16,8 +20,10 @@ export class UpdateStatus {
       await this.collaborationsRepository.findOne(collaboration_id);
 
     if (!collaboration) {
-      throw new Error('Collaboration not found!');
+      throw new NotFoundException('Collaboration not found!');
     }
+
+    if (!newStatus) throw new BadRequestException('newStatus is required');
 
     return this.collaborationsRepository.updateStatus({
       collaboration_id,
