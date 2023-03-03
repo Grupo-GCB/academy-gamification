@@ -1,13 +1,21 @@
-import { Controller, Get, HttpStatus, Query } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Body, Controller, Get, HttpStatus, Put, Query } from '@nestjs/common';
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiBadRequestResponse,
+} from '@nestjs/swagger';
 
-import { FindByStatus } from '@collaborations/use-cases';
+import { FindByStatus, UpdateStatus } from '@collaborations/use-cases';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { CollaborationsStatus } from '@shared/constants';
+import { UpdateStatusDTO } from '@collaborations/dto';
 
 @Controller('collaborations')
 export class CollaborationsController {
-  constructor(private findByStatus: FindByStatus) {}
+  constructor(
+    private findByStatus: FindByStatus,
+    private updateCollaborationStatus: UpdateStatus,
+  ) {}
 
   @ApiOkResponse({
     status: HttpStatus.OK,
@@ -21,5 +29,23 @@ export class CollaborationsController {
     @Query('status') status: CollaborationsStatus,
   ): Promise<Collaboration[]> {
     return this.findByStatus.execute({ status: status });
+  }
+
+  @Put()
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Status da colaboração alterado com sucesso!',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Não foi possível alterar o status da colaboração!',
+  })
+  updateStatus(
+    @Body() { collaboration_id, newStatus }: UpdateStatusDTO,
+  ): Promise<Collaboration> {
+    return this.updateCollaborationStatus.execute({
+      collaboration_id,
+      newStatus,
+    });
   }
 }
