@@ -12,6 +12,8 @@ export abstract class ICollaborationsRepository {
     status,
   }: FindCollaborationsByStatusDTO): Promise<Collaboration[]>;
 
+  abstract findOne(collaborations_id: string): Promise<Collaboration>;
+
   abstract updateStatus({
     collaboration_id,
     newStatus,
