@@ -1,4 +1,10 @@
-import { FindById } from './find-by-id';
+import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
+import { FindById } from '@collaborations/use-cases';
+import {
+  BusinessUnits,
+  CollaborationsStatus,
+  CollaborationsTypes,
+} from '@shared/constants';
 
 describe('Find a collaboration by id', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
@@ -11,21 +17,21 @@ describe('Find a collaboration by id', () => {
 
   it('should be able to find a collaboration by id', async () => {
     const collaboration = await inMemoryCollaborationsRepository.register({
-      type: 'Code Review',
+      type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
-      collaborator_id: '1',
-      status: 'pending',
+      businessUnit: BusinessUnits.ADIANTE,
+      collaborator_id: '10f47e61-65c0-48a3-9554-23f022750a66',
+      status: CollaborationsStatus.PENDING,
     });
 
-    const collaborationFinded = await sut.execute(
-      collaboration.collaboration_id,
-    );
+    const collaborationFinded = await sut.execute(collaboration.id);
 
     expect(collaborationFinded).toEqual(
       expect.objectContaining({
-        collaboration_id: collaboration.collaboration_id,
+        id: collaboration.id,
         type: collaboration.type,
         url: collaboration.url,
+        businessUnit: collaboration.businessUnit,
         collaborator_id: collaboration.collaborator_id,
         status: collaboration.status,
       }),
@@ -35,6 +41,6 @@ describe('Find a collaboration by id', () => {
   it('should not be able to find a nonexistent collaboration', async () => {
     await expect(async () => {
       await sut.execute('edee8ffa-7c91-46f0-9fa6-4229f9b76768');
-    }).rejects.toThrow('Collaboration does not exist!');
+    }).rejects.toThrow('Collaboration does not exist');
   });
 });
