@@ -20,7 +20,7 @@ export class UpdateStatus {
       await this.collaborationsRepository.findOne(collaboration_id);
 
     if (!collaboration) {
-      throw new NotFoundException('Collaboration not found!');
+      throw new NotFoundException('Collaboration not found');
     }
 
     if (!newStatus) throw new BadRequestException('newStatus is required');
