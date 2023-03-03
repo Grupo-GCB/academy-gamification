@@ -1,12 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
 
-import {
-  CollaborationsTypes,
-  BusinessUnits,
-  CollaborationsStatus,
-} from '@shared/constants';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
 import { UpdateStatus } from '@collaborations/use-cases';
+import {
+  BusinessUnits,
+  CollaborationsStatus,
+  CollaborationsTypes,
+} from '@shared/constants';
 
 describe('Update a collaboration status', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
@@ -47,7 +47,7 @@ describe('Update a collaboration status', () => {
         collaboration_id: '52ec6f4e-091f-46e5-ac7b-6ef8c4d895af',
         newStatus: CollaborationsStatus.APPROVED,
       }),
-    ).rejects.toThrow('Collaboration not found!');
+    ).rejects.toThrow('Collaboration not found');
   });
 
   it('should throw error if collaboration_id or new status are not passed', async () => {

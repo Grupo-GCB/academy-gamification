@@ -34,7 +34,7 @@ export class Collaboration {
   status: CollaborationsStatus;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at?: Date;
 
   @UpdateDateColumn({ default: null })
   approved_at?: Date;

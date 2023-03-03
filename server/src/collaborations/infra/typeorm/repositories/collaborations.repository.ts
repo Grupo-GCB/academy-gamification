@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import {
   FindCollaborationsByStatusDTO,
+  RegisterCollaborationDTO,
   UpdateStatusDTO,
 } from '@collaborations/dto';
+import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 
 @Injectable()
 export class CollaborationsRepository {
@@ -14,6 +15,24 @@ export class CollaborationsRepository {
     @InjectRepository(Collaboration)
     private collaborationsRepository: Repository<Collaboration>,
   ) {}
+
+  async register({
+    type,
+    url,
+    collaborator_id,
+    businessUnit,
+    status,
+  }: RegisterCollaborationDTO): Promise<Collaboration> {
+    const collaboration: Collaboration = this.collaborationsRepository.create({
+      type,
+      url,
+      collaborator_id,
+      businessUnit,
+      status,
+    });
+
+    return this.collaborationsRepository.save(collaboration);
+  }
 
   async filterByStatus({
     status,
