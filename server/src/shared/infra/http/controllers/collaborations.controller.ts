@@ -34,7 +34,6 @@ export class CollaborationsController {
     private registerCollaboration: RegisterCollaboration,
   ) {}
 
-  @Post()
   @ApiCreatedResponse({
     status: HttpStatus.CREATED,
     description: 'Colaboração registrada com sucesso',
@@ -43,6 +42,7 @@ export class CollaborationsController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Falha ao registrar uma colaboração',
   })
+  @Post()
   register(
     @Body()
     data: RegisterCollaborationDTO,

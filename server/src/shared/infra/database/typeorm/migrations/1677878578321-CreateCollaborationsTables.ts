@@ -5,23 +5,23 @@ export class CreateCollaborationsTables1677878578321
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-            CREATE TYPE CollaborationStatus AS ENUM (
-              'APPROVED',
-              'PENDING',
-              'REJECTED'
-            )`);
+      CREATE TYPE CollaborationStatus AS ENUM (
+        'APPROVED',
+        'PENDING',
+        'REJECTED'
+      )`);
     await queryRunner.query(`
-            CREATE TYPE CollaborationTypes AS ENUM (
-              'CODE REVIEW',
-              'LOGIC EXERCISE'
-            )`);
+      CREATE TYPE CollaborationTypes AS ENUM (
+        'CODE_REVIEW',
+        'LOGIC_EXERCISE'
+      )`);
     await queryRunner.query(`
-            CREATE TYPE BusinessUnits AS ENUM (
-              'ADIANTE',
-              'PEERBR',
-              'FMI',
-              'GRUPOGCB'
-            )`);
+      CREATE TYPE BusinessUnits AS ENUM (
+        'ADIANTE',
+        'PEERBR',
+        'FMI',
+        'GRUPOGCB'
+      )`);
 
     await queryRunner.createTable(
       new Table({
@@ -36,26 +36,34 @@ export class CreateCollaborationsTables1677878578321
             name: 'type',
             type: 'CollaborationTypes',
             isPrimary: false,
+            default: `'CODE_REVIEW'`,
           },
           {
             name: 'url',
             type: 'varchar',
             isPrimary: false,
+            isNullable: true,
+            default: `'https://github.com/example/example'`,
           },
           {
             name: 'collaborator_id',
             type: 'uuid',
             isPrimary: false,
+            isNullable: true,
+            default: null,
           },
           {
             name: 'businessUnit',
             type: 'BusinessUnits',
             isPrimary: false,
+            isNullable: true,
+            default: `'ADIANTE'`,
           },
           {
             name: 'status',
             type: 'CollaborationStatus',
             isPrimary: false,
+            default: `'PENDING'`,
           },
           {
             name: 'created_at',
@@ -66,7 +74,7 @@ export class CreateCollaborationsTables1677878578321
             name: 'updated_at',
             type: 'timestamp',
             isNullable: true,
-            default: null,
+            default: undefined,
           },
           {
             name: 'deleted_at',
@@ -74,18 +82,20 @@ export class CreateCollaborationsTables1677878578321
             isNullable: true,
             default: null,
           },
+          {
+            name: 'approved_at',
+            type: 'timestamp',
+            isNullable: true,
+            default: null,
+          },
+          {
+            name: 'rejected_at',
+            type: 'timestamp',
+            isNullable: true,
+            default: null,
+          },
         ],
       }),
-    );
-    await queryRunner.query(
-      `ALTER TABLE collaborations ADD COLUMN CollaborationTypes CollaborationTypes`,
-    );
-
-    await queryRunner.query(
-      `ALTER TABLE collaborations ADD COLUMN CollaborationStatus CollaborationStatus`,
-    );
-    await queryRunner.query(
-      `ALTER TABLE collaborations ADD COLUMN BusinessUnits BusinessUnits`,
     );
   }
 

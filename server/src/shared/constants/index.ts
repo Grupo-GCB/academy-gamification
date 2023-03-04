@@ -5,8 +5,8 @@ export enum CollaborationsStatus {
 }
 
 export enum CollaborationsTypes {
-  LOGICEXERCISE = 'LOGIC EXERCISE',
-  CODEREVIEW = 'CODE REVIEW',
+  LOGICEXERCISE = 'LOGIC_EXERCISE',
+  CODEREVIEW = 'CODE_REVIEW',
 }
 
 export enum BusinessUnits {
