@@ -18,7 +18,7 @@ import {
 import { RegisterCollaborationDTO, UpdateStatusDTO } from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import {
-  FindByStatus,
+  FilterByStatus,
   FindOne,
   RegisterCollaboration,
   UpdateStatus,
@@ -28,7 +28,7 @@ import { CollaborationsStatus } from '@shared/constants';
 @Controller('collaborations')
 export class CollaborationsController {
   constructor(
-    private filterByStatus: FindByStatus,
+    private filterByStatus: FilterByStatus,
     private updateCollaborationStatus: UpdateStatus,
     private findOneCollaborations: FindOne,
     private registerCollaboration: RegisterCollaboration,
@@ -58,7 +58,7 @@ export class CollaborationsController {
     description: 'Não foi possível encontrar colaborações!',
   })
   @Get()
-  filterByStatus(
+  filter(
     @Query('status') status: CollaborationsStatus,
   ): Promise<Collaboration[]> {
     return this.filterByStatus.execute({ status: status });

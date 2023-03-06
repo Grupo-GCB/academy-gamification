@@ -5,7 +5,7 @@ import { Collaboration } from '@collaborations/infra/typeorm/entities/collaborat
 import { CollaborationsRepository } from '@collaborations/infra/typeorm/repositories/collaborations.repository';
 import { ICollaborationsRepository } from '@collaborations/interfaces';
 import {
-  FindByStatus,
+  FilterByStatus,
   FindOne,
   RegisterCollaboration,
   UpdateStatus,
@@ -16,7 +16,7 @@ import { CollaborationsController } from '@shared/infra/http/controllers/collabo
   imports: [TypeOrmModule.forFeature([Collaboration])],
   controllers: [CollaborationsController],
   providers: [
-    FindByStatus,
+    FilterByStatus,
     RegisterCollaboration,
     FindOne,
     UpdateStatus,
