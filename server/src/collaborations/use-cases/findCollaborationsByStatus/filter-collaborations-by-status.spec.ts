@@ -7,18 +7,18 @@ import {
 
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
-import { FindByStatus } from '@collaborations/use-cases';
+import { FilterByStatus } from '@collaborations/use-cases';
 
-describe('Find collaborations by status', () => {
+describe('Filter collaborations by status', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
-  let sut: FindByStatus;
+  let sut: FilterByStatus;
   let collaboration1: Collaboration;
   let collaboration2: Collaboration;
 
   beforeEach(async () => {
     inMemoryCollaborationsRepository = new InMemoryCollaborationsRepository();
 
-    sut = new FindByStatus(inMemoryCollaborationsRepository);
+    sut = new FilterByStatus(inMemoryCollaborationsRepository);
 
     collaboration1 = await inMemoryCollaborationsRepository.register({
       type: CollaborationsTypes.LOGICEXERCISE,

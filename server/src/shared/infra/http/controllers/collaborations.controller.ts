@@ -28,7 +28,7 @@ import { CollaborationsStatus } from '@shared/constants';
 @Controller('collaborations')
 export class CollaborationsController {
   constructor(
-    private findByStatus: FindByStatus,
+    private filterByStatus: FindByStatus,
     private updateCollaborationStatus: UpdateStatus,
     private findOneCollaborations: FindOne,
     private registerCollaboration: RegisterCollaboration,
@@ -61,7 +61,7 @@ export class CollaborationsController {
   filterByStatus(
     @Query('status') status: CollaborationsStatus,
   ): Promise<Collaboration[]> {
-    return this.findByStatus.execute({ status: status });
+    return this.filterByStatus.execute({ status: status });
   }
 
   @Get(':id')

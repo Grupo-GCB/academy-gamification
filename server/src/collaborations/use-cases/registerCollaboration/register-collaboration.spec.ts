@@ -38,7 +38,7 @@ describe('Register a collaboration', () => {
     );
 
     await expect(
-      inMemoryCollaborationsRepository.findByStatus({
+      inMemoryCollaborationsRepository.filterByStatus({
         status: CollaborationsStatus.PENDING,
       }),
     ).resolves.toEqual([

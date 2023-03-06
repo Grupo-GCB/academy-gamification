@@ -1,5 +1,5 @@
 import {
-  FindCollaborationsByStatusDTO,
+  FilterCollaborationsByStatusDTO,
   RegisterCollaborationDTO,
   UpdateStatusDTO,
 } from '@collaborations/dto';
@@ -8,9 +8,9 @@ import { Collaboration } from '@collaborations/infra/typeorm/entities/collaborat
 export abstract class ICollaborationsRepository {
   abstract register(data: RegisterCollaborationDTO): Promise<Collaboration>;
 
-  abstract findByStatus({
+  abstract filterByStatus({
     status,
-  }: FindCollaborationsByStatusDTO): Promise<Collaboration[]>;
+  }: FilterCollaborationsByStatusDTO): Promise<Collaboration[]>;
 
   abstract findOne(collaborations_id: string): Promise<Collaboration>;
 

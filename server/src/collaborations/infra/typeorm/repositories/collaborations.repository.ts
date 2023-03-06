@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import {
-  FindCollaborationsByStatusDTO,
+  FilterCollaborationsByStatusDTO,
   RegisterCollaborationDTO,
   UpdateStatusDTO,
 } from '@collaborations/dto';
@@ -36,7 +36,7 @@ export class CollaborationsRepository {
 
   async filterByStatus({
     status,
-  }: FindCollaborationsByStatusDTO): Promise<Collaboration[]> {
+  }: FilterCollaborationsByStatusDTO): Promise<Collaboration[]> {
     const collaborations: Collaboration[] =
       await this.collaborationsRepository.find({
         where: { status },

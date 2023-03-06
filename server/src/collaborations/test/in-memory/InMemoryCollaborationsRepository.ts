@@ -1,5 +1,5 @@
 import {
-  FindCollaborationsByStatusDTO,
+  FilterCollaborationsByStatusDTO,
   RegisterCollaborationDTO,
   UpdateStatusDTO,
 } from '@collaborations/dto';
@@ -28,9 +28,9 @@ export class InMemoryCollaborationsRepository
     );
   }
 
-  async findByStatus({
+  async filterByStatus({
     status,
-  }: FindCollaborationsByStatusDTO): Promise<Collaboration[]> {
+  }: FilterCollaborationsByStatusDTO): Promise<Collaboration[]> {
     const collaborations: Collaboration[] = this.collaborations.filter(
       (collaboration) => collaboration.status === status,
     );

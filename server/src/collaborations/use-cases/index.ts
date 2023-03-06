@@ -1,4 +1,4 @@
-export * from './findCollaborationsByStatus/find-collaborations-by-status';
+export * from './findCollaborationsByStatus/filter-collaborations-by-status';
 
 export * from './registerCollaboration/register-collaboration';
 export * from './updateStatus/update-status';

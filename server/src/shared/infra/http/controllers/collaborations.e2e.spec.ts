@@ -16,7 +16,7 @@ import {
 } from '@shared/constants';
 
 describe('Collaborations Controller', () => {
-  const findByStatus = {
+  const filterByStatus = {
     execute: () => ({
       status: CollaborationsStatus.PENDING,
     }),
@@ -51,7 +51,7 @@ describe('Collaborations Controller', () => {
       imports: [AppModule],
     })
       .overrideProvider(FindByStatus)
-      .useValue(findByStatus)
+      .useValue(filterByStatus)
       .overrideProvider(FindOne)
       .useValue(findOne)
       .overrideProvider(UpdateStatus)
@@ -73,7 +73,7 @@ describe('Collaborations Controller', () => {
       return request(app.getHttpServer())
         .get('/collaborations/?status=pending')
         .expect(200)
-        .expect(findByStatus.execute());
+        .expect(filterByStatus.execute());
     });
 
     it('should return 404 status code if no collaboration with passed status is found', () => {
