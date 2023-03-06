@@ -5,9 +5,9 @@ import {
   CollaborationsTypes,
 } from '@shared/constants';
 
-import { FindByStatus } from '@collaborations/use-cases';
-import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
+import { InMemoryCollaborationsRepository } from '@collaborations/test/in-memory/InMemoryCollaborationsRepository';
+import { FindByStatus } from '@collaborations/use-cases';
 
 describe('Find collaborations by status', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
@@ -24,7 +24,7 @@ describe('Find collaborations by status', () => {
       type: CollaborationsTypes.LOGICEXERCISE,
       url: 'www.notion.so/logicexercise',
       collaborator_id: 'f8007e10-b750-4e24-9342-21c1f51e1f99',
-      businessUnit: BusinessUnits.ADIANTE,
+      business_unit: BusinessUnits.ADIANTE,
       status: CollaborationsStatus.PENDING,
     });
 
@@ -32,7 +32,7 @@ describe('Find collaborations by status', () => {
       type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/example/example',
       collaborator_id: '69de5f11-6b66-45df-bf92-a633dc3382c7',
-      businessUnit: BusinessUnits.PEERBR,
+      business_unit: BusinessUnits.PEERBR,
       status: CollaborationsStatus.PENDING,
     });
   });

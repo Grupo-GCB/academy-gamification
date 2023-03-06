@@ -21,7 +21,7 @@ describe('Update a collaboration status', () => {
     const collaboration = await inMemoryCollaborationsRepository.register({
       type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
-      businessUnit: BusinessUnits.PEERBR,
+      business_unit: BusinessUnits.PEERBR,
       collaborator_id: 'f69524cd-eed9-4f22-af64-b9c3e8ba850c',
       status: CollaborationsStatus.PENDING,
     });
@@ -54,7 +54,7 @@ describe('Update a collaboration status', () => {
     const collaboration = await inMemoryCollaborationsRepository.register({
       type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
-      businessUnit: BusinessUnits.ADIANTE,
+      business_unit: BusinessUnits.ADIANTE,
       collaborator_id: 'f69524cd-eed9-4f22-af64-b9c3e8ba850c',
       status: CollaborationsStatus.PENDING,
     });

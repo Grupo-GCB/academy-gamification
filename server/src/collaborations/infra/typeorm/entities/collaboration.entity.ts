@@ -28,7 +28,7 @@ export class Collaboration {
   collaborator_id: string;
 
   @Column()
-  businessUnit: BusinessUnits;
+  business_unit: BusinessUnits;
 
   @Column()
   status: CollaborationsStatus;

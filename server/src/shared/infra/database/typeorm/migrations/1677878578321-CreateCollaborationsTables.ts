@@ -41,7 +41,7 @@ export class CreateCollaborationsTables1677878578321
             isNullable: false,
           },
           {
-            name: 'businessUnit',
+            name: 'business_unit',
             type: 'BusinessUnits',
             isPrimary: false,
             isNullable: false,

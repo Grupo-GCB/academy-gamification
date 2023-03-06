@@ -20,14 +20,14 @@ export class CollaborationsRepository {
     type,
     url,
     collaborator_id,
-    businessUnit,
+    business_unit,
     status,
   }: RegisterCollaborationDTO): Promise<Collaboration> {
     const collaboration: Collaboration = this.collaborationsRepository.create({
       type,
       url,
       collaborator_id,
-      businessUnit,
+      business_unit,
       status,
     });
 

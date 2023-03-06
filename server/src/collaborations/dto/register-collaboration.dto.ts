@@ -1,5 +1,5 @@
-import { IsEnum, IsNotEmpty, IsString, IsUrl, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsNotEmpty, IsUrl, IsUUID } from 'class-validator';
 
 import {
   BusinessUnits,
@@ -46,7 +46,7 @@ export class RegisterCollaborationDTO {
     type: 'BusinessUnits',
     required: true,
   })
-  businessUnit: BusinessUnits;
+  business_unit: BusinessUnits;
 
   @IsNotEmpty()
   @IsEnum(CollaborationsStatus)

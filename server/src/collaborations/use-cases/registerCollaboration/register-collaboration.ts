@@ -11,14 +11,14 @@ export class RegisterCollaboration {
     type,
     url,
     collaborator_id,
-    businessUnit,
+    business_unit,
     status,
   }: RegisterCollaborationDTO): Promise<Collaboration> {
     return this.collaborationsRepository.register({
       type,
       url,
       collaborator_id,
-      businessUnit,
+      business_unit,
       status,
     });
   }

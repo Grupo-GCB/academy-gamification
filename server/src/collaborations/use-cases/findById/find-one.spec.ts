@@ -19,7 +19,7 @@ describe('Find a collaboration by id', () => {
     const collaboration = await inMemoryCollaborationsRepository.register({
       type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
-      businessUnit: BusinessUnits.ADIANTE,
+      business_unit: BusinessUnits.ADIANTE,
       collaborator_id: '10f47e61-65c0-48a3-9554-23f022750a66',
       status: CollaborationsStatus.PENDING,
     });
@@ -31,7 +31,7 @@ describe('Find a collaboration by id', () => {
         id: collaboration.id,
         type: collaboration.type,
         url: collaboration.url,
-        businessUnit: collaboration.businessUnit,
+        business_unit: collaboration.business_unit,
         collaborator_id: collaboration.collaborator_id,
         status: collaboration.status,
       }),
