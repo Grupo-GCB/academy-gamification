@@ -31,14 +31,6 @@ export class CollaborationsRepository {
       status,
     });
 
-    console.log('repo', {
-      type,
-      url,
-      collaborator_id,
-      businessUnit,
-      status,
-    });
-
     return this.collaborationsRepository.save(collaboration);
   }
 

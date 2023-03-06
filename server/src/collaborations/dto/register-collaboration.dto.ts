@@ -50,7 +50,6 @@ export class RegisterCollaborationDTO {
 
   @IsNotEmpty()
   @IsEnum(CollaborationsStatus)
-  @IsString()
   @ApiProperty({
     example: 'pending',
     description: 'Status que a colaboração se encontra',

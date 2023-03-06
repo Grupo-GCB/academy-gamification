@@ -7,8 +7,19 @@ import { Injectable } from '@nestjs/common';
 export class RegisterCollaboration {
   constructor(private collaborationsRepository: ICollaborationsRepository) {}
 
-  async execute(data: RegisterCollaborationDTO): Promise<Collaboration> {
-    console.log('use-case', data);
-    return this.collaborationsRepository.register(data);
+  async execute({
+    type,
+    url,
+    collaborator_id,
+    businessUnit,
+    status,
+  }: RegisterCollaborationDTO): Promise<Collaboration> {
+    return this.collaborationsRepository.register({
+      type,
+      url,
+      collaborator_id,
+      businessUnit,
+      status,
+    });
   }
 }
