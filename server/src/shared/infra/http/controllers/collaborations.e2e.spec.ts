@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
@@ -48,7 +47,6 @@ describe('Collaborations Controller', () => {
 
   let moduleRef: TestingModule;
   beforeAll(async () => {
-    moduleRef = await Test.createTestingModule({
     moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     })
