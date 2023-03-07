@@ -48,7 +48,7 @@ export class RegisterTransactionDTO {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    example: 'Code Review',
+    example: 'CODE_REVIEW',
     description: 'Tipo da transação realizada',
     type: 'string',
     required: true,
