@@ -24,9 +24,9 @@ describe('Find a collaboration by id', () => {
       status: CollaborationsStatus.PENDING,
     });
 
-    const collaborationFinded = await sut.execute(collaboration.id);
+    const collaborationFound = await sut.execute(collaboration.id);
 
-    expect(collaborationFinded).toEqual(
+    expect(collaborationFound).toEqual(
       expect.objectContaining({
         id: collaboration.id,
         type: collaboration.type,
