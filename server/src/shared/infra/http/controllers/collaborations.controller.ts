@@ -53,10 +53,6 @@ export class CollaborationsController {
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
-  @ApiNotFoundResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'Não foi possível encontrar colaborações!',
-  })
   @Get()
   filter(
     @Query('status') status: CollaborationsStatus,
