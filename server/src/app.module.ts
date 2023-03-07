@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { ormconfig } from './ormconfig';
-import { CollaborationsModule } from './collaborations/collaborations.module';
 import { TransactionsModule } from '@transactions/transactions.module';
 
-require('dotenv/config');
+import { CollaborationsModule } from './collaborations/collaborations.module';
+import { ormconfig } from './ormconfig';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormconfig),
