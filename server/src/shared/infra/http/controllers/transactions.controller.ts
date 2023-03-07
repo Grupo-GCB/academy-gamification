@@ -2,7 +2,7 @@ import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
-import { RegisterTransactionDTO } from '@transactions/dto/register-transaction-dto';
+import { RegisterTransactionDTO } from '@transactions/dto';
 import { RegisterTransaction } from '@transactions/use-cases';
 
 @Controller('transactions')
