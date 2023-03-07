@@ -26,30 +26,25 @@ export class CreateCollaborationsTables1677878578321
           {
             name: 'type',
             type: 'CollaborationTypes',
-            isPrimary: false,
           },
           {
             name: 'url',
             type: 'varchar',
-            isPrimary: false,
             isNullable: false,
           },
           {
             name: 'collaborator_id',
             type: 'uuid',
-            isPrimary: false,
             isNullable: false,
           },
           {
             name: 'business_unit',
             type: 'BusinessUnits',
-            isPrimary: false,
             isNullable: false,
           },
           {
             name: 'status',
             type: 'CollaborationStatus',
-            isPrimary: false,
           },
           {
             name: 'created_at',
