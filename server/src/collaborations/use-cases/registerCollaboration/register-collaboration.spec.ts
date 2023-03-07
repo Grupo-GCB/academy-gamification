@@ -23,7 +23,7 @@ describe('Register a collaboration', () => {
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
       collaborator_id: '1',
       status: CollaborationsStatus.PENDING,
-      businessUnit: BusinessUnits.ADIANTE,
+      business_unit: BusinessUnits.ADIANTE,
     });
 
     expect(collaboration).toEqual(
@@ -33,12 +33,12 @@ describe('Register a collaboration', () => {
         collaborator_id: '1',
         id: collaboration.id,
         status: CollaborationsStatus.PENDING,
-        businessUnit: BusinessUnits.ADIANTE,
+        business_unit: BusinessUnits.ADIANTE,
       }),
     );
 
     await expect(
-      inMemoryCollaborationsRepository.findByStatus({
+      inMemoryCollaborationsRepository.filterByStatus({
         status: CollaborationsStatus.PENDING,
       }),
     ).resolves.toEqual([
@@ -48,7 +48,7 @@ describe('Register a collaboration', () => {
         collaborator_id: collaboration.collaborator_id,
         id: collaboration.id,
         status: collaboration.status,
-        businessUnit: collaboration.businessUnit,
+        business_unit: collaboration.business_unit,
       },
     ]);
   });

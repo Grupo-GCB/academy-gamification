@@ -13,6 +13,8 @@ services:
       - POSTGRES_DB=academy_gamification_database
     volumes:
       - pgdata:/data/postgres
+    networks:
+      - gamification
 
   app:
     build: .
@@ -21,10 +23,14 @@ services:
       - 3333:3333
     volumes:
       - .:/usr/app
-    links:
-      - academy_gamification_database
     depends_on:
       - academy_gamification_database
+    networks:
+      - gamification
+
+networks:
+  gamification:
+    driver: bridge
 
 volumes:
   pgdata:

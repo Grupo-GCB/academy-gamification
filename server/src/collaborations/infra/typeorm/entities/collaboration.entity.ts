@@ -13,7 +13,7 @@ import {
   CollaborationsTypes,
 } from '@shared/constants';
 
-@Entity('collaboration')
+@Entity('collaborations')
 export class Collaboration {
   @PrimaryColumn()
   id: string;
@@ -28,7 +28,7 @@ export class Collaboration {
   collaborator_id: string;
 
   @Column()
-  businessUnit: BusinessUnits;
+  business_unit: BusinessUnits;
 
   @Column()
   status: CollaborationsStatus;

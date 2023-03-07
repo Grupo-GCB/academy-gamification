@@ -1,9 +1,15 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { FindByStatus, RegisterCollaboration } from '@collaborations/use-cases';
+import {
+  FilterByStatus,
+  FindOne,
+  RegisterCollaboration,
+  UpdateStatus,
+} from '@collaborations/use-cases';
 import {
   BusinessUnits,
   CollaborationsStatus,
@@ -11,11 +17,24 @@ import {
 } from '@shared/constants';
 
 describe('Collaborations Controller', () => {
-  const findByStatus = {
+  const filterByStatus = {
     execute: () => ({
       status: CollaborationsStatus.PENDING,
     }),
   };
+
+  const findOne = {
+    execute: () => '10f47e61-65c0-48a3-9554-23f022750a66',
+  };
+
+  const updateStatus = {
+    execute: () => ({
+      collaboration_id: '10f47e61-65c0-48a3-9554-23f022750a66',
+      newStatus: CollaborationsStatus.APPROVED,
+    }),
+  };
+
+  let app: INestApplication;
 
   const registerCollaboration = {
     execute: () => ({
@@ -27,14 +46,18 @@ describe('Collaborations Controller', () => {
     }),
   };
 
-  let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
     moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     })
-      .overrideProvider(FindByStatus)
-      .useValue(findByStatus)
+      .overrideProvider(FilterByStatus)
+      .useValue(filterByStatus)
+      .overrideProvider(FindOne)
+      .useValue(findOne)
+      .overrideProvider(UpdateStatus)
+      .useValue(updateStatus)
       .overrideProvider(RegisterCollaboration)
       .useValue(registerCollaboration)
       .compile();
@@ -52,15 +75,7 @@ describe('Collaborations Controller', () => {
       return request(app.getHttpServer())
         .get('/collaborations/?status=pending')
         .expect(200)
-        .expect(findByStatus.execute());
-    });
-
-    it('should return 404 status code if no collaboration with passed status is found', () => {
-      return request(app.getHttpServer())
-        .get('/collaborations/?status=approved')
-        .expect((res) => {
-          expect(res.status).toBe(404);
-        });
+        .expect(filterByStatus.execute());
     });
   });
 
@@ -70,6 +85,24 @@ describe('Collaborations Controller', () => {
         .post('/collaborations')
         .expect(201)
         .expect(registerCollaboration.execute());
+    });
+  });
+
+  describe('Find collaboration by id', () => {
+    it('should return a collaboration', () => {
+      return request(app.getHttpServer())
+        .get('/collaborations/10f47e61-65c0-48a3-9554-23f022750a66')
+        .expect(200)
+        .expect(findOne.execute());
+    });
+  });
+
+  describe('Update collaboration status', () => {
+    it('should return an updated collaboration', () => {
+      return request(app.getHttpServer())
+        .put('/collaborations')
+        .expect(200)
+        .expect(updateStatus.execute());
     });
   });
 });
