@@ -31,7 +31,7 @@ export class Transaction {
   @Column()
   type: string;
 
-  @Column()
+  @Column('text', { array: true })
   academys: string[];
 
   @Column()
