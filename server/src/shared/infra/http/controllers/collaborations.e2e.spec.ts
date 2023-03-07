@@ -4,7 +4,7 @@ import request from 'supertest';
 
 import { AppModule } from '@/app.module';
 import {
-  FindByStatus,
+  FilterByStatus,
   FindOne,
   RegisterCollaboration,
   UpdateStatus,
@@ -50,7 +50,7 @@ describe('Collaborations Controller', () => {
     moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     })
-      .overrideProvider(FindByStatus)
+      .overrideProvider(FilterByStatus)
       .useValue(filterByStatus)
       .overrideProvider(FindOne)
       .useValue(findOne)
@@ -74,14 +74,6 @@ describe('Collaborations Controller', () => {
         .get('/collaborations/?status=pending')
         .expect(200)
         .expect(filterByStatus.execute());
-    });
-
-    it('should return 404 status code if no collaboration with passed status is found', () => {
-      return request(app.getHttpServer())
-        .get('/collaborations/?status=approved')
-        .expect((res) => {
-          expect(res.status).toBe(404);
-        });
     });
   });
 
