@@ -14,6 +14,7 @@ async function bootstrap() {
     .setDescription('Academy Gamification')
     .setVersion('1.0')
     .addTag('collaborations')
+    .addTag('transactions')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

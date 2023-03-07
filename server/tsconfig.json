@@ -23,6 +23,9 @@
     "paths": {
       "@collaborations/*": ["collaborations/*"],
       "@shared/*": ["shared/*"],
+      "@academys/*": ["academys/*"],
+      "@collaborator/*": ["collaborator/*"],
+      "@transactions/*": ["transactions/*"],
       "@/*": ["*"]
     }
   }

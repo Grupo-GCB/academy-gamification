@@ -15,3 +15,9 @@ export enum BusinessUnits {
   FMI = 'FMI',
   GRUPOGCB = 'GRUPOGCB',
 }
+
+export enum TransactionReasons {
+  COLLABORATION = 'COLLABORATION',
+  REDEEM = 'REDEEM',
+  PENALTY = 'PENALTY',
+}
