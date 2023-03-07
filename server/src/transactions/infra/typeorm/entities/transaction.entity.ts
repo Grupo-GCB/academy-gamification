@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -21,6 +22,8 @@ export class Transaction {
   id: string;
 
   @ManyToOne(() => Collaborator, (collaborator) => collaborator.id)
+  @JoinColumn({ name: 'collaborator_id' })
+  @Column()
   collaborator_id: string;
 
   @Column()
