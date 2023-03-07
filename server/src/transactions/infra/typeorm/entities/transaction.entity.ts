@@ -4,6 +4,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { randomUUID } from 'node:crypto';
 
@@ -41,7 +42,10 @@ export class Transaction {
   gcbits: number;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at?: Date;
+
+  @UpdateDateColumn()
+  updated_at?: Date;
 
   constructor() {
     if (!this.id) this.id = randomUUID();
