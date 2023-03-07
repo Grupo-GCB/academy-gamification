@@ -1,7 +1,7 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 
 import { UpdateStatusDTO } from '@collaborations/dto';
@@ -16,14 +16,14 @@ export class UpdateStatus {
     collaboration_id,
     newStatus,
   }: UpdateStatusDTO): Promise<Collaboration> {
+    if (!newStatus) throw new BadRequestException('newStatus is required');
+
     const collaboration: Collaboration =
       await this.collaborationsRepository.findOne(collaboration_id);
 
     if (!collaboration) {
       throw new NotFoundException('Collaboration not found');
     }
-
-    if (!newStatus) throw new BadRequestException('newStatus is required');
 
     return this.collaborationsRepository.updateStatus({
       collaboration_id,
