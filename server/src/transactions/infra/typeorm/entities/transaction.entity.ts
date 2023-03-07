@@ -26,10 +26,10 @@ export class Transaction {
   business_unit: BusinessUnits;
 
   @Column()
-  reason: string;
+  reason: TransactionReasons;
 
   @Column()
-  type: TransactionReasons;
+  type: string;
 
   @Column()
   academys: string[];
