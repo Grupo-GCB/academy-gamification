@@ -47,12 +47,23 @@ export class RegisterTransactionDTO {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    example: '["Gustavo", "Vitor"]',
+    example: 'Code Review',
+    description: 'Tipo da transação realizada',
+    type: 'string',
+    required: true,
+  })
+  type: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    example:
+      '["c13f866c-2ba0-42b7-83c9-50bb61c5c167", "70c2be1a-ef21-4ae7-a8d0-375ddf026920"]',
     description: 'Academys que foram ajudados nesta transação',
     type: 'string',
     required: true,
   })
-  academys: string;
+  academys: string[];
 
   @IsNotEmpty()
   @IsEnum(CollaborationsStatus)
