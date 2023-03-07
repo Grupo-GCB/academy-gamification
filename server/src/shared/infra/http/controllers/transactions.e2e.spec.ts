@@ -47,7 +47,7 @@ describe('Transaction Controller', () => {
   describe('Register transaction', () => {
     it('should be able to return a 201 status if create transaction', () => {
       return request(app.getHttpServer())
-        .post('/transactions')
+        .post('/transactions/register')
         .expect(201)
         .expect(registerTransaction.execute());
     });
