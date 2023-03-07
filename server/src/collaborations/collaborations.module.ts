@@ -20,6 +20,7 @@ import { CollaborationsController } from '@shared/infra/http/controllers/collabo
     RegisterCollaboration,
     FindOne,
     UpdateStatus,
+    RegisterCollaboration,
     {
       provide: ICollaborationsRepository,
       useClass: CollaborationsRepository,

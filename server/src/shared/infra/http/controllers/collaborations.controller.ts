@@ -1,21 +1,11 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Param,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
-  ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
 
-import { RegisterCollaborationDTO, UpdateStatusDTO } from '@collaborations/dto';
+import { RegisterCollaborationDTO } from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
 import {
   FilterByStatus,
