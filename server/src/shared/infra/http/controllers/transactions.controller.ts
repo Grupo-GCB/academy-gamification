@@ -3,6 +3,7 @@ import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { RegisterTransactionDTO } from '@transactions/dto/register-transaction-dto';
+import { RegisterTransaction } from '@transactions/use-cases';
 
 @Controller('transactions')
 export class TransactionsController {
