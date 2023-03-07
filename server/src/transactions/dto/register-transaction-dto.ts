@@ -38,7 +38,7 @@ export class RegisterTransactionDTO {
   @IsNotEmpty()
   @IsEnum(TransactionReasons)
   @ApiProperty({
-    example: 'RESGATE',
+    example: 'REDEEM',
     description: 'Razão pela qual a transação existe',
     type: 'TransactionReasons',
     required: true,
