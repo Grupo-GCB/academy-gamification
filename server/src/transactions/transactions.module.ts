@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { TransactionsController } from '@shared/infra/http/controllers/transactions.controller';
 import { RegisterTransaction } from '@transactions/use-cases';
-import { ITransactionsRepository } from '@transactions/interfaces/ITransactionsRepository';
+import { ITransactionsRepository } from '@transactions/interfaces';
 import { TransactionsRepository } from '@transactions/infra/typeorm/repositories/transactions.repository';
 
 @Module({
@@ -18,4 +18,4 @@ import { TransactionsRepository } from '@transactions/infra/typeorm/repositories
     },
   ],
 })
-export class CollaborationsModule {}
+export class TransactionsModule {}

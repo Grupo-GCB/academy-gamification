@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { ITransactionsRepository } from '@transactions/interfaces/ITransactionsRepository';
+import { ITransactionsRepository } from '@transactions/interfaces';
 import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
