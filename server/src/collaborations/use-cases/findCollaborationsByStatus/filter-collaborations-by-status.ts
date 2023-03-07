@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { FilterCollaborationsByStatusDTO } from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
@@ -19,9 +15,6 @@ export class FilterByStatus {
 
     const collaborations: Collaboration[] =
       await this.collaborationsRepository.filterByStatus({ status });
-
-    if (collaborations.length === 0)
-      throw new NotFoundException('No collaborations found');
 
     return collaborations;
   }
