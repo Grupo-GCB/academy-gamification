@@ -14,7 +14,7 @@ import {
 } from '@shared/constants';
 import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 
-@Entity('transaction')
+@Entity('transactions')
 export class Transaction {
   @PrimaryColumn()
   id: string;
