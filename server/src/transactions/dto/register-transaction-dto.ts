@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -55,7 +56,8 @@ export class RegisterTransactionDTO {
   type: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   @ApiProperty({
     example:
       '["c13f866c-2ba0-42b7-83c9-50bb61c5c167", "70c2be1a-ef21-4ae7-a8d0-375ddf026920"]',
