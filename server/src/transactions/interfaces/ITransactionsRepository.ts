@@ -7,5 +7,5 @@ export abstract class ITransactionsRepository {
 
   abstract findOne(transaction_id: string): Promise<Transaction>;
 
-  abstract filterByStatus(status: CollaborationsStatus): Promise<Transaction>;
+  abstract filterByStatus(status: CollaborationsStatus): Promise<Transaction[]>;
 }
