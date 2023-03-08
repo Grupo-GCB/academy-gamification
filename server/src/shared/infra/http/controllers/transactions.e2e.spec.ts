@@ -3,7 +3,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { RegisterTransaction } from '@transactions/use-cases';
+import {
+  FilterTransactionsByStatus,
+  RegisterTransaction,
+} from '@transactions/use-cases';
 import {
   BusinessUnits,
   CollaborationsStatus,
@@ -26,6 +29,12 @@ describe('Transaction Controller', () => {
     }),
   };
 
+  const filterTransactionsByStatus = {
+    execute: () => ({
+      status: CollaborationsStatus.PENDING,
+    }),
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -34,6 +43,8 @@ describe('Transaction Controller', () => {
     })
       .overrideProvider(RegisterTransaction)
       .useValue(registerTransaction)
+      .overrideProvider(FilterTransactionsByStatus)
+      .useValue(filterTransactionsByStatus)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -50,6 +61,15 @@ describe('Transaction Controller', () => {
         .post('/transactions/register')
         .expect(201)
         .expect(registerTransaction.execute());
+    });
+  });
+
+  describe('Filter transactions by status', () => {
+    it('should return a array of transactions', () => {
+      return request(app.getHttpServer())
+        .get('/transactions/?status=pending')
+        .expect(200)
+        .expect(filterTransactionsByStatus.execute());
     });
   });
 });
