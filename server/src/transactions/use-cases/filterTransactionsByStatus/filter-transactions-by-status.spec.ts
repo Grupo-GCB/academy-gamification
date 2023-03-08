@@ -1,10 +1,10 @@
 import { BadRequestException } from '@nestjs/common';
+
 import {
   BusinessUnits,
   CollaborationsStatus,
   TransactionReasons,
 } from '@shared/constants';
-
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FilterTransactionsByStatus } from '@transactions/use-cases';
 
