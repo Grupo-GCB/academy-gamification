@@ -40,10 +40,8 @@ export class TransactionsRepository {
   async filterByStatus({
     status,
   }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
-    const transactions: Transaction[] = await this.transactionsRepository.find({
+    return this.transactionsRepository.find({
       where: { status },
     });
-
-    return transactions;
   }
 }
