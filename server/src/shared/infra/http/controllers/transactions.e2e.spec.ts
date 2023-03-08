@@ -65,7 +65,7 @@ describe('Transaction Controller', () => {
   });
 
   describe('Filter transactions by status', () => {
-    it('should return a array of transactions', () => {
+    it('should return an array of transactions', () => {
       return request(app.getHttpServer())
         .get('/transactions/?status=pending')
         .expect(200)
