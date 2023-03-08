@@ -1,8 +1,13 @@
-import { RegisterTransactionDTO } from '@transactions/dto';
+import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
 export abstract class ITransactionsRepository {
   abstract register(data: RegisterTransactionDTO): Promise<Transaction>;
 
   abstract findOne(transaction_id: string): Promise<Transaction>;
+
+  abstract updateStatus({
+    transaction_id,
+    newStatus,
+  }: UpdateStatusDTO): Promise<Transaction>;
 }

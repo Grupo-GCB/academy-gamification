@@ -1,4 +1,4 @@
-import { RegisterTransactionDTO } from '@transactions/dto';
+import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces/ITransactionsRepository';
 
@@ -14,9 +14,18 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
   }
 
   async findOne(transaction_id: string): Promise<Transaction> {
-    const transaction: Transaction = this.transactions.find(
+    return this.transactions.find(
       (transaction) => transaction.id === transaction_id,
     );
+  }
+
+  async updateStatus({
+    transaction_id,
+    newStatus,
+  }: UpdateStatusDTO): Promise<Transaction> {
+    const transaction = await this.findOne(transaction_id);
+
+    transaction.status = newStatus;
 
     return transaction;
   }
