@@ -26,7 +26,7 @@ describe('Filter transactions by status', () => {
     }
   });
 
-  it('should return all transactions that matches status passed', async () => {
+  it('should return all transactions that matches the passed status', async () => {
     const transaction1 = await inMemoryTransactionsRepository.register({
       collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
       business_unit: BusinessUnits.ADIANTE,
@@ -58,5 +58,6 @@ describe('Filter transactions by status', () => {
     });
 
     await expect(transactions).toEqual([transaction2]);
+    expect(transactions).not.toEqual([transaction1]);
   });
 });
