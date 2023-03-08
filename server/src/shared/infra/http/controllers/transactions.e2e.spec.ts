@@ -3,12 +3,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { RegisterTransaction } from '@transactions/use-cases';
 import {
   BusinessUnits,
   CollaborationsStatus,
   TransactionReasons,
 } from '@shared/constants';
+import {
+  FindById,
+  RegisterTransaction,
+  UpdateStatus,
+} from '@transactions/use-cases';
 
 describe('Transaction Controller', () => {
   const registerTransaction = {
@@ -26,6 +30,17 @@ describe('Transaction Controller', () => {
     }),
   };
 
+  const findById = {
+    execute: () => '648a036a-8fc7-4778-84ca-e73e79edb068',
+  };
+
+  const updateStatus = {
+    execute: () => ({
+      transaction_id: '10f47e61-65c0-48a3-9554-23f022750a66',
+      newStatus: CollaborationsStatus.APPROVED,
+    }),
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -34,6 +49,10 @@ describe('Transaction Controller', () => {
     })
       .overrideProvider(RegisterTransaction)
       .useValue(registerTransaction)
+      .overrideProvider(FindById)
+      .useValue(findById)
+      .overrideProvider(UpdateStatus)
+      .useValue(updateStatus)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -50,6 +69,24 @@ describe('Transaction Controller', () => {
         .post('/transactions/register')
         .expect(201)
         .expect(registerTransaction.execute());
+    });
+  });
+
+  describe('Find transaction by id', () => {
+    it('should return a collaboration', () => {
+      return request(app.getHttpServer())
+        .get('/transactions/648a036a-8fc7-4778-84ca-e73e79edb068')
+        .expect(200)
+        .expect(findById.execute());
+    });
+  });
+
+  describe('Update transaction status', () => {
+    it('should return an updated transaction', () => {
+      return request(app.getHttpServer())
+        .put('/transactions')
+        .expect(200)
+        .expect(updateStatus.execute());
     });
   });
 });
