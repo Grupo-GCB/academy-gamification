@@ -5,7 +5,7 @@ import { Transaction } from '@transactions/infra/typeorm/entities/transaction.en
 import { FilterTransactionsByStatusDTO } from '@transactions/dto';
 
 @Injectable()
-export class FilterTransacitonsByStatus {
+export class FilterTransactionsByStatus {
   constructor(private transactionsRepository: ITransactionsRepository) {}
 
   async execute({
