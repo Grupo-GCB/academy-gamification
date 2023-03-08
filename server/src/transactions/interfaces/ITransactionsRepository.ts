@@ -9,7 +9,7 @@ export abstract class ITransactionsRepository {
 
   abstract findOne(transaction_id: string): Promise<Transaction>;
 
-  abstract filterByStatus(
-    status: FilterTransactionsByStatusDTO,
-  ): Promise<Transaction[]>;
+  abstract filterByStatus({
+    status,
+  }: FilterTransactionsByStatusDTO): Promise<Transaction[]>;
 }
