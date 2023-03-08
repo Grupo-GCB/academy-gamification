@@ -21,8 +21,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {
+      "@collaborations/*": ["collaborations/*"],
+      "@shared/*": ["shared/*"],
       "@academys/*": ["academys/*"],
-      "@collaborations/*": ["collaborations/*"]
+      "@collaborator/*": ["collaborator/*"],
+      "@transactions/*": ["transactions/*"],
+      "@/*": ["*"]
     }
   }
 }

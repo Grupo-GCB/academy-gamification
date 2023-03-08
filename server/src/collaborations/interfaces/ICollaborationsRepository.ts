@@ -1,12 +1,21 @@
+import {
+  FilterCollaborationsByStatusDTO,
+  RegisterCollaborationDTO,
+  UpdateStatusDTO,
+} from '@collaborations/dto';
 import { Collaboration } from '@collaborations/infra/typeorm/entities/collaboration.entity';
-import { CreateCollaborationDto } from '@collaborations/dto/create-collaboration.dto';
-import { FilterCollaborationByStatusDto } from '@collaborations/dto/filter-collaboration-by-status.dto';
 
 export abstract class ICollaborationsRepository {
-  abstract create(data: CreateCollaborationDto): Promise<Collaboration>;
+  abstract register(data: RegisterCollaborationDTO): Promise<Collaboration>;
 
-  abstract filterCollaborationsByStatus({
+  abstract filterByStatus({
     status,
-    id,
-  }: FilterCollaborationByStatusDto): Promise<Collaboration[]>;
+  }: FilterCollaborationsByStatusDTO): Promise<Collaboration[]>;
+
+  abstract findOne(collaborations_id: string): Promise<Collaboration>;
+
+  abstract updateStatus({
+    collaboration_id,
+    newStatus,
+  }: UpdateStatusDTO): Promise<Collaboration>;
 }

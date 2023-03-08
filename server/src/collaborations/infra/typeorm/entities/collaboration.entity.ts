@@ -1,50 +1,45 @@
-import { Academy } from '@academys/infra/typeorm/entities/academy.entity';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum CollaborationsStatus {
-  pending,
-  approved,
-  rejected,
-}
+import {
+  BusinessUnits,
+  CollaborationsStatus,
+  CollaborationsTypes,
+} from '@shared/constants';
 
-@Entity('collaboration')
+@Entity('collaborations')
 export class Collaboration {
   @PrimaryColumn()
   id: string;
 
   @Column()
-  collaboration_type_id: string;
+  type: CollaborationsTypes;
+
+  @Column()
+  url: string;
 
   @Column()
   collaborator_id: string;
 
-  @ManyToMany(() => Academy)
-  @JoinTable({
-    name: 'collaboration_academy',
-    joinColumns: [{ name: 'collaboration_id' }],
-    inverseJoinColumns: [{ name: 'academy_id' }],
-  })
-  academy_id: string;
+  @Column()
+  business_unit: BusinessUnits;
 
   @Column()
   status: CollaborationsStatus;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at?: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ default: null })
   approved_at?: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ default: null })
   rejected_at?: Date;
 
   constructor() {

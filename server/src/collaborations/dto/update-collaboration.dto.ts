@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateCollaborationDto } from './create-collaboration.dto';
+
+import { RegisterCollaborationDTO } from './register-collaboration.dto';
 
 export class UpdateCollaborationDto extends PartialType(
-  CreateCollaborationDto,
+  RegisterCollaborationDTO,
 ) {}
