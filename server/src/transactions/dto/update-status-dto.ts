@@ -12,7 +12,7 @@ export class UpdateStatusDTO {
     type: 'uuid',
     required: true,
   })
-  transaction_id: string;
+  id: string;
 
   @IsNotEmpty()
   @IsEnum(CollaborationsStatus)

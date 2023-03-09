@@ -34,21 +34,15 @@ export class TransactionsRepository {
     return this.transactionsRepository.save(transaction);
   }
 
-  async findOne(transaction_id: string): Promise<Transaction> {
+  async findOne(id: string): Promise<Transaction> {
     return this.transactionsRepository.findOne({
-      where: { id: transaction_id },
+      where: { id: id },
     });
   }
 
-  async updateStatus({
-    transaction_id,
-    newStatus,
-  }: UpdateStatusDTO): Promise<Transaction> {
-    await this.transactionsRepository.update(
-      { id: transaction_id },
-      { status: newStatus },
-    );
+  async updateStatus({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
+    await this.transactionsRepository.update({ id: id }, { status: newStatus });
 
-    return this.findOne(transaction_id);
+    return this.findOne(id);
   }
 }

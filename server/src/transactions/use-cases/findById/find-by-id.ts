@@ -7,9 +7,9 @@ import { ITransactionsRepository } from '@transactions/interfaces';
 export class FindById {
   constructor(private transactionsRepository: ITransactionsRepository) {}
 
-  async execute(transaction_id: string): Promise<Transaction> {
+  async execute(id: string): Promise<Transaction> {
     const transaction: Transaction = await this.transactionsRepository.findOne(
-      transaction_id,
+      id,
     );
 
     if (!transaction) throw new NotFoundException('Transaction does not exist');

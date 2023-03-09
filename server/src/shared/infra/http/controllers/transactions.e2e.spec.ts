@@ -36,7 +36,7 @@ describe('Transaction Controller', () => {
 
   const updateStatus = {
     execute: () => ({
-      transaction_id: '10f47e61-65c0-48a3-9554-23f022750a66',
+      id: '10f47e61-65c0-48a3-9554-23f022750a66',
       newStatus: CollaborationsStatus.APPROVED,
     }),
   };

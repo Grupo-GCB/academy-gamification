@@ -12,14 +12,12 @@ import { ITransactionsRepository } from '@transactions/interfaces';
 export class UpdateStatus {
   constructor(private transactionsRepository: ITransactionsRepository) {}
 
-  async execute({
-    transaction_id,
-    newStatus,
-  }: UpdateStatusDTO): Promise<Transaction> {
+  async execute({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
     if (!newStatus) throw new BadRequestException('newStatus is required');
+    if (!id) throw new BadRequestException('id is required');
 
     const transaction: Transaction = await this.transactionsRepository.findOne(
-      transaction_id,
+      id,
     );
 
     if (!transaction) {
@@ -27,7 +25,7 @@ export class UpdateStatus {
     }
 
     return this.transactionsRepository.updateStatus({
-      transaction_id,
+      id,
       newStatus,
     });
   }

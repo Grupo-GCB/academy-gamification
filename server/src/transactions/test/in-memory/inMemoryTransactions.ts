@@ -13,17 +13,12 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     return transaction;
   }
 
-  async findOne(transaction_id: string): Promise<Transaction> {
-    return this.transactions.find(
-      (transaction) => transaction.id === transaction_id,
-    );
+  async findOne(id: string): Promise<Transaction> {
+    return this.transactions.find((transaction) => transaction.id === id);
   }
 
-  async updateStatus({
-    transaction_id,
-    newStatus,
-  }: UpdateStatusDTO): Promise<Transaction> {
-    const transaction = await this.findOne(transaction_id);
+  async updateStatus({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
+    const transaction = await this.findOne(id);
 
     transaction.status = newStatus;
 
