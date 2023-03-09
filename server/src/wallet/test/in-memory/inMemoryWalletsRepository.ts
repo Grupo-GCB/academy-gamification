@@ -12,7 +12,7 @@ export class InMemoryWalletsRepository implements IWalletsRepository {
   async updateGcbits({ id, gcbits }: UpdateGcbitsDTO): Promise<Wallet> {
     const wallet: Wallet = await this.findOne(id);
 
-    wallet.gcbits = gcbits;
+    wallet.gcbits += gcbits;
 
     return wallet;
   }
