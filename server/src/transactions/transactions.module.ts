@@ -9,7 +9,7 @@ import {
   FindById,
   RegisterTransaction,
   UpdateStatus,
-  FilterTransactionsByStatus
+  FilterTransactionsByStatus,
 } from '@transactions/use-cases';
 
 @Module({
