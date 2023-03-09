@@ -3,6 +3,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
@@ -86,4 +87,14 @@ export class RegisterTransactionDTO {
     required: true,
   })
   gcbits: number;
+
+  @IsOptional()
+  @ApiProperty({
+    example:
+      'Esta ação está sendo realizada devido à aprovação e transação incorreta de gcbits em sua conta',
+    description: 'Descrição de uma transação',
+    type: 'string',
+    required: false,
+  })
+  description?: string;
 }
