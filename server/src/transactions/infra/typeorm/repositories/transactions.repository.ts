@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import {
-  FilterTransactionsByStatusDTO,
   RegisterTransactionDTO,
+  UpdateStatusDTO,
+  FilterTransactionsByStatusDTO,
 } from '@transactions/dto';
+import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
 @Injectable()
 export class TransactionsRepository {
@@ -35,6 +36,18 @@ export class TransactionsRepository {
     });
 
     return this.transactionsRepository.save(transaction);
+  }
+
+  async findOne(id: string): Promise<Transaction> {
+    return this.transactionsRepository.findOne({
+      where: { id },
+    });
+  }
+
+  async updateStatus({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
+    await this.transactionsRepository.update({ id }, { status: newStatus });
+
+    return this.findOne(id);
   }
 
   async filterByStatus({
