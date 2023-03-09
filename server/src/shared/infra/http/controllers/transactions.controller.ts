@@ -30,7 +30,6 @@ export class TransactionsController {
     private updateTransactionStatus: UpdateStatus,
   ) {}
 
-  @Post('/register')
   @ApiCreatedResponse({
     status: HttpStatus.CREATED,
     description: 'Transação registrada com sucesso',
@@ -39,6 +38,7 @@ export class TransactionsController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Falha ao registrar uma Transação',
   })
+  @Post('/register')
   register(
     @Body()
     data: RegisterTransactionDTO,
@@ -46,7 +46,6 @@ export class TransactionsController {
     return this.registerTransaction.execute(data);
   }
 
-  @Get(':id')
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
@@ -54,11 +53,11 @@ export class TransactionsController {
     status: HttpStatus.NOT_FOUND,
     description: 'Não foi possível encontrar a transação',
   })
+  @Get(':id')
   findOne(@Param('id') id: string): Promise<Transaction> {
     return this.findById.execute(id);
   }
 
-  @Put()
   @ApiOkResponse({
     status: HttpStatus.OK,
     description: 'Status da transação alterado com sucesso',
@@ -67,11 +66,12 @@ export class TransactionsController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Não foi possível alterar o status da transação',
   })
+  @Put()
   updateStatus(
-    @Body() { transaction_id, newStatus }: UpdateStatusDTO,
+    @Body() { id, newStatus }: UpdateStatusDTO,
   ): Promise<Transaction> {
     return this.updateTransactionStatus.execute({
-      transaction_id,
+      id,
       newStatus,
     });
   }

@@ -60,7 +60,6 @@ export class CollaborationsController {
     return this.filterByStatus.execute({ status: status });
   }
 
-  @Get(':id')
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
@@ -68,11 +67,11 @@ export class CollaborationsController {
     status: HttpStatus.NOT_FOUND,
     description: 'Não foi possível encontrar a colaboração!',
   })
+  @Get(':id')
   findOne(@Param('id') id: string): Promise<Collaboration> {
     return this.findOneCollaborations.execute(id);
   }
 
-  @Put()
   @ApiOkResponse({
     status: HttpStatus.OK,
     description: 'Status da colaboração alterado com sucesso!',
@@ -81,6 +80,7 @@ export class CollaborationsController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Não foi possível alterar o status da colaboração!',
   })
+  @Put()
   updateStatus(
     @Body() { collaboration_id, newStatus }: UpdateStatusDTO,
   ): Promise<Collaboration> {
