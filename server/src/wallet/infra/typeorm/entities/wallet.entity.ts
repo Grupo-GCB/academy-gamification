@@ -20,7 +20,7 @@ export class Wallet {
   collaborator_id: string;
 
   @Column()
-  gcbits: string;
+  gcbits: number;
 
   @UpdateDateColumn()
   updated_at: Date;
