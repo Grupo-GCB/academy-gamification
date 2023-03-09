@@ -1,6 +1,6 @@
 import { UpdateGcbitsDTO } from '@wallet/dto';
 import { Wallet } from '@wallet/infra/typeorm/entities/wallet.entity';
 
-export abstract class ITransactionsRepository {
-  abstract updateStatus({ id, gcbits }: UpdateGcbitsDTO): Promise<Wallet>;
+export abstract class IWalletsRepository {
+  abstract updateGcbits({ id, gcbits }: UpdateGcbitsDTO): Promise<Wallet>;
 }
