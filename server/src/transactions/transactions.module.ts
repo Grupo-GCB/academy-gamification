@@ -9,6 +9,7 @@ import {
   FindById,
   RegisterTransaction,
   UpdateStatus,
+  FilterTransactionsByStatus
 } from '@transactions/use-cases';
 
 @Module({
@@ -18,6 +19,7 @@ import {
     RegisterTransaction,
     UpdateStatus,
     FindById,
+    FilterTransactionsByStatus,
     {
       provide: ITransactionsRepository,
       useClass: TransactionsRepository,

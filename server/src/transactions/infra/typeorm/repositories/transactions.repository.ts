@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
+import {
+  RegisterTransactionDTO,
+  UpdateStatusDTO,
+  FilterTransactionsByStatusDTO,
+} from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
 @Injectable()
@@ -44,5 +48,13 @@ export class TransactionsRepository {
     await this.transactionsRepository.update({ id }, { status: newStatus });
 
     return this.findOne(id);
+  }
+
+  async filterByStatus({
+    status,
+  }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
+    return this.transactionsRepository.find({
+      where: { status },
+    });
   }
 }

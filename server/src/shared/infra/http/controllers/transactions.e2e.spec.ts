@@ -9,6 +9,7 @@ import {
   TransactionReasons,
 } from '@shared/constants';
 import {
+  FilterTransactionsByStatus,
   FindById,
   RegisterTransaction,
   UpdateStatus,
@@ -41,6 +42,12 @@ describe('Transaction Controller', () => {
     }),
   };
 
+  const filterTransactionsByStatus = {
+    execute: () => ({
+      status: CollaborationsStatus.PENDING,
+    }),
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -53,6 +60,8 @@ describe('Transaction Controller', () => {
       .useValue(findById)
       .overrideProvider(UpdateStatus)
       .useValue(updateStatus)
+      .overrideProvider(FilterTransactionsByStatus)
+      .useValue(filterTransactionsByStatus)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -87,6 +96,15 @@ describe('Transaction Controller', () => {
         .put('/transactions')
         .expect(200)
         .expect(updateStatus.execute());
+    });
+  });
+
+  describe('Filter transactions by status', () => {
+    it('should return an array of transactions', () => {
+      return request(app.getHttpServer())
+        .get('/transactions/?status=pending')
+        .expect(200)
+        .expect(filterTransactionsByStatus.execute());
     });
   });
 });

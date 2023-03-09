@@ -1,26 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-} from '@nestjs/swagger';
+import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
-import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
+import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
-import {
-  FindById,
-  RegisterTransaction,
-  UpdateStatus,
-} from '@transactions/use-cases';
+import { RegisterTransaction } from '@transactions/use-cases';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -28,6 +11,7 @@ export class TransactionsController {
     private registerTransaction: RegisterTransaction,
     private findById: FindById,
     private updateTransactionStatus: UpdateStatus,
+    private filterTransactionsByStatus: FilterTransactionsByStatus,
   ) {}
 
   @ApiCreatedResponse({
@@ -74,5 +58,15 @@ export class TransactionsController {
       id,
       newStatus,
     });
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @Get()
+  filterByStatus(
+    @Query('status') status: CollaborationsStatus,
+  ): Promise<Transaction[]> {
+    return this.filterTransactionsByStatus.execute({ status });
   }
 }
