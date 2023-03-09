@@ -1,9 +1,29 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
+import { CollaborationsStatus } from '@shared/constants';
 
-import { RegisterTransactionDTO } from '@transactions/dto';
+import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
-import { RegisterTransaction } from '@transactions/use-cases';
+import {
+  FilterTransactionsByStatus,
+  FindById,
+  RegisterTransaction,
+  UpdateStatus,
+} from '@transactions/use-cases';
 
 @Controller('transactions')
 export class TransactionsController {
