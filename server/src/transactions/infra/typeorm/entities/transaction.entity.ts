@@ -44,6 +44,9 @@ export class Transaction {
   @Column()
   gcbits: number;
 
+  @Column()
+  description?: string;
+
   @CreateDateColumn()
   created_at?: Date;
 
