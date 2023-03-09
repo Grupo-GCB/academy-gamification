@@ -20,4 +20,5 @@ export enum TransactionReasons {
   COLLABORATION = 'COLLABORATION',
   REDEEM = 'REDEEM',
   PENALTY = 'PENALTY',
+  CORRECTION = 'CORRECTION',
 }
