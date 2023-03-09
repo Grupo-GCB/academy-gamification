@@ -36,12 +36,12 @@ export class TransactionsRepository {
 
   async findOne(id: string): Promise<Transaction> {
     return this.transactionsRepository.findOne({
-      where: { id: id },
+      where: { id },
     });
   }
 
   async updateStatus({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
-    await this.transactionsRepository.update({ id: id }, { status: newStatus });
+    await this.transactionsRepository.update({ id }, { status: newStatus });
 
     return this.findOne(id);
   }
