@@ -1,4 +1,4 @@
-import { UpdateGcbitsDTO } from '@wallet/dto/update-gcbits-dto';
+import { UpdateGcbitsDTO } from '@wallet/dto';
 import { Wallet } from '@wallet/infra/typeorm/entities/wallet.entity';
 
 export abstract class ITransactionsRepository {
