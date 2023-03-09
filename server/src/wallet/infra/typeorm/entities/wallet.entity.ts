@@ -6,6 +6,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { randomUUID } from 'node:crypto';
 
 import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 
@@ -24,4 +25,8 @@ export class Wallet {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor() {
+    if (!this.id) this.id = randomUUID();
+  }
 }
