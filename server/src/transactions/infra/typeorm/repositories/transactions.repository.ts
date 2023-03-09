@@ -4,6 +4,10 @@ import { Repository } from 'typeorm';
 
 import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import {
+  FilterTransactionsByStatusDTO,
+  RegisterTransactionDTO,
+} from '@transactions/dto';
 
 @Injectable()
 export class TransactionsRepository {
@@ -34,21 +38,11 @@ export class TransactionsRepository {
     return this.transactionsRepository.save(transaction);
   }
 
-  async findOne(transaction_id: string): Promise<Transaction> {
-    return this.transactionsRepository.findOne({
-      where: { id: transaction_id },
+  async filterByStatus({
+    status,
+  }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
+    return this.transactionsRepository.find({
+      where: { status },
     });
-  }
-
-  async updateStatus({
-    transaction_id,
-    newStatus,
-  }: UpdateStatusDTO): Promise<Transaction> {
-    await this.transactionsRepository.update(
-      { id: transaction_id },
-      { status: newStatus },
-    );
-
-    return this.findOne(transaction_id);
   }
 }

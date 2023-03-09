@@ -1,4 +1,7 @@
-import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
+import {
+  FilterTransactionsByStatusDTO,
+  RegisterTransactionDTO,
+} from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces/ITransactionsRepository';
 
@@ -28,5 +31,15 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     transaction.status = newStatus;
 
     return transaction;
+  }
+
+  async filterByStatus({
+    status,
+  }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
+    const transactions: Transaction[] = this.transactions.filter(
+      (transaction) => transaction.status === status,
+    );
+
+    return transactions;
   }
 }

@@ -1,4 +1,7 @@
-import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
+import {
+  FilterTransactionsByStatusDTO,
+  RegisterTransactionDTO,
+} from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
 export abstract class ITransactionsRepository {
@@ -6,8 +9,7 @@ export abstract class ITransactionsRepository {
 
   abstract findOne(transaction_id: string): Promise<Transaction>;
 
-  abstract updateStatus({
-    transaction_id,
-    newStatus,
-  }: UpdateStatusDTO): Promise<Transaction>;
+  abstract filterByStatus({
+    status,
+  }: FilterTransactionsByStatusDTO): Promise<Transaction[]>;
 }

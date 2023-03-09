@@ -4,6 +4,10 @@ import request from 'supertest';
 
 import { AppModule } from '@/app.module';
 import {
+  FilterTransactionsByStatus,
+  RegisterTransaction,
+} from '@transactions/use-cases';
+import {
   BusinessUnits,
   CollaborationsStatus,
   TransactionReasons,
@@ -30,14 +34,9 @@ describe('Transaction Controller', () => {
     }),
   };
 
-  const findById = {
-    execute: () => '648a036a-8fc7-4778-84ca-e73e79edb068',
-  };
-
-  const updateStatus = {
+  const filterTransactionsByStatus = {
     execute: () => ({
-      transaction_id: '10f47e61-65c0-48a3-9554-23f022750a66',
-      newStatus: CollaborationsStatus.APPROVED,
+      status: CollaborationsStatus.PENDING,
     }),
   };
 
@@ -49,10 +48,8 @@ describe('Transaction Controller', () => {
     })
       .overrideProvider(RegisterTransaction)
       .useValue(registerTransaction)
-      .overrideProvider(FindById)
-      .useValue(findById)
-      .overrideProvider(UpdateStatus)
-      .useValue(updateStatus)
+      .overrideProvider(FilterTransactionsByStatus)
+      .useValue(filterTransactionsByStatus)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -72,21 +69,12 @@ describe('Transaction Controller', () => {
     });
   });
 
-  describe('Find transaction by id', () => {
-    it('should return a collaboration', () => {
+  describe('Filter transactions by status', () => {
+    it('should return an array of transactions', () => {
       return request(app.getHttpServer())
-        .get('/transactions/648a036a-8fc7-4778-84ca-e73e79edb068')
+        .get('/transactions/?status=pending')
         .expect(200)
-        .expect(findById.execute());
-    });
-  });
-
-  describe('Update transaction status', () => {
-    it('should return an updated transaction', () => {
-      return request(app.getHttpServer())
-        .put('/transactions')
-        .expect(200)
-        .expect(updateStatus.execute());
+        .expect(filterTransactionsByStatus.execute());
     });
   });
 });
