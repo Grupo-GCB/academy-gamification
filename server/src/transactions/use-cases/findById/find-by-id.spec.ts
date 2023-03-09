@@ -29,8 +29,22 @@ describe('Find a transaction by id', () => {
       gcbits: 5000,
     });
 
+    const transaction2 = await inMemoryTransactionsRepository.register({
+      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd802',
+      business_unit: BusinessUnits.PEERBR,
+      reason: TransactionReasons.REDEEM,
+      type: 'Code_Review',
+      academys: [
+        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
+        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
+      ],
+      status: CollaborationsStatus.PENDING,
+      gcbits: 5000,
+    });
+
     const transactionFound = await sut.execute(transaction.id);
 
+    expect(transactionFound).not.toEqual(transaction2);
     expect(transactionFound).toEqual(
       expect.objectContaining({
         id: transaction.id,
@@ -43,40 +57,6 @@ describe('Find a transaction by id', () => {
         gcbits: transaction.gcbits,
       }),
     );
-  });
-
-  it('shoud be able to find just a one transaction by id', async () => {
-    const transaction = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      business_unit: BusinessUnits.ADIANTE,
-      reason: TransactionReasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
-      status: CollaborationsStatus.APPROVED,
-      gcbits: 5000,
-    });
-
-    const transactionToNotFound = await inMemoryTransactionsRepository.register(
-      {
-        collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-        business_unit: BusinessUnits.PEERBR,
-        reason: TransactionReasons.REDEEM,
-        type: 'Logic_exercise',
-        academys: [
-          'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-          '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-        ],
-        status: CollaborationsStatus.PENDING,
-        gcbits: 2000,
-      },
-    );
-
-    const transactionFound = await sut.execute(transaction.id);
-
-    expect(transactionFound).toEqual(expect.objectContaining(transaction));
   });
 
   it('shoud not be able to find a nonexisent transaction', async () => {
