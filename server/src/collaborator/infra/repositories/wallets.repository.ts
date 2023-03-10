@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Wallet } from '@collaborator/infra/entities/wallet.entity';
-import { UpdateGcbitsDTO } from '@collaborator/dto/update-gcbits-dto';
+import { UpdateGcbitsDTO, RegisterWalletDTO } from '@collaborator/dto';
 
 @Injectable()
 export class WalletsRepository {
@@ -15,6 +15,18 @@ export class WalletsRepository {
     return this.walletsRepository.findOne({
       where: { id },
     });
+  }
+
+  async create({
+    collaborator_id,
+    gcbits,
+  }: RegisterWalletDTO): Promise<Wallet> {
+    const wallet: Wallet = this.walletsRepository.create({
+      collaborator_id,
+      gcbits,
+    });
+
+    return this.walletsRepository.save(wallet);
   }
 
   async updateGcbits({ id, gcbits }: UpdateGcbitsDTO): Promise<Wallet> {
