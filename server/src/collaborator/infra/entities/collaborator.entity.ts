@@ -12,6 +12,9 @@ export class Collaborator {
   @Column()
   email: string;
 
+  @Column()
+  password: string;
+
   constructor() {
     if (!this.id) this.id = randomUUID();
   }
