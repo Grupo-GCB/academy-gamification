@@ -1,5 +1,5 @@
-import { UpdateGcbitsDTO } from '@wallet/dto';
-import { Wallet } from '@wallet/infra/typeorm/entities/wallet.entity';
+import { UpdateGcbitsDTO } from '@collaborator/dto';
+import { Wallet } from '@collaborator/infra/entities/wallet.entity';
 
 export abstract class IWalletsRepository {
   abstract findOne(id: string): Promise<Wallet>;

@@ -24,7 +24,7 @@ export class Wallet {
   gcbits: number;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at?: Date;
 
   constructor() {
     if (!this.id) this.id = randomUUID();

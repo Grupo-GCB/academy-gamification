@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Wallet } from '@wallet/infra/typeorm/entities/wallet.entity';
-import { UpdateGcbitsDTO } from '@wallet/dto';
+import { Wallet } from '@collaborator/infra/entities/wallet.entity';
+import { UpdateGcbitsDTO } from '@collaborator/dto/update-gcbits-dto'/
 
 @Injectable()
 export class WalletsRepository {
