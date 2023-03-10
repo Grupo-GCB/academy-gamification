@@ -1,4 +1,4 @@
-import { CreateCollaboratorDto } from '@collaborator/dto';
+import { RegisterCollaboratorDTO } from '@collaborator/dto';
 import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 import { ICollaboratorsRepository } from '@collaborator/interfaces/ICollaboratorRepository';
 
@@ -7,7 +7,7 @@ export class InMemoryCollaboratorRepository
 {
   collaborators: Collaborator[] = [];
 
-  async create(data: CreateCollaboratorDto): Promise<Collaborator> {
+  async create(data: RegisterCollaboratorDTO): Promise<Collaborator> {
     const collaborator: Collaborator = Object.assign(new Collaborator(), data);
 
     this.collaborators.push(collaborator);
