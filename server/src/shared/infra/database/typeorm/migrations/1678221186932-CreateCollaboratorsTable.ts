@@ -23,6 +23,11 @@ export class CreateCollaboratorsTable1678221186932
             type: 'varchar',
             isNullable: false,
           },
+          {
+            name: 'password',
+            type: 'varchar',
+            isNullable: false,
+          },
         ],
       }),
     );
