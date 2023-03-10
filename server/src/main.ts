@@ -15,6 +15,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('collaborations')
     .addTag('transactions')
+    .addTag('collaborators')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
