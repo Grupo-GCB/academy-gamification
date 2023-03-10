@@ -1,4 +1,4 @@
-import { CreateCollaboratorDto } from '@collaborator/dto';
+import { RegisterCollaboratorDTO } from '@collaborator/dto';
 import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 import { IWalletsRepository } from '@collaborator/interfaces';
 import { ICollaboratorsRepository } from '@collaborator/interfaces/ICollaboratorRepository';
@@ -11,7 +11,7 @@ export class RegisterCollaborator {
     private walletsRepository: IWalletsRepository,
   ) {}
 
-  async execute(data: CreateCollaboratorDto): Promise<Collaborator> {
+  async execute(data: RegisterCollaboratorDTO): Promise<Collaborator> {
     const collaborator = await this.collaboratorRepository.create(data);
     const walletData = {
       collaborator_id: collaborator.id,
