@@ -3,10 +3,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdateGcbitsDTO } from '@wallet/dto';
-import { Wallet } from '@wallet/infra/typeorm/entities/wallet.entity';
 
-import { IWalletsRepository } from '@wallet/interfaces';
+import { UpdateGcbitsDTO } from '@collaborator/dto';
+import { Wallet } from '@collaborator/infra/entities/wallet.entity';
+
+import { IWalletsRepository } from '@collaborator/interfaces';
 
 @Injectable()
 export class UpdateGcbits {
