@@ -53,6 +53,11 @@ export class CreateTransactionsTables1678216709234
             isNullable: false,
           },
           {
+            name: 'description',
+            type: 'string',
+            isNullable: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
