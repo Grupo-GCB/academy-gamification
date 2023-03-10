@@ -6,7 +6,7 @@ import {
 } from '@nestjs/swagger';
 
 import { UpdateGcbits, RegisterCollaborator } from '@collaborator/use-cases';
-import { UpdateGcbitsDTO, CreateCollaboratorDto } from '@collaborator/dto';
+import { UpdateGcbitsDTO, RegisterCollaboratorDTO } from '@collaborator/dto';
 import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 import { Wallet } from '@collaborator/infra/entities/wallet.entity';
 
@@ -28,7 +28,7 @@ export class CollaboratorsController {
   @Post()
   createCollaborator(
     @Body()
-    data: CreateCollaboratorDto,
+    data: RegisterCollaboratorDTO,
   ): Promise<Collaborator> {
     return this.registerCollaborator.execute(data);
   }
