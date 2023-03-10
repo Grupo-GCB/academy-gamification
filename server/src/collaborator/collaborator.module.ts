@@ -8,9 +8,10 @@ import { ICollaboratorsRepository } from './interfaces/ICollaboratorRepository';
 import { CollaboratorsRepository } from './infra/repositories/collaborators.repository';
 import { IWalletsRepository } from './interfaces';
 import { WalletsRepository } from './infra/repositories/wallets.repository';
+import { Wallet } from './infra/entities/wallet.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Collaborator])],
+  imports: [TypeOrmModule.forFeature([Collaborator, Wallet])],
   controllers: [CollaboratorsController],
   providers: [
     RegisterCollaborator,
