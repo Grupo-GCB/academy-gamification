@@ -26,7 +26,6 @@
       "@academys/*": ["academys/*"],
       "@collaborator/*": ["collaborator/*"],
       "@transactions/*": ["transactions/*"],
-      "@wallet/*": ["wallet/*"],
       "@/*": ["*"]
     }
   }
