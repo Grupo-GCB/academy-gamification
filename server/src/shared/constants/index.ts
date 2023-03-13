@@ -21,3 +21,9 @@ export enum TransactionReasons {
   REDEEM = 'REDEEM',
   PENALTY = 'PENALTY',
 }
+
+export enum UserRoles {
+  COLLABORATOR = 'COLLABORATOR',
+  ACADEMY = 'ACADEMY',
+  ADMIN = 'ADMIN',
+}
