@@ -3,25 +3,40 @@ import {
   BusinessUnits,
   CollaborationsStatus,
   CollaborationsTypes,
+  UserRoles,
 } from '@shared/constants';
+import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { RegisterCollaboration } from './register-collaboration';
 
 describe('Register a collaboration', () => {
   let inMemoryCollaborationsRepository: InMemoryCollaborationsRepository;
+  let inMemoryUsersRepository: InMemoryUsersRepository;
 
   let sut: RegisterCollaboration;
 
   beforeEach(() => {
     inMemoryCollaborationsRepository = new InMemoryCollaborationsRepository();
 
-    sut = new RegisterCollaboration(inMemoryCollaborationsRepository);
+    inMemoryUsersRepository = new InMemoryUsersRepository();
+
+    sut = new RegisterCollaboration(
+      inMemoryCollaborationsRepository,
+      inMemoryUsersRepository,
+    );
   });
 
   it('should be able to register a collaboration', async () => {
+    const user = inMemoryUsersRepository.create({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      role: UserRoles.COLLABORATOR,
+    });
+
     const collaboration = await sut.execute({
       type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
-      collaborator_id: '1',
+      collaborator_id: (await user).id,
       status: CollaborationsStatus.PENDING,
       business_unit: BusinessUnits.ADIANTE,
     });
@@ -30,7 +45,7 @@ describe('Register a collaboration', () => {
       expect.objectContaining({
         type: CollaborationsTypes.CODEREVIEW,
         url: collaboration.url,
-        collaborator_id: '1',
+        collaborator_id: (await user).id,
         id: collaboration.id,
         status: CollaborationsStatus.PENDING,
         business_unit: BusinessUnits.ADIANTE,
@@ -51,5 +66,24 @@ describe('Register a collaboration', () => {
         business_unit: collaboration.business_unit,
       },
     ]);
+  });
+
+  it('should not be able to register a collaboration if user is not a collaborator', async () => {
+    const user = inMemoryUsersRepository.create({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      role: UserRoles.ACADEMY,
+    });
+
+    await expect(
+      sut.execute({
+        type: CollaborationsTypes.CODEREVIEW,
+        url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
+        collaborator_id: (await user).id,
+        status: CollaborationsStatus.PENDING,
+        business_unit: BusinessUnits.ADIANTE,
+      }),
+    ).rejects.toThrow('You should must be a collaborator');
   });
 });
