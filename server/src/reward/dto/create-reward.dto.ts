@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateRewardDTO {
   @IsString()
   @IsNotEmpty()
@@ -30,4 +30,8 @@ export class CreateRewardDTO {
     required: true,
   })
   value: number;
+
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
 }

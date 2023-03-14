@@ -12,11 +12,12 @@ export class RewardsRepository {
     private rewardsRepository: Repository<Reward>,
   ) {}
 
-  async create({ name, description, value }: CreateRewardDTO) {
+  async create({ name, description, value, imageUrl }: CreateRewardDTO) {
     const reward: Reward = this.rewardsRepository.create({
       name,
       description,
       value,
+      imageUrl,
     });
 
     return this.rewardsRepository.save(reward);

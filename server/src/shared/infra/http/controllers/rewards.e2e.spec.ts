@@ -11,6 +11,7 @@ describe('Rewards Controller', () => {
       name: 'Créditor PeerBr',
       description: 'Créditor a serem utilizados no PeerBr',
       value: 5000,
+      imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
     }),
   };
 

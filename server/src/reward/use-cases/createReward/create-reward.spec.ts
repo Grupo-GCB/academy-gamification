@@ -16,6 +16,7 @@ describe('Create reward', () => {
       name: 'Créditos PeerBr',
       description: 'Créditos que podem ser utilizados dentro do PeerBr',
       value: 50000,
+      imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
     });
 
     expect(reward).toEqual(
@@ -23,6 +24,7 @@ describe('Create reward', () => {
         name: 'Créditos PeerBr',
         description: 'Créditos que podem ser utilizados dentro do PeerBr',
         value: 50000,
+        imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
       }),
     );
   });
