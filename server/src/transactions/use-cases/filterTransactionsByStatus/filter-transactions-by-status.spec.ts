@@ -29,6 +29,7 @@ describe('Filter transactions by status', () => {
   it('should return all transactions that matches the passed status', async () => {
     const transaction1 = await inMemoryTransactionsRepository.register({
       collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
+      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
       business_unit: BusinessUnits.ADIANTE,
       reason: TransactionReasons.COLLABORATION,
       type: 'Code_Review',
@@ -42,6 +43,7 @@ describe('Filter transactions by status', () => {
 
     const transaction2 = await inMemoryTransactionsRepository.register({
       collaborator_id: 'c4672407-a0aa-41a8-af19-3e77908b1962',
+      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
       business_unit: BusinessUnits.ADIANTE,
       reason: TransactionReasons.COLLABORATION,
       type: 'Code_Review',
