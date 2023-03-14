@@ -26,4 +26,8 @@ export class RewardsRepository {
   async listAll(): Promise<Reward[]> {
     return this.rewardsRepository.find();
   }
+
+  async findOne(id: string): Promise<Reward> {
+    return this.rewardsRepository.findOne({ where: { id } });
+  }
 }
