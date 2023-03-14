@@ -11,9 +11,10 @@ import {
   UpdateStatus,
 } from '@collaborations/use-cases';
 import { CollaborationsController } from '@shared/infra/http/controllers/collaborations.controller';
+import { UsersModule } from '@users/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Collaboration])],
+  imports: [TypeOrmModule.forFeature([Collaboration]), UsersModule],
   controllers: [CollaborationsController],
   providers: [
     FilterByStatus,
