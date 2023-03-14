@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   HttpStatus,
   Param,
   Post,
@@ -10,6 +12,7 @@ import {
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -20,6 +23,7 @@ import { Reward } from '@reward/infra/entities/reward.entity';
 import { IUpdateRewardRequest } from '@reward/interfaces';
 import {
   CreateReward,
+  DeleteReward,
   FindOne,
   ListAllRewards,
   UpdateReward,
@@ -33,6 +37,7 @@ export class RewardsController {
     private listAllRewards: ListAllRewards,
     private findOneReward: FindOne,
     private updateReward: UpdateReward,
+    private deleteReward: DeleteReward,
   ) {}
 
   @ApiCreatedResponse({
@@ -86,5 +91,19 @@ export class RewardsController {
     @Body() data: IUpdateRewardRequest,
   ): Promise<Reward> {
     return this.updateReward.execute(id, data);
+  }
+
+  @ApiNoContentResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Médico deletado com sucesso!',
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar o médico!',
+  })
+  @HttpCode(204)
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.deleteReward.execute(id);
   }
 }
