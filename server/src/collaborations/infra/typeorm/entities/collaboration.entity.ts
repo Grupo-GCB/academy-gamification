@@ -27,6 +27,9 @@ export class Collaboration {
   @Column()
   collaborator_id: string;
 
+  @Column({ default: null })
+  admin_id?: string;
+
   @Column()
   business_unit: BusinessUnits;
 
