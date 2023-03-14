@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
-import { CreateReward, ListAllRewards } from '@reward/use-cases';
+import { CreateReward, FindOne, ListAllRewards } from '@reward/use-cases';
 import { AppModule } from '@/app.module';
 
 describe('Rewards Controller', () => {
@@ -33,6 +33,10 @@ describe('Rewards Controller', () => {
     ],
   };
 
+  const findOne = {
+    execute: () => '10f47e61-65c0-48a3-9554-23f022750a66',
+  };
+
   let app: INestApplication;
 
   let moduleRef: TestingModule;
@@ -45,6 +49,8 @@ describe('Rewards Controller', () => {
       .useValue(createReward)
       .overrideProvider(ListAllRewards)
       .useValue(listAllRewards)
+      .overrideProvider(FindOne)
+      .useValue(findOne)
       .compile();
     app = moduleRef.createNestApplication();
     await app.init();
@@ -69,6 +75,15 @@ describe('Rewards Controller', () => {
         .get('/rewards')
         .expect(200)
         .expect(listAllRewards.execute());
+    });
+  });
+
+  describe('Find one reward', () => {
+    it('should return a reward', () => {
+      return request(app.getHttpServer())
+        .get('/rewards/10f47e61-65c0-48a3-9554-23f022750a66')
+        .expect(200)
+        .expect(findOne.execute());
     });
   });
 });
