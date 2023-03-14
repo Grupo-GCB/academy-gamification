@@ -3,7 +3,7 @@ import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
-import { RegisterUser } from '@users/use-cases/registerUser/register-user';
+import { RegisterUser } from '@users/use-cases';
 
 @Controller('users')
 export class UsersController {

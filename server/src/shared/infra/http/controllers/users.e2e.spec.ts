@@ -4,7 +4,7 @@ import { Roles } from '@shared/constants';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { RegisterUser } from '@users/use-cases/registerUser/register-user';
+import { RegisterUser } from '@users/use-cases';
 
 describe('Users Controller', () => {
   const registerUser = {
