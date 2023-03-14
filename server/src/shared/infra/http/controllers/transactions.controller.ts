@@ -72,11 +72,12 @@ export class TransactionsController {
   })
   @Put()
   updateStatus(
-    @Body() { id, newStatus }: UpdateStatusDTO,
+    @Body() { id, newStatus, user_id }: UpdateStatusDTO,
   ): Promise<Transaction> {
     return this.updateTransactionStatus.execute({
       id,
       newStatus,
+      user_id,
     });
   }
 

@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import {
   Column,
   CreateDateColumn,
@@ -7,14 +8,13 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { randomUUID } from 'node:crypto';
 
+import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 import {
   BusinessUnits,
   CollaborationsStatus,
   TransactionReasons,
 } from '@shared/constants';
-import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 
 @Entity('transactions')
 export class Transaction {
@@ -25,6 +25,9 @@ export class Transaction {
   @JoinColumn({ name: 'collaborator_id' })
   @Column()
   collaborator_id: string;
+
+  @Column()
+  user_id: string;
 
   @Column()
   business_unit: BusinessUnits;
