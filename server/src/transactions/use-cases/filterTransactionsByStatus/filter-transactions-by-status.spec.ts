@@ -1,6 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
 
-import { BusinessUnits, Reasons, Status } from '@shared/constants';
+import {
+  Academys,
+  BusinessUnits,
+  CollaborationsTypes,
+  Reasons,
+  Status,
+} from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FilterTransactionsByStatus } from '@transactions/use-cases';
 
@@ -24,29 +30,21 @@ describe('Filter transactions by status', () => {
 
   it('should return all transactions that matches the passed status', async () => {
     const transaction1 = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
+      type: CollaborationsTypes.CODEREVIEW,
       status: Status.APPROVED,
-      gcbits: 5000,
+      gcbits: 3000,
     });
 
     const transaction2 = await inMemoryTransactionsRepository.register({
-      collaborator_id: 'c4672407-a0aa-41a8-af19-3e77908b1962',
-      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
+      collaborator: 'thiago.ribeiro@gcbinvestimentos.com',
+      responsible: Academys.ACADEMY4,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'b439414a-bf83-47d9-a0aa-4435c124ff8f',
-        'aee21299-0891-4c8a-98e9-1c9ae7d152cb',
-      ],
+      type: CollaborationsTypes.FEEDBACK,
       status: Status.PENDING,
       gcbits: 7000,
     });
