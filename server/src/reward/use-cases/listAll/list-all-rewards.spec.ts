@@ -12,13 +12,6 @@ describe('List all rewards', () => {
 
   it('should be able to list all rewards', async () => {
     const rewardOne = await inMemoryRewardsRepository.create({
-      name: 'Créditor PeerBr',
-      description: 'Créditos que podem ser utilizados no PeerBr',
-      value: 5000,
-      imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
-    });
-
-    const rewardTwo = await inMemoryRewardsRepository.create({
       name: 'Projeto Simples',
       description:
         'Possibilidade de implementação de um projeto de nível simples',
@@ -26,9 +19,16 @@ describe('List all rewards', () => {
       imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/450.jpg',
     });
 
+    const rewardTwo = await inMemoryRewardsRepository.create({
+      name: 'Créditos PeerBr',
+      description: 'Créditos que podem ser utilizados no PeerBr',
+      value: 5000,
+      imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
+    });
+
     const rewards = await sut.execute();
 
-    expect(rewards).toEqual(expect.arrayContaining([rewardOne, rewardTwo]));
+    expect(rewards).toEqual(expect.arrayContaining([rewardTwo, rewardOne]));
   });
 
   it('should be able to return a empty array', async () => {
