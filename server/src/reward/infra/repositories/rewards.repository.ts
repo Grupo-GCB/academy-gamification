@@ -22,4 +22,8 @@ export class RewardsRepository {
 
     return this.rewardsRepository.save(reward);
   }
+
+  async listAll(): Promise<Reward[]> {
+    return this.rewardsRepository.find();
+  }
 }
