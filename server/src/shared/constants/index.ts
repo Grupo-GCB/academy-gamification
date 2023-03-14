@@ -11,7 +11,7 @@ export enum CollaborationsTypes {
   DOUBTS = 'DOUBTS',
   PAIRPROGRAMMING = 'PAIR_PROGRAMMING',
   FEEDBACK = 'FEEDBACK',
-  CEREMONY = 'CEREMONY',
+  TEAMCEREMONY = 'TEAM_CEREMONY',
 }
 
 export enum ReedemTypes {
