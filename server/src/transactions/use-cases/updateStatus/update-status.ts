@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UserRoles } from '@shared/constants';
+import { Roles } from '@shared/constants';
 
 import { UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
@@ -28,8 +28,8 @@ export class UpdateStatus {
 
     const findById = new FindById(this.usersRepository);
     const user = findById.execute(user_id);
-    if ((await user).role != UserRoles.ADMIN) {
-      throw new Error('You should must be a administrator');
+    if ((await user).role != Roles.ADMIN) {
+      throw new Error('you must be a administrator');
     }
 
     const transaction: Transaction = await this.transactionsRepository.findOne(

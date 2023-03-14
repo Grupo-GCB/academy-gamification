@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
-import { CollaborationsStatus } from '@shared/constants';
+import { Status } from '@shared/constants';
 
 export class UpdateStatusDTO {
   @IsNotEmpty()
@@ -25,12 +25,12 @@ export class UpdateStatusDTO {
   user_id: string;
 
   @IsNotEmpty()
-  @IsEnum(CollaborationsStatus)
+  @IsEnum(Status)
   @ApiProperty({
     example: 'PENDING',
     description: 'Status da transação que irá ser atualizado',
     type: 'CollaborationStatus',
     required: true,
   })
-  newStatus: CollaborationsStatus;
+  newStatus: Status;
 }

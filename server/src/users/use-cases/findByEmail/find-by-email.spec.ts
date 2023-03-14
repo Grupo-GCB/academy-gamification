@@ -1,25 +1,25 @@
-import { UserRoles } from '@shared/constants';
+import { Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { FindById } from './find-by-id';
+import { FindByEmail } from './find-by-email';
 
 describe('Find an user by id', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
-  let sut: FindById;
+  let sut: FindByEmail;
 
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
-    sut = new FindById(inMemoryUsersRepository);
+    sut = new FindByEmail(inMemoryUsersRepository);
   });
 
-  it('should be able to find an user by id', async () => {
+  it('should be able to find an user by email', async () => {
     const user = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
-      role: UserRoles.ACADEMY,
+      role: Roles.ACADEMY,
     });
 
-    const userFound = await sut.execute(user.id);
+    const userFound = await sut.execute(user.email);
 
     expect(userFound).toEqual(
       expect.objectContaining({
@@ -34,7 +34,7 @@ describe('Find an user by id', () => {
 
   it('should not be able to find a nonexistent user', async () => {
     await expect(async () => {
-      await sut.execute('edee8ffa-7c91-46f0-9fa6-4229f9b76768');
+      await sut.execute('kayke.wuelta@gcbinvestimentos.com');
     }).rejects.toThrow('User does not exist');
   });
 });

@@ -3,11 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import {
-  BusinessUnits,
-  CollaborationsStatus,
-  TransactionReasons,
-} from '@shared/constants';
+import { BusinessUnits, Reasons, Status } from '@shared/constants';
 import {
   FilterTransactionsByStatus,
   FindById,
@@ -20,13 +16,13 @@ describe('Transaction Controller', () => {
     execute: () => ({
       collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
       business_unit: BusinessUnits.ADIANTE,
-      reason: TransactionReasons.COLLABORATION,
+      reason: Reasons.COLLABORATION,
       type: 'Code_Review',
       academys: [
         'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
         '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
       ],
-      status: CollaborationsStatus.APPROVED,
+      status: Status.APPROVED,
       gcbits: 5000,
     }),
   };
@@ -38,13 +34,13 @@ describe('Transaction Controller', () => {
   const updateStatus = {
     execute: () => ({
       id: '10f47e61-65c0-48a3-9554-23f022750a66',
-      newStatus: CollaborationsStatus.APPROVED,
+      newStatus: Status.APPROVED,
     }),
   };
 
   const filterTransactionsByStatus = {
     execute: () => ({
-      status: CollaborationsStatus.PENDING,
+      status: Status.PENDING,
     }),
   };
 

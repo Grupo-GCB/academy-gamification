@@ -4,36 +4,41 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
 
 import {
+  Academys,
+  Admin,
   BusinessUnits,
-  CollaborationsStatus,
-  TransactionReasons,
+  CollaborationsTypes,
+  Reasons,
+  ReedemTypes,
+  Status,
 } from '@shared/constants';
 
 export class RegisterTransactionDTO {
   @IsNotEmpty()
   @IsUUID()
   @ApiProperty({
-    example: 'e7c2956b-e528-4ed1-9470-ce8d4f10cabc',
-    description: 'Id do colaborador que está envolvido na transação',
+    example: 'gustavo.wuelta@gcbinvestimentos.com',
+    description: 'Email do colaborador que está envolvido na transação',
     type: 'string',
     required: true,
   })
-  collaborator_id: string;
+  collaborator: string;
 
   @IsNotEmpty()
-  @IsUUID()
+  @IsEnum([Admin, Academys])
   @ApiProperty({
-    example: 'e7c2956b-e528-4ed1-9470-ce8d4f10cabc',
-    description: 'Id do usuário que está registrando a transação',
+    example: 'kayke.fujinaka@gcbinvestimentos.com',
+    description: 'Email do usuário que está registrando a transação',
     type: 'string',
     required: true,
   })
-  user_id: string;
+  responsible: Admin | Academys;
 
   @IsNotEmpty()
   @IsEnum(BusinessUnits)
@@ -46,46 +51,46 @@ export class RegisterTransactionDTO {
   business_unit: BusinessUnits;
 
   @IsNotEmpty()
-  @IsEnum(TransactionReasons)
+  @IsEnum(Reasons)
   @ApiProperty({
     example: 'REDEEM',
     description: 'Razão pela qual a transação existe',
-    type: 'TransactionReasons',
+    type: 'Reasons',
     required: true,
   })
-  reason: TransactionReasons;
+  reason: Reasons;
 
   @IsNotEmpty()
-  @IsString()
+  @IsEnum([CollaborationsTypes, ReedemTypes])
   @ApiProperty({
-    example: 'Participação em comitê academy',
+    example: 'PAIR_PROGRAMMING',
     description: 'Tipo da transação realizada',
     type: 'string',
     required: true,
   })
-  type: string;
+  type: CollaborationsTypes | ReedemTypes;
 
   @IsNotEmpty()
   @IsArray()
   @IsString({ each: true })
   @ApiProperty({
     example:
-      '["c13f866c-2ba0-42b7-83c9-50bb61c5c167", "70c2be1a-ef21-4ae7-a8d0-375ddf026920"]',
+      '["vitor.freitas@gcbinvestimentos.com", "leonardo.costa@gcbinvestimentos.com"]',
     description: 'Academys que foram ajudados nesta transação',
     type: 'string',
     required: true,
   })
-  academys: string[];
+  academys: Academys[];
 
   @IsNotEmpty()
-  @IsEnum(CollaborationsStatus)
+  @IsEnum(Status)
   @ApiProperty({
     example: 'PENDING',
     description: 'Status em que a transação está no momento',
-    type: 'CollaborationsStatus',
+    type: 'Status',
     required: true,
   })
-  status: CollaborationsStatus;
+  status: Status;
 
   @IsNotEmpty()
   @IsNumber()
@@ -96,4 +101,15 @@ export class RegisterTransactionDTO {
     required: true,
   })
   gcbits: number;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    example:
+      'Transação de 3000 Gcbits para gustavo.wuelta@gcbinvestimentos.com por Code Review',
+    description: 'Descrição da transação',
+    type: 'number',
+    required: true,
+  })
+  description: string;
 }

@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserRoles } from '@shared/constants';
+import { Roles } from '@shared/constants';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
@@ -12,7 +12,7 @@ describe('Users Controller', () => {
       name: 'John Doe',
       email: 'john.doe@gmail.com',
       passowrd: 'johndoe123',
-      role: UserRoles.ADMIN,
+      role: Roles.ADMIN,
     }),
   };
 

@@ -9,16 +9,12 @@ import {
   RegisterCollaboration,
   UpdateStatus,
 } from '@collaborations/use-cases';
-import {
-  BusinessUnits,
-  CollaborationsStatus,
-  CollaborationsTypes,
-} from '@shared/constants';
+import { BusinessUnits, CollaborationsTypes, Status } from '@shared/constants';
 
 describe('Collaborations Controller', () => {
   const filterByStatus = {
     execute: () => ({
-      status: CollaborationsStatus.PENDING,
+      status: Status.PENDING,
     }),
   };
 
@@ -29,7 +25,7 @@ describe('Collaborations Controller', () => {
   const updateStatus = {
     execute: () => ({
       collaboration_id: '10f47e61-65c0-48a3-9554-23f022750a66',
-      newStatus: CollaborationsStatus.APPROVED,
+      newStatus: Status.APPROVED,
     }),
   };
 
@@ -40,7 +36,7 @@ describe('Collaborations Controller', () => {
       type: CollaborationsTypes.CODEREVIEW,
       url: 'https://github.com/Grupo-GCB/academy-gamification/pull/14',
       collaborator_id: '1',
-      status: CollaborationsStatus.PENDING,
+      status: Status.PENDING,
       businnesUnity: BusinessUnits.ADIANTE,
     }),
   };

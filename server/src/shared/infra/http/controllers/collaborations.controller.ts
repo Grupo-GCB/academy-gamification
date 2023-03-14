@@ -23,7 +23,7 @@ import {
   RegisterCollaboration,
   UpdateStatus,
 } from '@collaborations/use-cases';
-import { CollaborationsStatus } from '@shared/constants';
+import { Status } from '@shared/constants';
 
 @Controller('collaborations')
 export class CollaborationsController {
@@ -54,9 +54,7 @@ export class CollaborationsController {
     status: HttpStatus.OK,
   })
   @Get()
-  filter(
-    @Query('status') status: CollaborationsStatus,
-  ): Promise<Collaboration[]> {
+  filter(@Query('status') status: Status): Promise<Collaboration[]> {
     return this.filterByStatus.execute({ status: status });
   }
 

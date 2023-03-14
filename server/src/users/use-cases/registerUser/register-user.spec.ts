@@ -1,4 +1,4 @@
-import { UserRoles } from '@shared/constants';
+import { Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { RegisterUser } from './register-user';
 
@@ -16,7 +16,7 @@ describe('Register collaborator', () => {
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
-      role: UserRoles.ACADEMY,
+      role: Roles.ACADEMY,
     });
 
     expect(user).toEqual(
@@ -24,7 +24,7 @@ describe('Register collaborator', () => {
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
-        role: UserRoles.ACADEMY,
+        role: Roles.ACADEMY,
       }),
     );
   });

@@ -9,43 +9,50 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
 import {
+  Academys,
+  Admin,
   BusinessUnits,
-  CollaborationsStatus,
-  TransactionReasons,
+  CollaborationsTypes,
+  Reasons,
+  ReedemTypes,
+  Status,
 } from '@shared/constants';
+import { User } from '@users/infra/entities/user.entity';
 
 @Entity('transactions')
 export class Transaction {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne(() => Collaborator, (collaborator) => collaborator.id)
-  @JoinColumn({ name: 'collaborator_id' })
+  @ManyToOne(() => User, (user) => user.email)
+  @JoinColumn({ name: 'email' })
   @Column()
-  collaborator_id: string;
+  collaborator: string;
 
   @Column()
-  user_id: string;
+  responsible: Academys | Admin;
 
   @Column()
   business_unit: BusinessUnits;
 
   @Column()
-  reason: TransactionReasons;
+  reason: Reasons;
 
   @Column()
-  type: string;
+  type?: CollaborationsTypes | ReedemTypes;
 
-  @Column('text', { array: true })
-  academys: string[];
+  // @Column('enum', { array: true })
+  // academys: Academys[];
 
   @Column()
-  status: CollaborationsStatus;
+  status: Status;
 
   @Column()
   gcbits: number;
+
+  @Column()
+  description?: string;
 
   @CreateDateColumn()
   created_at?: Date;

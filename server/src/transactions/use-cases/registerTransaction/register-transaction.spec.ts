@@ -1,9 +1,4 @@
-import {
-  BusinessUnits,
-  CollaborationsStatus,
-  TransactionReasons,
-  UserRoles,
-} from '@shared/constants';
+import { BusinessUnits, Reasons, Roles, Status } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { RegisterTransaction } from './register-transaction';
@@ -29,20 +24,20 @@ describe('Register a transaction', () => {
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
-      role: UserRoles.ADMIN,
+      role: Roles.ADMIN,
     });
 
     const transaction = await sut.execute({
       collaborator_id: '13f866c-2ba0-42b7-83c9-50bb61c5c167',
       user_id: (await user).id,
       business_unit: BusinessUnits.ADIANTE,
-      reason: TransactionReasons.COLLABORATION,
+      reason: Reasons.COLLABORATION,
       type: 'Participação em comitê academy',
       academys: [
         'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
         '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
       ],
-      status: CollaborationsStatus.APPROVED,
+      status: Status.APPROVED,
       gcbits: 3000,
     });
 
@@ -66,7 +61,7 @@ describe('Register a transaction', () => {
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
-      role: UserRoles.COLLABORATOR,
+      role: Roles.COLLABORATOR,
     });
 
     await expect(
@@ -74,15 +69,15 @@ describe('Register a transaction', () => {
         collaborator_id: '13f866c-2ba0-42b7-83c9-50bb61c5c167',
         user_id: (await user).id,
         business_unit: BusinessUnits.ADIANTE,
-        reason: TransactionReasons.COLLABORATION,
+        reason: Reasons.COLLABORATION,
         type: 'Participação em comitê academy',
         academys: [
           'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
           '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
         ],
-        status: CollaborationsStatus.APPROVED,
+        status: Status.APPROVED,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('Collaborators are not able to record transactions');
+    ).rejects.toThrow('You do not have permission');
   });
 });

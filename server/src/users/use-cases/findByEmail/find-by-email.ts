@@ -4,11 +4,11 @@ import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
 @Injectable()
-export class FindById {
+export class FindByEmail {
   constructor(private usersRepository: IUsersRepository) {}
 
-  async execute(id: string): Promise<User> {
-    const user: User = await this.usersRepository.findOne(id);
+  async execute(email: string): Promise<User> {
+    const user: User = await this.usersRepository.findOne(email);
 
     if (!user) throw new NotFoundException('User does not exist');
 

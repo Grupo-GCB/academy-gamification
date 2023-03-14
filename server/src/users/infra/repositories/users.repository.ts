@@ -1,9 +1,11 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Injectable } from '@nestjs/common';
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
 
+@Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(User)
@@ -24,5 +26,11 @@ export class UsersRepository {
     });
 
     return this.usersRepository.save(user);
+  }
+
+  async findOne(id: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: { id },
+    });
   }
 }

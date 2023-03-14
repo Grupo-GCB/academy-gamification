@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import {
+  FilterTransactionsByStatusDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
-  FilterTransactionsByStatusDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
@@ -17,22 +17,24 @@ export class TransactionsRepository {
   ) {}
 
   async register({
-    collaborator_id,
+    collaborator,
+    responsible,
     business_unit,
     reason,
     type,
-    academys,
     status,
     gcbits,
+    description,
   }: RegisterTransactionDTO): Promise<Transaction> {
-    const transaction: Transaction = await this.transactionsRepository.create({
-      collaborator_id,
+    const transaction: Transaction = this.transactionsRepository.create({
+      collaborator,
+      responsible,
       business_unit,
       reason,
       type,
-      academys,
       status,
       gcbits,
+      description,
     });
 
     return this.transactionsRepository.save(transaction);

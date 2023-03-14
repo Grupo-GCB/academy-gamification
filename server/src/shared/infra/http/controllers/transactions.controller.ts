@@ -14,7 +14,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { CollaborationsStatus } from '@shared/constants';
+import { Status } from '@shared/constants';
 
 import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
@@ -85,9 +85,7 @@ export class TransactionsController {
     status: HttpStatus.OK,
   })
   @Get()
-  filterByStatus(
-    @Query('status') status: CollaborationsStatus,
-  ): Promise<Transaction[]> {
+  filterByStatus(@Query('status') status: Status): Promise<Transaction[]> {
     return this.filterTransactionsByStatus.execute({ status });
   }
 }

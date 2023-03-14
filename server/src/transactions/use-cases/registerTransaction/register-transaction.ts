@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { UserRoles } from '@shared/constants';
+import { Roles } from '@shared/constants';
 import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
-import { FindById } from '@users/use-cases/findById/find-by-id';
+import { FindByEmail } from '@users/use-cases/findByEmail/find-by-email';
 
 @Injectable()
 export class RegisterTransaction {
@@ -15,10 +15,10 @@ export class RegisterTransaction {
   ) {}
 
   async execute(data: RegisterTransactionDTO): Promise<Transaction> {
-    const findById = new FindById(this.usersRepository);
-    const user = findById.execute(data.user_id);
-    if ((await user).role == UserRoles.COLLABORATOR) {
-      throw new Error('Collaborators are not able to record transactions');
+    const findByEmail = new FindByEmail(this.usersRepository);
+    const responsible = findByEmail.execute(data.responsible);
+    if ((await responsible).role == Roles.COLLABORATOR) {
+      throw new UnauthorizedException('You do not have permission');
     }
     return this.transactionsRepository.register(data);
   }

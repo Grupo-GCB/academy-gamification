@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { UserRoles } from '@shared/constants';
+import { Roles } from '@shared/constants';
 
 @Entity('users')
 export class User {
@@ -25,7 +25,7 @@ export class User {
   password: string;
 
   @Column()
-  role: UserRoles;
+  role: Roles;
 
   @CreateDateColumn()
   created_at?: Date;
