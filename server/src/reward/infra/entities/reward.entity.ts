@@ -15,6 +15,9 @@ export class Reward {
   @Column()
   value: number;
 
+  @Column()
+  imageUrl: string;
+
   constructor() {
     if (!this.id) this.id = randomUUID();
   }
