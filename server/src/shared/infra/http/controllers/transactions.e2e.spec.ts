@@ -3,27 +3,32 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { BusinessUnits, Reasons, Status } from '@shared/constants';
+import {
+  Admin,
+  BusinessUnits,
+  CollaborationsTypes,
+  Reasons,
+  ReedemTypes,
+  Status,
+} from '@shared/constants';
 import {
   FilterTransactionsByStatus,
   FindById,
   RegisterTransaction,
   UpdateStatus,
 } from '@transactions/use-cases';
+import { FindAllTransactions } from '@transactions/use-cases/findAllTransactions/find-all-transactions';
 
 describe('Transaction Controller', () => {
   const registerTransaction = {
     execute: () => ({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Admin.ADMIN,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
+      type: CollaborationsTypes.CODEREVIEW,
       status: Status.APPROVED,
-      gcbits: 5000,
+      gcbits: 3000,
     }),
   };
 
@@ -31,17 +36,57 @@ describe('Transaction Controller', () => {
     execute: () => '648a036a-8fc7-4778-84ca-e73e79edb068',
   };
 
+  const findAllTransactions = {
+    execute: () => [
+      {
+        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        responsible: Admin.ADMIN,
+        business_unit: BusinessUnits.ADIANTE,
+        reason: Reasons.COLLABORATION,
+        type: CollaborationsTypes.CODEREVIEW,
+        status: Status.PENDING,
+        gcbits: 5000,
+      },
+      {
+        collaborator: 'flavio.marques@gcbinvestimentos.com',
+        responsible: Admin.ADMIN,
+        business_unit: BusinessUnits.PEERBR,
+        reason: Reasons.REDEEM,
+        type: ReedemTypes.ACADEMY,
+        status: Status.PENDING,
+        gcbits: -50000,
+      },
+    ],
+  };
+
   const updateStatus = {
     execute: () => ({
       id: '10f47e61-65c0-48a3-9554-23f022750a66',
-      newStatus: Status.APPROVED,
+      new_status: Status.APPROVED,
     }),
   };
 
   const filterTransactionsByStatus = {
-    execute: () => ({
-      status: Status.PENDING,
-    }),
+    execute: () => [
+      {
+        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        responsible: Admin.ADMIN,
+        business_unit: BusinessUnits.ADIANTE,
+        reason: Reasons.COLLABORATION,
+        type: CollaborationsTypes.CODEREVIEW,
+        status: Status.PENDING,
+        gcbits: 5000,
+      },
+      {
+        collaborator: 'flavio.marques@gcbinvestimentos.com',
+        responsible: Admin.ADMIN,
+        business_unit: BusinessUnits.PEERBR,
+        reason: Reasons.REDEEM,
+        type: ReedemTypes.ACADEMY,
+        status: Status.PENDING,
+        gcbits: -50000,
+      },
+    ],
   };
 
   let app: INestApplication;
@@ -58,6 +103,8 @@ describe('Transaction Controller', () => {
       .useValue(updateStatus)
       .overrideProvider(FilterTransactionsByStatus)
       .useValue(filterTransactionsByStatus)
+      .overrideProvider(FindAllTransactions)
+      .useValue(findAllTransactions)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -83,6 +130,15 @@ describe('Transaction Controller', () => {
         .get('/transactions/648a036a-8fc7-4778-84ca-e73e79edb068')
         .expect(200)
         .expect(findById.execute());
+    });
+  });
+
+  describe('Find all transactions', () => {
+    it('should return an array of transactions', async () => {
+      return request(app.getHttpServer())
+        .get('/transactions')
+        .expect(200)
+        .expect(findAllTransactions.execute());
     });
   });
 
