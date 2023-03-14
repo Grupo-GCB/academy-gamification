@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { RewardsRepository } from '@reward/infra/repositories/rewards.repository';
 import { IRewardsRepository } from '@reward/interfaces';
-import { CreateReward } from '@reward/use-cases';
+import { CreateReward, ListAllRewards } from '@reward/use-cases';
 import { Reward } from '@reward/infra/entities/reward.entity';
 import { RewardsController } from '@shared/infra/http/controllers/rewards.controller';
 
@@ -12,6 +12,7 @@ import { RewardsController } from '@shared/infra/http/controllers/rewards.contro
   controllers: [RewardsController],
   providers: [
     CreateReward,
+    ListAllRewards,
     {
       provide: IRewardsRepository,
       useClass: RewardsRepository,
