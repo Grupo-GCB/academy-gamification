@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsArray,
   IsEnum,
@@ -6,7 +7,6 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
 
 import {
   BusinessUnits,
@@ -24,6 +24,16 @@ export class RegisterTransactionDTO {
     required: true,
   })
   collaborator_id: string;
+
+  @IsNotEmpty()
+  @IsUUID()
+  @ApiProperty({
+    example: 'e7c2956b-e528-4ed1-9470-ce8d4f10cabc',
+    description: 'Id do usuário que está registrando a transação',
+    type: 'string',
+    required: true,
+  })
+  user_id: string;
 
   @IsNotEmpty()
   @IsEnum(BusinessUnits)
@@ -48,7 +58,7 @@ export class RegisterTransactionDTO {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    example: 'CODE_REVIEW',
+    example: 'Participação em comitê academy',
     description: 'Tipo da transação realizada',
     type: 'string',
     required: true,
