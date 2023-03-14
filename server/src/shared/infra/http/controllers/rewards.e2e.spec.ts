@@ -18,17 +18,17 @@ describe('Rewards Controller', () => {
   const listAllRewards = {
     execute: () => [
       {
-        name: 'Créditor PeerBr',
-        description: 'Créditos que podem ser utilizados no PeerBr',
-        value: 5000,
-        imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
-      },
-      {
         name: 'Projeto Simples',
         description:
           'Possibilidade de implementação de um projeto de nível simples',
         value: 10000,
         imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/450.jpg',
+      },
+      {
+        name: 'Créditos PeerBr',
+        description: 'Créditos que podem ser utilizados no PeerBr',
+        value: 5000,
+        imageUrl: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
       },
     ],
   };
