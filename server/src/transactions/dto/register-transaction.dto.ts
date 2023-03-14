@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsArray,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -68,19 +67,19 @@ export class RegisterTransactionDTO {
     type: 'string',
     required: true,
   })
-  type: CollaborationsTypes | ReedemTypes;
+  type?: CollaborationsTypes | ReedemTypes;
 
-  @IsNotEmpty()
-  @IsArray()
-  @IsString({ each: true })
-  @ApiProperty({
-    example:
-      '["vitor.freitas@gcbinvestimentos.com", "leonardo.costa@gcbinvestimentos.com"]',
-    description: 'Academys que foram ajudados nesta transação',
-    type: 'string',
-    required: true,
-  })
-  academys: Academys[];
+  // @IsNotEmpty()
+  // @IsArray()
+  // @IsString({ each: true })
+  // @ApiProperty({
+  //   example:
+  //     '["vitor.freitas@gcbinvestimentos.com", "leonardo.costa@gcbinvestimentos.com"]',
+  //   description: 'Academys que foram ajudados nesta transação',
+  //   type: 'string',
+  //   required: true,
+  // })
+  // academys: Academys[];
 
   @IsNotEmpty()
   @IsEnum(Status)
@@ -111,5 +110,5 @@ export class RegisterTransactionDTO {
     type: 'number',
     required: true,
   })
-  description: string;
+  description?: string;
 }
