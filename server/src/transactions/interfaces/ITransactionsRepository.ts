@@ -12,10 +12,12 @@ export abstract class ITransactionsRepository {
 
   abstract updateStatus({
     id,
-    newStatus,
+    new_status,
   }: UpdateStatusDTO): Promise<Transaction>;
 
   abstract filterByStatus({
     status,
   }: FilterTransactionsByStatusDTO): Promise<Transaction[]>;
+
+  abstract findAll(): Promise<Transaction[]>;
 }
