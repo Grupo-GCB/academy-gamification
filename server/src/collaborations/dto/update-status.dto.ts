@@ -15,6 +15,16 @@ export class UpdateStatusDTO {
   collaboration_id: string;
 
   @IsNotEmpty()
+  @IsUUID()
+  @ApiProperty({
+    example: '2pj9f40a-b157-9l32-921f-c492c95cd92k',
+    description: 'Id do administrador responsável pela colaboração',
+    type: 'string',
+    required: true,
+  })
+  admin_id: string;
+
+  @IsNotEmpty()
   @IsEnum(CollaborationsStatus)
   @ApiProperty({
     example: 'APPROVED',
