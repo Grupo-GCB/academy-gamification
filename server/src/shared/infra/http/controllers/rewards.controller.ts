@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -9,7 +9,7 @@ import {
 
 import { CreateRewardDTO } from '@reward/dto';
 import { Reward } from '@reward/infra/entities/reward.entity';
-import { CreateReward, ListAllRewards } from '@reward/use-cases';
+import { CreateReward, FindOne, ListAllRewards } from '@reward/use-cases';
 
 @ApiTags('rewards')
 @Controller('rewards')
@@ -17,6 +17,7 @@ export class RewardsController {
   constructor(
     private createReward: CreateReward,
     private listAllRewards: ListAllRewards,
+    private findOneReward: FindOne,
   ) {}
 
   @ApiCreatedResponse({
@@ -42,5 +43,17 @@ export class RewardsController {
   @Get()
   listAll(): Promise<Reward[]> {
     return this.listAllRewards.execute();
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar a recompensa',
+  })
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Reward> {
+    return this.findOneReward.execute(id);
   }
 }
