@@ -6,6 +6,8 @@ export class ListAllRewards {
   constructor(private rewardsRepository: IRewardsRepository) {}
 
   async execute(): Promise<Reward[]> {
-    return this.rewardsRepository.listAll();
+    const rewards: Reward[] = await this.rewardsRepository.listAll();
+
+    return rewards.sort((a, b) => a.name.localeCompare(b.name));
   }
 }
