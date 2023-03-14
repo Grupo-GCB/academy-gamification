@@ -2,7 +2,12 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
-import { CreateReward, FindOne, ListAllRewards } from '@reward/use-cases';
+import {
+  CreateReward,
+  FindOne,
+  ListAllRewards,
+  UpdateReward,
+} from '@reward/use-cases';
 import { AppModule } from '@/app.module';
 
 describe('Rewards Controller', () => {
@@ -37,6 +42,12 @@ describe('Rewards Controller', () => {
     execute: () => '10f47e61-65c0-48a3-9554-23f022750a66',
   };
 
+  const updateReward = {
+    execute: () => [
+      { id: '10f47e61-65c0-48a3-9554-23f022750a66', value: 80000 },
+    ],
+  };
+
   let app: INestApplication;
 
   let moduleRef: TestingModule;
@@ -51,6 +62,8 @@ describe('Rewards Controller', () => {
       .useValue(listAllRewards)
       .overrideProvider(FindOne)
       .useValue(findOne)
+      .overrideProvider(UpdateReward)
+      .useValue(updateReward)
       .compile();
     app = moduleRef.createNestApplication();
     await app.init();
@@ -84,6 +97,15 @@ describe('Rewards Controller', () => {
         .get('/rewards/10f47e61-65c0-48a3-9554-23f022750a66')
         .expect(200)
         .expect(findOne.execute());
+    });
+  });
+
+  describe('Update reward', () => {
+    it('should return the updated reward', () => {
+      return request(app.getHttpServer())
+        .put('/rewards/10f47e61-65c0-48a3-9554-23f022750a66')
+        .expect(200)
+        .expect(updateReward.execute());
     });
   });
 });
