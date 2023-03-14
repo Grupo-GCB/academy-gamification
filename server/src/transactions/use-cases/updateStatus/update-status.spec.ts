@@ -1,6 +1,14 @@
 import { BadRequestException } from '@nestjs/common';
 
-import { BusinessUnits, Reasons, Roles, Status } from '@shared/constants';
+import {
+  Academys,
+  Admin,
+  BusinessUnits,
+  CollaborationsTypes,
+  Reasons,
+  Roles,
+  Status,
+} from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { UpdateStatus } from './update-status';
@@ -22,31 +30,27 @@ describe('Update a transaction status', () => {
   });
 
   it('should be able to update a transaction status', async () => {
-    const user = inMemoryUsersRepository.create({
-      name: 'Gustavo',
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
+    inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
       role: Roles.ADMIN,
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      user_id: (await user).id,
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
+      type: CollaborationsTypes.LOGICEXERCISE,
       status: Status.PENDING,
       gcbits: 5000,
     });
 
     const updatedTransaction = await sut.execute({
       id: transaction.id,
-      newStatus: Status.APPROVED,
-      user_id: (await user).id,
+      new_status: Status.APPROVED,
+      responsible_email: Admin.ADMIN,
     });
     expect(updatedTransaction.status).toEqual(Status.APPROVED);
 
@@ -56,9 +60,9 @@ describe('Update a transaction status', () => {
   });
 
   it('shoud not be able to update a nonexistent transaction status', async () => {
-    const user = inMemoryUsersRepository.create({
-      name: 'Gustavo',
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
+    inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
       role: Roles.ADMIN,
     });
@@ -66,23 +70,19 @@ describe('Update a transaction status', () => {
     await expect(
       sut.execute({
         id: '19906417-70ea-4f6a-a158-c6c6043e7919',
-        newStatus: Status.PENDING,
-        user_id: (await user).id,
+        new_status: Status.PENDING,
+        responsible_email: Admin.ADMIN,
       }),
     ).rejects.toThrow('Transaction not found');
   });
 
   it('should throw error if new status are not passed', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      user_id: 'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
+      type: CollaborationsTypes.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -90,23 +90,19 @@ describe('Update a transaction status', () => {
     await expect(
       sut.execute({
         id: transaction.id,
-        newStatus: undefined,
-        user_id: transaction.user_id,
+        new_status: undefined,
+        responsible_email: Admin.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('newStatus is required'));
+    ).rejects.toThrow(new BadRequestException('new_status is required'));
   });
 
   it('should throw error if id are not passed', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      user_id: 'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
+      type: CollaborationsTypes.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -114,30 +110,26 @@ describe('Update a transaction status', () => {
     await expect(
       sut.execute({
         id: undefined,
-        newStatus: transaction.status,
-        user_id: transaction.user_id,
+        new_status: transaction.status,
+        responsible_email: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('id is required'));
   });
 
   it('should not be able to update a collaboration if user is not a administrator', async () => {
-    const user = inMemoryUsersRepository.create({
-      name: 'Gustavo',
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
+    inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
       role: Roles.ACADEMY,
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      user_id: (await user).id,
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
+      type: CollaborationsTypes.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -145,8 +137,8 @@ describe('Update a transaction status', () => {
     await expect(
       sut.execute({
         id: transaction.id,
-        newStatus: Status.APPROVED,
-        user_id: (await user).id,
+        new_status: Status.APPROVED,
+        responsible_email: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('you must be a administrator'));
   });
