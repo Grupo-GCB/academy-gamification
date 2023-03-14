@@ -36,4 +36,8 @@ export class RewardsRepository {
 
     return this.rewardsRepository.findOne({ where: { id } });
   }
+
+  async delete(id: string): Promise<void> {
+    await this.rewardsRepository.softDelete({ id });
+  }
 }
