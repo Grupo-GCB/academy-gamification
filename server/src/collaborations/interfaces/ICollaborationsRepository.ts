@@ -17,5 +17,6 @@ export abstract class ICollaborationsRepository {
   abstract updateStatus({
     collaboration_id,
     newStatus,
+    admin_id,
   }: UpdateStatusDTO): Promise<Collaboration>;
 }
