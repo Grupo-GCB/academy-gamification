@@ -1,7 +1,10 @@
 import {
+  Admin,
   BusinessUnits,
-  CollaborationsStatus,
-  TransactionReasons,
+  CollaborationsTypes,
+  Reasons,
+  ReedemTypes,
+  Status,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FindById } from './find-by-id';
@@ -17,30 +20,22 @@ describe('Find a transaction by id', () => {
 
   it('shoud be able to find a transaction by id', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Admin.ADMIN,
       business_unit: BusinessUnits.ADIANTE,
-      reason: TransactionReasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
-      status: CollaborationsStatus.APPROVED,
+      reason: Reasons.COLLABORATION,
+      type: CollaborationsTypes.CODEREVIEW,
+      status: Status.APPROVED,
       gcbits: 5000,
     });
 
     const transaction2 = await inMemoryTransactionsRepository.register({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd802',
-      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
+      collaborator: 'thiago.ribeiro@gcbinvestimentos.com',
+      responsible: Admin.ADMIN,
       business_unit: BusinessUnits.PEERBR,
-      reason: TransactionReasons.REDEEM,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
-      status: CollaborationsStatus.PENDING,
+      reason: Reasons.REDEEM,
+      type: ReedemTypes.ACADEMY,
+      status: Status.PENDING,
       gcbits: 5000,
     });
 
@@ -50,11 +45,10 @@ describe('Find a transaction by id', () => {
     expect(transactionFound).toEqual(
       expect.objectContaining({
         id: transaction.id,
-        collaborator_id: transaction.collaborator_id,
+        collaborator: transaction.collaborator,
         business_unit: transaction.business_unit,
         reason: transaction.reason,
         type: transaction.type,
-        academys: transaction.academys,
         status: transaction.status,
         gcbits: transaction.gcbits,
       }),
