@@ -18,6 +18,7 @@ describe('Find a transaction by id', () => {
   it('shoud be able to find a transaction by id', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
       collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
+      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
       business_unit: BusinessUnits.ADIANTE,
       reason: TransactionReasons.COLLABORATION,
       type: 'Code_Review',
@@ -31,6 +32,7 @@ describe('Find a transaction by id', () => {
 
     const transaction2 = await inMemoryTransactionsRepository.register({
       collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd802',
+      user_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
       business_unit: BusinessUnits.PEERBR,
       reason: TransactionReasons.REDEEM,
       type: 'Code_Review',
