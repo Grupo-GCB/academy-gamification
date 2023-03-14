@@ -7,6 +7,7 @@ import { TransactionsRepository } from '@transactions/infra/typeorm/repositories
 import { ITransactionsRepository } from '@transactions/interfaces';
 import {
   FilterTransactionsByStatus,
+  FindAllTransactions,
   FindById,
   RegisterTransaction,
   UpdateStatus,
@@ -21,6 +22,7 @@ import { UsersModule } from '@users/user.module';
     UpdateStatus,
     FindById,
     FilterTransactionsByStatus,
+    FindAllTransactions,
     {
       provide: ITransactionsRepository,
       useClass: TransactionsRepository,
