@@ -34,4 +34,10 @@ export class InMemoryRewardsRepository implements IRewardsRepository {
 
     return reward;
   }
+
+  async delete(id: string): Promise<void> {
+    const reward = await this.findOne(id);
+
+    reward.deletedAt = new Date();
+  }
 }
