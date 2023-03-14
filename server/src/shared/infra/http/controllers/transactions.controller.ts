@@ -14,12 +14,13 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { Status } from '@shared/constants';
 
+import { Status } from '@shared/constants';
 import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import {
   FilterTransactionsByStatus,
+  FindAllTransactions,
   FindById,
   RegisterTransaction,
   UpdateStatus,
@@ -30,6 +31,7 @@ export class TransactionsController {
   constructor(
     private registerTransaction: RegisterTransaction,
     private findById: FindById,
+    private findAllTransactions: FindAllTransactions,
     private updateTransactionStatus: UpdateStatus,
     private filterTransactionsByStatus: FilterTransactionsByStatus,
   ) {}
@@ -55,6 +57,18 @@ export class TransactionsController {
   })
   @ApiNotFoundResponse({
     status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar transações',
+  })
+  @Get()
+  findAll(): Promise<Transaction[]> {
+    return this.findAllTransactions.execute();
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
     description: 'Não foi possível encontrar a transação',
   })
   @Get(':id')
@@ -72,12 +86,12 @@ export class TransactionsController {
   })
   @Put()
   updateStatus(
-    @Body() { id, newStatus, user_id }: UpdateStatusDTO,
+    @Body() { id, new_status, responsible_email }: UpdateStatusDTO,
   ): Promise<Transaction> {
     return this.updateTransactionStatus.execute({
       id,
-      newStatus,
-      user_id,
+      new_status,
+      responsible_email,
     });
   }
 
