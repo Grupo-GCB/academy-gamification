@@ -82,11 +82,12 @@ export class CollaborationsController {
   })
   @Put()
   updateStatus(
-    @Body() { collaboration_id, newStatus }: UpdateStatusDTO,
+    @Body() { collaboration_id, newStatus, admin_id }: UpdateStatusDTO,
   ): Promise<Collaboration> {
     return this.updateCollaborationStatus.execute({
       collaboration_id,
       newStatus,
+      admin_id,
     });
   }
 }
