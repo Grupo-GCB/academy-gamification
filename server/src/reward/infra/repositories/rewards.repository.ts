@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Reward } from '@reward/infra/entities/reward.entity';
-import { CreateRewardDTO } from '@reward/dto';
+import { CreateRewardDTO, UpdateRewardDTO } from '@reward/dto';
 
 @Injectable()
 export class RewardsRepository {
@@ -28,6 +28,12 @@ export class RewardsRepository {
   }
 
   async findOne(id: string): Promise<Reward> {
+    return this.rewardsRepository.findOne({ where: { id } });
+  }
+
+  async update({ id, data }: UpdateRewardDTO): Promise<Reward> {
+    await this.rewardsRepository.update(id, data);
+
     return this.rewardsRepository.findOne({ where: { id } });
   }
 }
