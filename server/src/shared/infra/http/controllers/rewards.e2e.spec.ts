@@ -4,6 +4,7 @@ import request from 'supertest';
 
 import {
   CreateReward,
+  DeleteReward,
   FindOne,
   ListAllRewards,
   UpdateReward,
@@ -48,6 +49,8 @@ describe('Rewards Controller', () => {
     ],
   };
 
+  const deleteReward = { execute: () => 204 };
+
   let app: INestApplication;
 
   let moduleRef: TestingModule;
@@ -64,6 +67,8 @@ describe('Rewards Controller', () => {
       .useValue(findOne)
       .overrideProvider(UpdateReward)
       .useValue(updateReward)
+      .overrideProvider(DeleteReward)
+      .useValue(deleteReward)
       .compile();
     app = moduleRef.createNestApplication();
     await app.init();
@@ -106,6 +111,15 @@ describe('Rewards Controller', () => {
         .put('/rewards/10f47e61-65c0-48a3-9554-23f022750a66')
         .expect(200)
         .expect(updateReward.execute());
+    });
+  });
+
+  describe('Delete reward', () => {
+    it('should be able to return 204 status code when a reward is deleted', () => {
+      return request(app.getHttpServer())
+        .delete('/rewards/10f47e61-65c0-48a3-9554-23f022750a66')
+        .expect(204)
+        .expect(deleteReward.execute());
     });
   });
 });
