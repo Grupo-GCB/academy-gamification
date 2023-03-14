@@ -1,4 +1,13 @@
-import { BusinessUnits, Reasons, Roles, Status } from '@shared/constants';
+import {
+  Academys,
+  Admin,
+  BusinessUnits,
+  CollaborationsTypes,
+  Reasons,
+  ReedemTypes,
+  Roles,
+  Status,
+} from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { RegisterTransaction } from './register-transaction';
@@ -20,23 +29,19 @@ describe('Register a transaction', () => {
   });
 
   it('should be able to register a transaction', async () => {
-    const user = inMemoryUsersRepository.create({
-      name: 'Gustavo',
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
+    await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
       role: Roles.ADMIN,
     });
 
     const transaction = await sut.execute({
-      collaborator_id: '13f866c-2ba0-42b7-83c9-50bb61c5c167',
-      user_id: (await user).id,
+      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      responsible: Admin.ADMIN,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: 'Participação em comitê academy',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
+      type: CollaborationsTypes.CODEREVIEW,
       status: Status.APPROVED,
       gcbits: 3000,
     });
@@ -44,20 +49,19 @@ describe('Register a transaction', () => {
     expect(transaction).toEqual(
       expect.objectContaining({
         id: transaction.id,
-        collaborator_id: transaction.collaborator_id,
-        user_id: transaction.user_id,
+        collaborator: transaction.collaborator,
+        responsible: transaction.responsible,
         business_unit: transaction.business_unit,
         reason: transaction.reason,
         type: transaction.type,
-        academys: transaction.academys,
         status: transaction.status,
         gcbits: transaction.gcbits,
       }),
     );
   });
 
-  it('should not be able to register a collaboration if user is a collaborator', async () => {
-    const user = inMemoryUsersRepository.create({
+  it('should not be able to register a collaboration transaction if user is a collaborator', async () => {
+    inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
@@ -66,16 +70,33 @@ describe('Register a transaction', () => {
 
     await expect(
       sut.execute({
-        collaborator_id: '13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        user_id: (await user).id,
+        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        responsible: Academys.ACADEMY1,
         business_unit: BusinessUnits.ADIANTE,
         reason: Reasons.COLLABORATION,
-        type: 'Participação em comitê academy',
-        academys: [
-          'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-          '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-        ],
+        type: CollaborationsTypes.CODEREVIEW,
         status: Status.APPROVED,
+        gcbits: 3000,
+      }),
+    ).rejects.toThrow('You do not have permission');
+  });
+
+  it('should not be able to register a reedem transaction if user is a academy', async () => {
+    inMemoryUsersRepository.create({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      role: Roles.ACADEMY,
+    });
+
+    await expect(
+      sut.execute({
+        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        responsible: Academys.ACADEMY1,
+        business_unit: BusinessUnits.ADIANTE,
+        reason: Reasons.REDEEM,
+        type: ReedemTypes.PEERCREDIT,
+        status: Status.PENDING,
         gcbits: 3000,
       }),
     ).rejects.toThrow('You do not have permission');
