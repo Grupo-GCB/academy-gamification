@@ -8,5 +8,5 @@ export abstract class IRewardsRepository {
 
   abstract findOne(id: string): Promise<Reward>;
 
-  abstract update(data: UpdateRewardDTO): Promise<Reward>;
+  abstract update({ id, data }: UpdateRewardDTO): Promise<Reward>;
 }
