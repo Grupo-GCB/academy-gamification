@@ -5,4 +5,6 @@ export abstract class IRewardsRepository {
   abstract create(data: CreateRewardDTO): Promise<Reward>;
 
   abstract listAll(): Promise<Reward[]>;
+
+  abstract findOne(id: string): Promise<Reward>;
 }
