@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -9,7 +17,13 @@ import {
 
 import { CreateRewardDTO } from '@reward/dto';
 import { Reward } from '@reward/infra/entities/reward.entity';
-import { CreateReward, FindOne, ListAllRewards } from '@reward/use-cases';
+import { IUpdateRewardRequest } from '@reward/interfaces';
+import {
+  CreateReward,
+  FindOne,
+  ListAllRewards,
+  UpdateReward,
+} from '@reward/use-cases';
 
 @ApiTags('rewards')
 @Controller('rewards')
@@ -18,6 +32,7 @@ export class RewardsController {
     private createReward: CreateReward,
     private listAllRewards: ListAllRewards,
     private findOneReward: FindOne,
+    private updateReward: UpdateReward,
   ) {}
 
   @ApiCreatedResponse({
@@ -55,5 +70,21 @@ export class RewardsController {
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Reward> {
     return this.findOneReward.execute(id);
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Recompensa alterada com sucesso!',
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível alterar a recompensa!',
+  })
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() data: IUpdateRewardRequest,
+  ): Promise<Reward> {
+    return this.updateReward.execute(id, data);
   }
 }
