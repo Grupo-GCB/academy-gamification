@@ -33,5 +33,11 @@ export class CreateRewardDTO {
 
   @IsOptional()
   @IsString()
+  @ApiProperty({
+    example: 'https://cdn.maikoapp.com/3d4b/4quqa/150.jpg',
+    description: 'Lind da imagem da recompensa',
+    type: 'string',
+    required: false,
+  })
   imageUrl?: string;
 }
