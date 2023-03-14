@@ -17,5 +17,6 @@ import { RegisterUser } from '@users/use-cases/registerUser/register-user';
       useClass: UsersRepository,
     },
   ],
+  exports: [IUsersRepository],
 })
 export class UsersModule {}
