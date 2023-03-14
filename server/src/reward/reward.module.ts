@@ -5,6 +5,7 @@ import { RewardsRepository } from '@reward/infra/repositories/rewards.repository
 import { IRewardsRepository } from '@reward/interfaces';
 import {
   CreateReward,
+  DeleteReward,
   FindOne,
   ListAllRewards,
   UpdateReward,
@@ -20,6 +21,7 @@ import { RewardsController } from '@shared/infra/http/controllers/rewards.contro
     ListAllRewards,
     FindOne,
     UpdateReward,
+    DeleteReward,
     {
       provide: IRewardsRepository,
       useClass: RewardsRepository,
