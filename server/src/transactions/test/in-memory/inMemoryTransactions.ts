@@ -8,7 +8,6 @@ import { ITransactionsRepository } from '@transactions/interfaces/ITransactionsR
 
 export class InMemoryTransactionsRepository implements ITransactionsRepository {
   transactions: Transaction[] = [];
-
   async register(data: RegisterTransactionDTO): Promise<Transaction> {
     const transaction: Transaction = Object.assign(new Transaction(), data);
 
@@ -21,10 +20,13 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     return this.transactions.find((transaction) => transaction.id === id);
   }
 
-  async updateStatus({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
+  async updateStatus({
+    id,
+    new_status,
+  }: UpdateStatusDTO): Promise<Transaction> {
     const transaction = await this.findOne(id);
 
-    transaction.status = newStatus;
+    transaction.status = new_status;
 
     return transaction;
   }
@@ -37,5 +39,9 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     );
 
     return transactions;
+  }
+
+  async findAll(): Promise<Transaction[]> {
+    return this.transactions;
   }
 }
