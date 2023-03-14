@@ -9,7 +9,6 @@ import { UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
-import { FindById } from '@users/use-cases/findById/find-by-id';
 
 @Injectable()
 export class UpdateStatus {
@@ -20,15 +19,14 @@ export class UpdateStatus {
 
   async execute({
     id,
-    newStatus,
-    user_id,
+    new_status,
+    responsible_email,
   }: UpdateStatusDTO): Promise<Transaction> {
-    if (!newStatus) throw new BadRequestException('newStatus is required');
+    if (!new_status) throw new BadRequestException('new_status is required');
     if (!id) throw new BadRequestException('id is required');
 
-    const findById = new FindById(this.usersRepository);
-    const user = findById.execute(user_id);
-    if ((await user).role != Roles.ADMIN) {
+    const responsible = this.usersRepository.findOne(responsible_email);
+    if ((await responsible).role != Roles.ADMIN) {
       throw new Error('you must be a administrator');
     }
 
@@ -42,8 +40,8 @@ export class UpdateStatus {
 
     return this.transactionsRepository.updateStatus({
       id,
-      newStatus,
-      user_id,
+      new_status,
+      responsible_email,
     });
   }
 }
