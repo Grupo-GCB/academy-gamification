@@ -1,5 +1,12 @@
 import { randomUUID } from 'node:crypto';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('rewards')
 export class Reward {
@@ -17,6 +24,15 @@ export class Reward {
 
   @Column()
   imageUrl: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn({ default: null })
+  updatedAt?: Date;
+
+  @DeleteDateColumn({ default: null })
+  deletedAt?: Date;
 
   constructor() {
     if (!this.id) this.id = randomUUID();
