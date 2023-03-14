@@ -46,8 +46,11 @@ export class TransactionsRepository {
     });
   }
 
-  async updateStatus({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
-    await this.transactionsRepository.update({ id }, { status: newStatus });
+  async updateStatus({
+    id,
+    new_status,
+  }: UpdateStatusDTO): Promise<Transaction> {
+    await this.transactionsRepository.update({ id }, { status: new_status });
 
     return this.findOne(id);
   }
@@ -58,5 +61,9 @@ export class TransactionsRepository {
     return this.transactionsRepository.find({
       where: { status },
     });
+  }
+
+  async findAll(): Promise<Transaction[]> {
+    return this.transactionsRepository.find();
   }
 }
