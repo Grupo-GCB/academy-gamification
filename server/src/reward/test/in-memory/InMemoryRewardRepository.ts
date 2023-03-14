@@ -20,4 +20,8 @@ export class InMemoryRewardsRepository implements IRewardsRepository {
 
     return orderedRewards;
   }
+
+  async findOne(id: string): Promise<Reward> {
+    return this.rewards.find((reward) => reward.id === id);
+  }
 }
