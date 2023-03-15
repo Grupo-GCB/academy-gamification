@@ -21,10 +21,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {
-      "@collaborations/*": ["collaborations/*"],
       "@shared/*": ["shared/*"],
-      "@academys/*": ["academys/*"],
-      "@collaborator/*": ["collaborator/*"],
       "@transactions/*": ["transactions/*"],
       "@users/*": ["users/*"],
       "@/*": ["*"]
