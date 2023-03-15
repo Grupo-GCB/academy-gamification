@@ -26,7 +26,10 @@ export class Transaction {
   id: string;
 
   @ManyToOne(() => User, (user) => user.email)
-  @JoinColumn({ name: 'email' })
+  @JoinColumn({
+    name: 'collaborator',
+    referencedColumnName: 'email',
+  })
   @Column()
   collaborator: string;
 
