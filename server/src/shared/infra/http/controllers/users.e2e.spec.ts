@@ -12,6 +12,7 @@ describe('Users Controller', () => {
       name: 'Admin',
       email: 'admin@gcbinvestimentos.com',
       passowrd: 'admin123',
+      bu: BusinessUnits.ADIANTE,
       role: Roles.ADMIN,
     }),
   };

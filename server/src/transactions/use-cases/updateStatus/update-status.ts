@@ -21,12 +21,12 @@ export class UpdateStatus {
   async execute({
     id,
     new_status,
-    admin_email,
+    admin,
   }: UpdateStatusDTO): Promise<Transaction> {
     if (!new_status) throw new BadRequestException('new status is required');
     if (!id) throw new BadRequestException('ID is required');
 
-    const responsible = this.usersRepository.findOne(admin_email);
+    const responsible = this.usersRepository.findOne(admin);
     if ((await responsible).role != Roles.ADMIN) {
       throw new UnauthorizedException('you must be a administrator');
     }
@@ -42,7 +42,7 @@ export class UpdateStatus {
     return this.transactionsRepository.updateStatus({
       id,
       new_status,
-      admin_email,
+      admin,
     });
   }
 }

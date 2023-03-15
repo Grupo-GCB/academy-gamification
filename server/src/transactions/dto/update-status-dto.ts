@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
 
-import { Admin, Status } from '@shared/constants';
+import { Status } from '@shared/constants';
 
 export class UpdateStatusDTO {
   @IsNotEmpty()
@@ -15,14 +15,14 @@ export class UpdateStatusDTO {
   id: string;
 
   @IsNotEmpty()
-  @IsEnum(Admin)
+  @IsUUID()
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'Email de quem está atualizando o status da transação',
     type: 'string',
     required: true,
   })
-  admin_email: Admin;
+  admin: string;
 
   @IsNotEmpty()
   @IsEnum(Status)

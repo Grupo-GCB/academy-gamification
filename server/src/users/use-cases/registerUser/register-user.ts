@@ -12,12 +12,14 @@ export class RegisterUser {
     name,
     email,
     password,
+    business_unit,
     role,
   }: RegisterUserDTO): Promise<User> {
     const user = await this.userRepository.create({
       name,
       email,
       password,
+      business_unit,
       role,
     });
 

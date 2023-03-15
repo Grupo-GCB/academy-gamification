@@ -16,21 +16,23 @@ export class UsersRepository {
     name,
     email,
     password,
+    business_unit,
     role,
   }: RegisterUserDTO): Promise<User> {
     const user: User = this.usersRepository.create({
       name,
       email,
       password,
+      business_unit,
       role,
     });
 
     return this.usersRepository.save(user);
   }
 
-  async findOne(email: string): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.usersRepository.findOne({
-      where: { email },
+      where: { id },
     });
   }
 }

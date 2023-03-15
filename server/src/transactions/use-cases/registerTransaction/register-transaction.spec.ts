@@ -1,10 +1,10 @@
 import {
   Academys,
   BusinessUnits,
-  Reasons,
-  RedeemTypes,
+  RedeemSubType,
   Roles,
   Status,
+  Types,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
@@ -31,15 +31,15 @@ describe('Register a transaction', () => {
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
       role: Roles.ADMIN,
     });
 
     const transaction = await sut.execute({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: RedeemTypes.ACADEMY,
+      type: Types.COLLABORATION,
+      sub_type: RedeemSubType.ACADEMY,
       status: Status.APPROVED,
       gcbits: 3000,
     });
@@ -47,32 +47,31 @@ describe('Register a transaction', () => {
     expect(transaction).toEqual(
       expect.objectContaining({
         id: transaction.id,
-        collaborator: transaction.collaborator,
+        user: transaction.user,
         responsible: transaction.responsible,
-        business_unit: transaction.business_unit,
-        reason: transaction.reason,
         type: transaction.type,
+        sub_type: transaction.sub_type,
         status: transaction.status,
         gcbits: transaction.gcbits,
       }),
     );
   });
 
-  it('should not be able to register a collaboration transaction if user is a collaborator', async () => {
+  it('should not be able to register a collaboration transaction if user is a user', async () => {
     inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
       role: Roles.COLLABORATOR,
     });
 
     await expect(
       sut.execute({
-        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        user: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: Academys.ACADEMY1,
-        business_unit: BusinessUnits.ADIANTE,
-        reason: Reasons.COLLABORATION,
-        type: RedeemTypes.MEDIUMPROJECT,
+        type: Types.COLLABORATION,
+        sub_type: RedeemSubType.MEDIUMPROJECT,
         status: Status.APPROVED,
         gcbits: 3000,
       }),
@@ -84,16 +83,16 @@ describe('Register a transaction', () => {
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
       role: Roles.ACADEMY,
     });
 
     await expect(
       sut.execute({
-        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        user: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: Academys.ACADEMY1,
-        business_unit: BusinessUnits.ADIANTE,
-        reason: Reasons.REDEEM,
-        type: RedeemTypes.PEERCREDIT,
+        type: Types.REDEEM,
+        sub_type: RedeemSubType.PEERCREDIT,
         status: Status.PENDING,
         gcbits: 3000,
       }),

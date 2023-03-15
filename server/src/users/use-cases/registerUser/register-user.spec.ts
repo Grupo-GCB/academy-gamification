@@ -1,4 +1,4 @@
-import { Roles } from '@shared/constants';
+import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { RegisterUser } from './register-user';
 
@@ -16,6 +16,7 @@ describe('Register user', () => {
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
       role: Roles.ACADEMY,
     });
 
@@ -24,6 +25,7 @@ describe('Register user', () => {
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
+        business_units: BusinessUnits.ADIANTE,
         role: Roles.ACADEMY,
       }),
     );
@@ -34,6 +36,7 @@ describe('Register user', () => {
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
       role: Roles.ADMIN,
     });
 
@@ -42,16 +45,18 @@ describe('Register user', () => {
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
+        business_units: BusinessUnits.ADIANTE,
         role: Roles.ADMIN,
       }),
     );
   });
 
-  it('should be able to register an user with Collaborator role', async () => {
+  it('should be able to register an user with user role', async () => {
     const user = await sut.execute({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
       role: Roles.COLLABORATOR,
     });
 
@@ -60,6 +65,7 @@ describe('Register user', () => {
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
+        business_units: BusinessUnits.ADIANTE,
         role: Roles.COLLABORATOR,
       }),
     );

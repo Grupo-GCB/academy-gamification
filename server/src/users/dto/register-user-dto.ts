@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
-import { Roles } from '@shared/constants';
+import { BusinessUnits, Roles } from '@shared/constants';
 
 export class RegisterUserDTO {
   @IsNotEmpty()
@@ -33,6 +33,16 @@ export class RegisterUserDTO {
     required: true,
   })
   password: string;
+
+  @IsNotEmpty()
+  @IsEnum(BusinessUnits)
+  @ApiProperty({
+    example: 'ADIANTE',
+    description: 'Empresa que o usuário está atuando',
+    type: 'BusinessUnits',
+    required: true,
+  })
+  business_unit: BusinessUnits;
 
   @IsNotEmpty()
   @IsEnum(Roles)

@@ -1,9 +1,9 @@
 import {
   Academys,
   BusinessUnits,
-  Reasons,
-  RedeemTypes,
+  RedeemSubType,
   Status,
+  Types,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FindById } from './find-by-id';
@@ -19,21 +19,21 @@ describe('Find a transaction by id', () => {
 
   it('shoud be able to find a transaction by id', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: RedeemTypes.PEERCREDIT,
+      type: Types.COLLABORATION,
+      type: RedeemSubType.PEERCREDIT,
       status: Status.APPROVED,
       gcbits: 5000,
     });
 
     const transaction2 = await inMemoryTransactionsRepository.register({
-      collaborator: 'thiago.ribeiro@gcbinvestimentos.com',
+      user: 'thiago.ribeiro@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.PEERBR,
-      reason: Reasons.REDEEM,
-      type: RedeemTypes.ACADEMY,
+      type: Types.REDEEM,
+      type: RedeemSubType.ACADEMY,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -44,9 +44,9 @@ describe('Find a transaction by id', () => {
     expect(transactionFound).toEqual(
       expect.objectContaining({
         id: transaction.id,
-        collaborator: transaction.collaborator,
+        user: transaction.user,
         business_unit: transaction.business_unit,
-        reason: transaction.reason,
+        type: transaction.type,
         type: transaction.type,
         status: transaction.status,
         gcbits: transaction.gcbits,

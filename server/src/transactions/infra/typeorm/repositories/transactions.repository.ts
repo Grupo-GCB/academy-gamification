@@ -17,21 +17,20 @@ export class TransactionsRepository {
   ) {}
 
   async register({
-    collaborator,
+    user,
     responsible,
-    business_unit,
-    reason,
     type,
+    sub_type,
     status,
     gcbits,
     description,
   }: RegisterTransactionDTO): Promise<Transaction> {
     const transaction: Transaction = this.transactionsRepository.create({
-      collaborator,
+      user,
       responsible,
-      business_unit,
-      reason,
+
       type,
+      sub_type,
       status,
       gcbits,
       description,

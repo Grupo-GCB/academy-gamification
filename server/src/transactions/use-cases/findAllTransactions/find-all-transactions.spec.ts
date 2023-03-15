@@ -1,10 +1,10 @@
 import {
   Admin,
   BusinessUnits,
-  CollaborationsTypes,
-  Reasons,
-  RedeemTypes,
+  CollaborationsSubType,
+  RedeemSubType,
   Status,
+  Types,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FindAllTransactions } from './find-all-transactions';
@@ -20,21 +20,21 @@ describe('Find all transactions', () => {
 
   it('should be able to return all transactions', async () => {
     const transactionOne = await inMemoryTransactions.register({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
       business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: Types.COLLABORATION,
+      type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
 
     const transactionTwo = await inMemoryTransactions.register({
-      collaborator: 'flavio.marques@gcbinvestimentos.com',
+      user: 'flavio.marques@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
       business_unit: BusinessUnits.PEERBR,
-      reason: Reasons.REDEEM,
-      type: RedeemTypes.ACADEMY,
+      type: Types.REDEEM,
+      type: RedeemSubType.ACADEMY,
       status: Status.PENDING,
       gcbits: -50000,
     });

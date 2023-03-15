@@ -1,9 +1,3 @@
-import {
-  Academys,
-  Admin,
-  CollaborationsTypes,
-  ReedemTypes,
-} from '@shared/constants';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateTransactionsTable1678833178779
@@ -11,7 +5,7 @@ export class CreateTransactionsTable1678833178779
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TYPE public.CollaborationsTypes AS ENUM ('LOGIC_EXERCISE','CODE_REVIEW','COMMITTEE', 'DOUBTS', 'PAIR_PROGRAMMING', 'FEEDBACK', 'TEAM_CERIMONY')`,
+      `CREATE TYPE public.TransactionSubType AS ENUM ('LOGIC_EXERCISE','CODE_REVIEW','COMMITTEE', 'DOUBTS', 'PAIR_PROGRAMMING', 'FEEDBACK', 'TEAM_CEREMONY', 'PEER_CREDIT', 'SIMPLE_PROJECT', 'MEDIUM_PROJECT', 'COMPLEX_PROJECT', 'ACADEMY')`,
     );
 
     await queryRunner.query(
@@ -19,15 +13,7 @@ export class CreateTransactionsTable1678833178779
     );
 
     await queryRunner.query(
-      `CREATE TYPE public.ReedemTypes AS ENUM ('PEER_CREDIT', 'SIMPLE_PROJECT', 'MEDIUM_PROJECT', 'COMPLEX_PROJECT', 'ACADEMY')`,
-    );
-
-    await queryRunner.query(
-      `CREATE TYPE public.BusinessUnits AS ENUM ('ADIANTE', 'PEERBR', 'FMI', 'GRUPOGCB')`,
-    );
-
-    await queryRunner.query(
-      `CREATE TYPE public.Reasons AS ENUM ('COLLABORATION', 'REEDEM', 'PENALTY')`,
+      `CREATE TYPE public.Types AS ENUM ('COLLABORATION', 'REDEEM', 'PENALTY', 'TRANSFER', 'CORRECTION')`,
     );
 
     await queryRunner.query(
@@ -52,34 +38,24 @@ export class CreateTransactionsTable1678833178779
             isPrimary: true,
           },
           {
-            name: 'collaborator',
-            type: 'varchar',
+            name: 'user',
+            type: 'uuid',
             isNullable: false,
           },
           {
             name: 'responsible',
-            type: 'enum',
-            enum: [...Object.values(Academys), ...Object.values(Admin)],
-            isNullable: false,
-          },
-          {
-            name: 'business_unit',
-            type: 'BusinessUnits',
-            isNullable: false,
-          },
-          {
-            name: 'reason',
-            type: 'public.Reasons',
+            type: 'uuid',
             isNullable: false,
           },
           {
             name: 'type',
-            type: 'enum',
-            enum: [
-              ...Object.values(CollaborationsTypes),
-              ...Object.values(ReedemTypes),
-            ],
+            type: 'Types',
             isNullable: false,
+          },
+          {
+            name: 'sub_type',
+            type: 'TransactionSubType',
+            isNullable: true,
           },
           {
             name: 'status',
@@ -113,13 +89,11 @@ export class CreateTransactionsTable1678833178779
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('transactions');
-    await queryRunner.query(`DROP TYPE IF EXISTS CollaborationsTypes`);
+    await queryRunner.query(`DROP TYPE IF EXISTS TransactionSubType`);
     await queryRunner.query(`DROP TYPE IF EXISTS Status`);
-    await queryRunner.query(`DROP TYPE IF EXISTS ReedemTypes`);
-    await queryRunner.query(`DROP TYPE IF EXISTS BusinessUnits`);
     await queryRunner.query(`DROP TYPE IF EXISTS Academys`);
     await queryRunner.query(`DROP TYPE IF EXISTS Admin`);
     await queryRunner.query(`DROP TYPE IF EXISTS Responsibles`);
-    await queryRunner.query(`DROP TYPE IF EXISTS Reasons`);
+    await queryRunner.query(`DROP TYPE IF EXISTS Types`);
   }
 }

@@ -5,70 +5,57 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
 } from 'class-validator';
 
 import {
-  Academys,
-  Admin,
-  BusinessUnits,
-  CollaborationsTypes,
-  Reasons,
-  RedeemTypes,
-  Responsibles,
+  CollaborationsSubType,
+  RedeemSubType,
   Status,
-  TransactionTypes,
+  TransactionSubType,
+  Types,
 } from '@shared/constants';
 
 export class RegisterTransactionDTO {
   @IsNotEmpty()
-  @IsString()
+  @IsUUID()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
     description: 'Email do colaborador que está envolvido na transação',
     type: 'string',
     required: true,
   })
-  collaborator: string;
+  user: string;
 
   @IsNotEmpty()
-  @IsEnum(Responsibles)
+  @IsUUID()
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'Email do usuário que está registrando a transação',
     type: 'string',
     required: true,
   })
-  responsible: Academys | Admin;
+  responsible: string;
 
   @IsNotEmpty()
-  @IsEnum(BusinessUnits)
-  @ApiProperty({
-    example: 'ADIANTE',
-    description: 'Empresa do colaborador que está envolvido na transação',
-    type: 'BusinessUnits',
-    required: true,
-  })
-  business_unit: BusinessUnits;
-
-  @IsNotEmpty()
-  @IsEnum(Reasons)
+  @IsEnum(Types)
   @ApiProperty({
     example: 'REDEEM',
     description: 'Razão pela qual essa transação está acontecendo',
-    type: 'Reasons',
+    type: 'Types',
     required: true,
   })
-  reason: Reasons;
+  type: Types;
 
   @IsNotEmpty()
-  @IsEnum(TransactionTypes)
+  @IsEnum(TransactionSubType)
   @ApiProperty({
     example: 'PAIR_PROGRAMMING',
     description: 'Tipo da transação realizada',
     type: 'string',
     required: false,
   })
-  type?: CollaborationsTypes | RedeemTypes;
+  sub_type?: CollaborationsSubType | RedeemSubType;
 
   @IsNotEmpty()
   @IsEnum(Status)

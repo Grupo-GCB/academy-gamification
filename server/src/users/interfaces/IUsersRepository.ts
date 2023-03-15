@@ -4,5 +4,5 @@ import { User } from '@users/infra/entities/user.entity';
 export abstract class IUsersRepository {
   abstract create(data: RegisterUserDTO): Promise<User>;
 
-  abstract findOne(email: string): Promise<User>;
+  abstract findOne(id: string): Promise<User>;
 }

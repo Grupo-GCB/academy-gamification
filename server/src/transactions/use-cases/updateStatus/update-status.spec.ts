@@ -4,10 +4,10 @@ import {
   Academys,
   Admin,
   BusinessUnits,
-  CollaborationsTypes,
-  Reasons,
+  CollaborationsSubType,
   Roles,
   Status,
+  Types,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
@@ -38,11 +38,11 @@ describe('Update a transaction status', () => {
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.LOGICEXERCISE,
+      type: Types.COLLABORATION,
+      type: CollaborationsSubType.LOGICEXERCISE,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -50,7 +50,7 @@ describe('Update a transaction status', () => {
     const updatedTransaction = await sut.execute({
       id: transaction.id,
       new_status: Status.APPROVED,
-      admin_email: Admin.ADMIN,
+      admin: Admin.ADMIN,
     });
     expect(updatedTransaction.status).toEqual(Status.APPROVED);
 
@@ -71,18 +71,18 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_status: Status.PENDING,
-        admin_email: Admin.ADMIN,
+        admin: Admin.ADMIN,
       }),
     ).rejects.toThrow('Transaction not found');
   });
 
   it('should throw error if new status are not passed', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: Types.COLLABORATION,
+      type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -91,18 +91,18 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: undefined,
-        admin_email: Admin.ADMIN,
+        admin: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('new_status is required'));
   });
 
   it('should throw error if id are not passed', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: Types.COLLABORATION,
+      type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -111,7 +111,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: undefined,
         new_status: transaction.status,
-        admin_email: Admin.ADMIN,
+        admin: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('id is required'));
   });
@@ -125,11 +125,11 @@ describe('Update a transaction status', () => {
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: Types.COLLABORATION,
+      type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -138,7 +138,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: Status.APPROVED,
-        admin_email: Admin.ADMIN,
+        admin: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('you must be a administrator'));
   });

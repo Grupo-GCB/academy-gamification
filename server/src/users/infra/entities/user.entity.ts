@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Roles } from '@shared/constants';
+import { BusinessUnits, Roles } from '@shared/constants';
 
 @Entity('users')
 export class User {
@@ -23,6 +23,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column()
+  business_unit: BusinessUnits;
 
   @Column()
   role: Roles;

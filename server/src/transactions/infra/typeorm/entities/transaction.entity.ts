@@ -10,13 +10,10 @@ import {
 } from 'typeorm';
 
 import {
-  Academys,
-  Admin,
-  BusinessUnits,
-  CollaborationsTypes,
-  Reasons,
-  RedeemTypes,
+  CollaborationsSubType,
+  RedeemSubType,
   Status,
+  Types,
 } from '@shared/constants';
 import { User } from '@users/infra/entities/user.entity';
 
@@ -27,23 +24,20 @@ export class Transaction {
 
   @ManyToOne(() => User, (user) => user.email)
   @JoinColumn({
-    name: 'collaborator',
+    name: 'user',
     referencedColumnName: 'email',
   })
   @Column()
-  collaborator: string;
+  user: string;
 
   @Column()
-  responsible: Academys | Admin | string;
+  responsible: string;
 
   @Column()
-  business_unit: BusinessUnits;
+  type: Types;
 
   @Column()
-  reason: Reasons;
-
-  @Column()
-  type?: CollaborationsTypes | RedeemTypes;
+  sub_type?: CollaborationsSubType | RedeemSubType;
 
   @Column()
   status: Status;

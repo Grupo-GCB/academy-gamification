@@ -2,10 +2,9 @@ import { BadRequestException } from '@nestjs/common';
 
 import {
   Academys,
-  BusinessUnits,
-  CollaborationsTypes,
-  Reasons,
+  CollaborationsSubType,
   Status,
+  Types,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FilterTransactionsByStatus } from '@transactions/use-cases';
@@ -30,21 +29,19 @@ describe('Filter transactions by status', () => {
 
   it('should return all transactions that matches the passed status', async () => {
     const transaction1 = await inMemoryTransactionsRepository.register({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.APPROVED,
       gcbits: 3000,
     });
 
     const transaction2 = await inMemoryTransactionsRepository.register({
-      collaborator: 'thiago.ribeiro@gcbinvestimentos.com',
+      user: 'thiago.ribeiro@gcbinvestimentos.com',
       responsible: Academys.ACADEMY4,
-      business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.FEEDBACK,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.FEEDBACK,
       status: Status.PENDING,
       gcbits: 7000,
     });
