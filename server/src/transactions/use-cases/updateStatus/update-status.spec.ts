@@ -50,7 +50,7 @@ describe('Update a transaction status', () => {
     const updatedTransaction = await sut.execute({
       id: transaction.id,
       new_status: Status.APPROVED,
-      responsible_email: Admin.ADMIN,
+      admin_email: Admin.ADMIN,
     });
     expect(updatedTransaction.status).toEqual(Status.APPROVED);
 
@@ -71,7 +71,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_status: Status.PENDING,
-        responsible_email: Admin.ADMIN,
+        admin_email: Admin.ADMIN,
       }),
     ).rejects.toThrow('Transaction not found');
   });
@@ -91,7 +91,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: undefined,
-        responsible_email: Admin.ADMIN,
+        admin_email: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('new_status is required'));
   });
@@ -111,12 +111,12 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: undefined,
         new_status: transaction.status,
-        responsible_email: Admin.ADMIN,
+        admin_email: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('id is required'));
   });
 
-  it('should not be able to update a collaboration if user is not a administrator', async () => {
+  it('should not be able to update a "transaction" if user is not an administrator', async () => {
     inMemoryUsersRepository.create({
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
@@ -138,7 +138,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: Status.APPROVED,
-        responsible_email: Admin.ADMIN,
+        admin_email: Admin.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('you must be a administrator'));
   });
