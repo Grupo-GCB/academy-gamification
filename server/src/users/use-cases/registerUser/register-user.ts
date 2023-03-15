@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
+import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
@@ -8,8 +8,18 @@ import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 export class RegisterUser {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute(data: RegisterUserDTO): Promise<User> {
-    const user = await this.userRepository.create(data);
+  async execute({
+    name,
+    email,
+    password,
+    role,
+  }: RegisterUserDTO): Promise<User> {
+    const user = await this.userRepository.create({
+      name,
+      email,
+      password,
+      role,
+    });
 
     return user;
   }
