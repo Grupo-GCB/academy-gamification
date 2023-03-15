@@ -82,20 +82,20 @@ export class TransactionsController {
   })
   @Put()
   updateStatus(
-    @Body() { id, new_status, admin_email }: UpdateStatusDTO,
+    @Body() { id, new_status, admin }: UpdateStatusDTO,
   ): Promise<Transaction> {
     return this.updateTransactionStatus.execute({
       id,
       new_status,
-      admin_email,
+      admin,
     });
   }
 
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
-  @Get()
-  filterByStatus(@Query('status') status: Status): Promise<Transaction[]> {
+  @Get('/filterBystatus')
+  filterByStatus(@Query() status: Status): Promise<Transaction[]> {
     return this.filterTransactionsByStatus.execute({ status });
   }
 }
