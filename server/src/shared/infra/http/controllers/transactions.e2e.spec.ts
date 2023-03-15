@@ -6,10 +6,10 @@ import { AppModule } from '@/app.module';
 import {
   Admin,
   BusinessUnits,
-  CollaborationsTypes,
-  Reasons,
-  RedeemTypes,
+  CollaborationsSubType,
+  RedeemSubType,
   Status,
+  Types,
 } from '@shared/constants';
 import {
   FilterTransactionsByStatus,
@@ -22,11 +22,11 @@ import { FindAllTransactions } from '@transactions/use-cases/findAllTransactions
 describe('Transaction Controller', () => {
   const registerTransaction = {
     execute: () => ({
-      collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
       business_unit: BusinessUnits.ADIANTE,
-      reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.APPROVED,
       gcbits: 3000,
     }),
@@ -39,20 +39,20 @@ describe('Transaction Controller', () => {
   const findAllTransactions = {
     execute: () => [
       {
-        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        user: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
         business_unit: BusinessUnits.ADIANTE,
-        reason: Reasons.COLLABORATION,
-        type: CollaborationsTypes.CODEREVIEW,
+        type: Types.COLLABORATION,
+        sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
         gcbits: 5000,
       },
       {
-        collaborator: 'flavio.marques@gcbinvestimentos.com',
+        user: 'flavio.marques@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
         business_unit: BusinessUnits.PEERBR,
-        reason: Reasons.REDEEM,
-        type: RedeemTypes.ACADEMY,
+        type: Types.REDEEM,
+        sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,
         gcbits: -50000,
       },
@@ -69,20 +69,20 @@ describe('Transaction Controller', () => {
   const filterTransactionsByStatus = {
     execute: () => [
       {
-        collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
+        user: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
         business_unit: BusinessUnits.ADIANTE,
-        reason: Reasons.COLLABORATION,
-        type: CollaborationsTypes.CODEREVIEW,
+        type: Types.COLLABORATION,
+        sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
         gcbits: 5000,
       },
       {
-        collaborator: 'flavio.marques@gcbinvestimentos.com',
+        user: 'flavio.marques@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
         business_unit: BusinessUnits.PEERBR,
-        reason: Reasons.REDEEM,
-        type: RedeemTypes.ACADEMY,
+        type: Types.REDEEM,
+        sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,
         gcbits: -50000,
       },
