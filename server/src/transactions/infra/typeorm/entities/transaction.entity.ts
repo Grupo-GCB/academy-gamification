@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import {
   Column,
   CreateDateColumn,
@@ -7,42 +8,45 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { randomUUID } from 'node:crypto';
 
 import {
-  BusinessUnits,
-  CollaborationsStatus,
-  TransactionReasons,
+  CollaborationsSubType,
+  RedeemSubType,
+  Status,
+  Types,
 } from '@shared/constants';
-import { Collaborator } from '@collaborator/infra/entities/collaborator.entity';
+import { User } from '@users/infra/entities/user.entity';
 
 @Entity('transactions')
 export class Transaction {
   @PrimaryColumn()
   id: string;
 
-  @ManyToOne(() => Collaborator, (collaborator) => collaborator.id)
-  @JoinColumn({ name: 'collaborator_id' })
+  @ManyToOne(() => User, (user) => user.email)
+  @JoinColumn({
+    name: 'user',
+    referencedColumnName: 'email',
+  })
   @Column()
-  collaborator_id: string;
+  user: string;
 
   @Column()
-  business_unit: BusinessUnits;
+  responsible: string;
 
   @Column()
-  reason: TransactionReasons;
+  type: Types;
 
   @Column()
-  type: string;
-
-  @Column('text', { array: true })
-  academys: string[];
+  sub_type?: CollaborationsSubType | RedeemSubType;
 
   @Column()
-  status: CollaborationsStatus;
+  status: Status;
 
   @Column()
   gcbits: number;
+
+  @Column()
+  description?: string;
 
   @CreateDateColumn()
   created_at?: Date;

@@ -1,5 +1,4 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import { Button } from './Button';
 
@@ -7,8 +6,8 @@ import { Button } from './Button';
 export default {
   title: 'Example/Button',
   component: Button,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
+  // More on argSubType: https://storybook.js.org/docs/react/api/argtypes
+  argSubType: {
     backgroundColor: { control: 'color' },
   },
 } as ComponentMeta<typeof Button>;

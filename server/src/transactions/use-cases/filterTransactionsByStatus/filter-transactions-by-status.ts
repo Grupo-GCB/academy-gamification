@@ -1,8 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
-import { ITransactionsRepository } from '@transactions/interfaces';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { FilterTransactionsByStatusDTO } from '@transactions/dto';
+import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { ITransactionsRepository } from '@transactions/interfaces';
 
 @Injectable()
 export class FilterTransactionsByStatus {

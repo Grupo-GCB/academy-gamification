@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import {
+  FilterTransactionsByStatusDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
-  FilterTransactionsByStatusDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
@@ -17,22 +17,23 @@ export class TransactionsRepository {
   ) {}
 
   async register({
-    collaborator_id,
-    business_unit,
-    reason,
+    user,
+    responsible,
     type,
-    academys,
+    sub_type,
     status,
     gcbits,
+    description,
   }: RegisterTransactionDTO): Promise<Transaction> {
-    const transaction: Transaction = await this.transactionsRepository.create({
-      collaborator_id,
-      business_unit,
-      reason,
+    const transaction: Transaction = this.transactionsRepository.create({
+      user,
+      responsible,
+
       type,
-      academys,
+      sub_type,
       status,
       gcbits,
+      description,
     });
 
     return this.transactionsRepository.save(transaction);
@@ -44,8 +45,11 @@ export class TransactionsRepository {
     });
   }
 
-  async updateStatus({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
-    await this.transactionsRepository.update({ id }, { status: newStatus });
+  async updateStatus({
+    id,
+    new_status,
+  }: UpdateStatusDTO): Promise<Transaction> {
+    await this.transactionsRepository.update({ id }, { status: new_status });
 
     return this.findOne(id);
   }
@@ -56,5 +60,9 @@ export class TransactionsRepository {
     return this.transactionsRepository.find({
       where: { status },
     });
+  }
+
+  async findAll(): Promise<Transaction[]> {
+    return this.transactionsRepository.find();
   }
 }

@@ -6,20 +6,23 @@ import { TransactionsController } from '@shared/infra/http/controllers/transacti
 import { TransactionsRepository } from '@transactions/infra/typeorm/repositories/transactions.repository';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import {
+  FilterTransactionsByStatus,
+  FindAllTransactions,
   FindById,
   RegisterTransaction,
   UpdateStatus,
-  FilterTransactionsByStatus
 } from '@transactions/use-cases';
+import { UsersModule } from '@users/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Transaction])],
+  imports: [TypeOrmModule.forFeature([Transaction]), UsersModule],
   controllers: [TransactionsController],
   providers: [
     RegisterTransaction,
     UpdateStatus,
     FindById,
     FilterTransactionsByStatus,
+    FindAllTransactions,
     {
       provide: ITransactionsRepository,
       useClass: TransactionsRepository,

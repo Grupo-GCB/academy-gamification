@@ -14,12 +14,13 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { CollaborationsStatus } from '@shared/constants';
 
+import { Status } from '@shared/constants';
 import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import {
   FilterTransactionsByStatus,
+  FindAllTransactions,
   FindById,
   RegisterTransaction,
   UpdateStatus,
@@ -30,6 +31,7 @@ export class TransactionsController {
   constructor(
     private registerTransaction: RegisterTransaction,
     private findById: FindById,
+    private findAllTransactions: FindAllTransactions,
     private updateTransactionStatus: UpdateStatus,
     private filterTransactionsByStatus: FilterTransactionsByStatus,
   ) {}
@@ -53,11 +55,27 @@ export class TransactionsController {
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
+  @Get()
+  findAll(): Promise<Transaction[]> {
+    return this.findAllTransactions.execute();
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @Get('/filter-by-status')
+  filterByStatus(@Query('status') status: Status): Promise<Transaction[]> {
+    return this.filterTransactionsByStatus.execute({ status });
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
   @ApiNotFoundResponse({
     status: HttpStatus.NOT_FOUND,
     description: 'Não foi possível encontrar a transação',
   })
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string): Promise<Transaction> {
     return this.findById.execute(id);
   }
@@ -72,21 +90,12 @@ export class TransactionsController {
   })
   @Put()
   updateStatus(
-    @Body() { id, newStatus }: UpdateStatusDTO,
+    @Body() { id, new_status, admin }: UpdateStatusDTO,
   ): Promise<Transaction> {
     return this.updateTransactionStatus.execute({
       id,
-      newStatus,
+      new_status,
+      admin,
     });
-  }
-
-  @ApiOkResponse({
-    status: HttpStatus.OK,
-  })
-  @Get()
-  filterByStatus(
-    @Query('status') status: CollaborationsStatus,
-  ): Promise<Transaction[]> {
-    return this.filterTransactionsByStatus.execute({ status });
   }
 }

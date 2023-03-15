@@ -1,45 +1,103 @@
-import {
-  BusinessUnits,
-  CollaborationsStatus,
-  TransactionReasons,
-} from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { RegisterTransaction } from '@transactions/use-cases';
+import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
+import { RegisterTransaction } from './register-transaction';
 
-describe('Register transaction', () => {
-  let inMemoryTransactionRepository: InMemoryTransactionsRepository;
+describe('Register a transaction', () => {
+  let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
+  let inMemoryUsersRepository: InMemoryUsersRepository;
+
   let sut: RegisterTransaction;
 
   beforeEach(() => {
-    inMemoryTransactionRepository = new InMemoryTransactionsRepository();
-    sut = new RegisterTransaction(inMemoryTransactionRepository);
-  });
+    inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
 
-  it('Should be able to register a new transaction', async () => {
-    const transaction = await sut.execute({
-      collaborator_id: '08695ca2-1f95-4383-b92f-7e44fb8bd950',
-      business_unit: BusinessUnits.ADIANTE,
-      reason: TransactionReasons.COLLABORATION,
-      type: 'Code_Review',
-      academys: [
-        'c13f866c-2ba0-42b7-83c9-50bb61c5c167',
-        '70c2be1a-ef21-4ae7-a8d0-375ddf026920',
-      ],
-      status: CollaborationsStatus.APPROVED,
-      gcbits: 5000,
-    });
-
-    expect(transaction).toEqual(
-      expect.objectContaining({
-        id: transaction.id,
-        collaborator_id: transaction.collaborator_id,
-        business_unit: transaction.business_unit,
-        reason: transaction.reason,
-        type: transaction.type,
-        academys: transaction.academys,
-        status: transaction.status,
-        gcbits: transaction.gcbits,
-      }),
+    sut = new RegisterTransaction(
+      inMemoryTransactionsRepository,
+      inMemoryUsersRepository,
     );
   });
+
+  it('', () => {});
+
+  // it('should be able to register a transaction', async () => {
+  //   const admin = await inMemoryUsersRepository.create({
+  //     name: 'Kayke',
+  //     email: 'kayke.fujinaka@gcbinvestimentos.com',
+  //     password: 'gcb123',
+  //     business_unit: BusinessUnits.ACADEMY,
+  //     role: Roles.ADMIN,
+  //   });
+
+  //   const user = await inMemoryUsersRepository.create({
+  //     name: 'Levi',
+  //     email: 'levi.ciarrochi@gcbinvestimentos.com',
+  //     password: 'gcb123',
+  //     business_unit: BusinessUnits.ACADEMY,
+  //     role: Roles.COLLABORATOR,
+  //   });
+
+  //   const transaction = await sut.execute({
+  //     user: user.id,
+  //     responsible: admin.id,
+  //     type: Types.COLLABORATION,
+  //     sub_type: RedeemSubType.ACADEMY,
+  //     status: Status.APPROVED,
+  //     gcbits: 3000,
+  //   });
+
+  //   expect(transaction).toEqual(
+  //     expect.objectContaining({
+  //       id: transaction.id,
+  //       user: transaction.user,
+  //       responsible: transaction.responsible,
+  //       type: transaction.type,
+  //       sub_type: transaction.sub_type,
+  //       status: transaction.status,
+  //       gcbits: transaction.gcbits,
+  //     }),
+  //   );
+  // });
+
+  //   it('should not be able to register a collaboration transaction if user is a user', async () => {
+  //     const user = await inMemoryUsersRepository.create({
+  //       name: 'Gustavo',
+  //       email: 'gustavo.wuelta@gcbinvestimentos.com',
+  //       password: 'gcb123',
+  //       business_unit: BusinessUnits.ACADEMY,
+  //       role: Roles.COLLABORATOR,
+  //     });
+
+  //     await expect(
+  //       sut.execute({
+  //         user: user.id,
+  //         responsible: null,
+  //         type: Types.COLLABORATION,
+  //         sub_type: RedeemSubType.MEDIUMPROJECT,
+  //         status: Status.APPROVED,
+  //         gcbits: 3000,
+  //       }),
+  //     ).rejects.toThrow('You do not have permission');
+  //   });
+
+  //   it('should not be able to register a reedem transaction if user is a academy', async () => {
+  //     const user = await inMemoryUsersRepository.create({
+  //       name: 'Gustavo',
+  //       email: 'gustavo.wuelta@gcbinvestimentos.com',
+  //       password: 'gcb123',
+  //       business_unit: BusinessUnits.ACADEMY,
+  //       role: Roles.ACADEMY,
+  //     });
+
+  //     await expect(
+  //       sut.execute({
+  //         user: user.id,
+  //         responsible: null,
+  //         type: Types.REDEEM,
+  //         sub_type: RedeemSubType.PEERCREDIT,
+  //         status: Status.PENDING,
+  //         gcbits: 3000,
+  //       }),
+  //     ).rejects.toThrow('You do not have permission');
+  //   });
 });

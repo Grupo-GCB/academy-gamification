@@ -2,19 +2,34 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
+import { Roles } from '@shared/constants';
 
 import { UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
+import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
 @Injectable()
 export class UpdateStatus {
-  constructor(private transactionsRepository: ITransactionsRepository) {}
+  constructor(
+    private transactionsRepository: ITransactionsRepository,
+    private usersRepository: IUsersRepository,
+  ) {}
 
-  async execute({ id, newStatus }: UpdateStatusDTO): Promise<Transaction> {
-    if (!newStatus) throw new BadRequestException('newStatus is required');
-    if (!id) throw new BadRequestException('id is required');
+  async execute({
+    id,
+    new_status,
+    admin,
+  }: UpdateStatusDTO): Promise<Transaction> {
+    if (!new_status) throw new BadRequestException('New status is required');
+    if (!id) throw new BadRequestException('Id is required');
+
+    const responsible = this.usersRepository.findOne(admin);
+    if ((await responsible).role != Roles.ADMIN) {
+      throw new UnauthorizedException('You must be a administrator');
+    }
 
     const transaction: Transaction = await this.transactionsRepository.findOne(
       id,
@@ -26,7 +41,8 @@ export class UpdateStatus {
 
     return this.transactionsRepository.updateStatus({
       id,
-      newStatus,
+      new_status,
+      admin,
     });
   }
 }
