@@ -63,11 +63,19 @@ export class TransactionsController {
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
+  @Get('/filter-by-status')
+  filterByStatus(@Query('status') status: Status): Promise<Transaction[]> {
+    return this.filterTransactionsByStatus.execute({ status });
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
   @ApiNotFoundResponse({
     status: HttpStatus.NOT_FOUND,
     description: 'Não foi possível encontrar a transação',
   })
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string): Promise<Transaction> {
     return this.findById.execute(id);
   }
@@ -89,13 +97,5 @@ export class TransactionsController {
       new_status,
       admin,
     });
-  }
-
-  @ApiOkResponse({
-    status: HttpStatus.OK,
-  })
-  @Get('/filterBystatus')
-  filterByStatus(@Query() status: Status): Promise<Transaction[]> {
-    return this.filterTransactionsByStatus.execute({ status });
   }
 }
