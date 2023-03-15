@@ -4,7 +4,7 @@ export enum Status {
   REJECTED = 'REJECTED',
 }
 
-export enum CollaborationsTypes {
+export enum CollaborationsSubType {
   LOGICEXERCISE = 'LOGIC_EXERCISE',
   CODEREVIEW = 'CODE_REVIEW',
   COMMITTEE = 'COMMITTEE',
@@ -14,7 +14,7 @@ export enum CollaborationsTypes {
   TEAMCEREMONY = 'TEAM_CEREMONY',
 }
 
-export enum RedeemTypes {
+export enum RedeemSubType {
   PEERCREDIT = 'PEER_CREDIT',
   SIMPLEPROJECT = 'SIMPLE_PROJECT',
   MEDIUMPROJECT = 'MEDIUM_PROJECT',
@@ -27,12 +27,15 @@ export enum BusinessUnits {
   PEERBR = 'PEERBR',
   FMI = 'FMI',
   GRUPOGCB = 'GRUPOGCB',
+  ACADEMY = 'ACADEMY',
 }
 
-export enum Reasons {
+export enum Types {
   COLLABORATION = 'COLLABORATION',
   REDEEM = 'REDEEM',
   PENALTY = 'PENALTY',
+  TRANSFER = 'TRANSFER',
+  CORRECTION = 'CORRECTION',
 }
 
 export enum Roles {
@@ -60,7 +63,7 @@ export enum Responsibles {
   ACADEMY4 = 'leonardo.costa@gcbinvestimentos.com',
 }
 
-export enum TransactionTypes {
+export enum TransactionSubType {
   LOGICEXERCISE = 'LOGIC_EXERCISE',
   CODEREVIEW = 'CODE_REVIEW',
   COMMITTEE = 'COMMITTEE',
