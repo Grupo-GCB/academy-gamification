@@ -5,14 +5,11 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
 } from 'class-validator';
 
 import {
   Academys,
-  Admin,
   BusinessUnits,
-  CollaborationsTypes,
   Reasons,
   ReedemTypes,
   Status,
@@ -20,7 +17,7 @@ import {
 
 export class RegisterTransactionDTO {
   @IsNotEmpty()
-  @IsUUID()
+  @IsString()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
     description: 'Email do colaborador que está envolvido na transação',
@@ -30,14 +27,14 @@ export class RegisterTransactionDTO {
   collaborator: string;
 
   @IsNotEmpty()
-  @IsEnum([Admin, Academys])
+  @IsEnum(Academys)
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'Email do usuário que está registrando a transação',
     type: 'string',
     required: true,
   })
-  responsible: Admin | Academys;
+  responsible: Academys;
 
   @IsNotEmpty()
   @IsEnum(BusinessUnits)
@@ -52,7 +49,7 @@ export class RegisterTransactionDTO {
   @IsNotEmpty()
   @IsEnum(Reasons)
   @ApiProperty({
-    example: 'REDEEM',
+    example: 'REEDEM',
     description: 'Razão pela qual a transação existe',
     type: 'Reasons',
     required: true,
@@ -60,14 +57,14 @@ export class RegisterTransactionDTO {
   reason: Reasons;
 
   @IsNotEmpty()
-  @IsEnum([CollaborationsTypes, ReedemTypes])
+  @IsEnum(ReedemTypes)
   @ApiProperty({
     example: 'PAIR_PROGRAMMING',
     description: 'Tipo da transação realizada',
     type: 'string',
     required: true,
   })
-  type?: CollaborationsTypes | ReedemTypes;
+  type?: ReedemTypes;
 
   // @IsNotEmpty()
   // @IsArray()
