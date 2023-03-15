@@ -55,10 +55,6 @@ export class TransactionsController {
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
-  @ApiNotFoundResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'Não foi possível encontrar transações',
-  })
   @Get()
   findAll(): Promise<Transaction[]> {
     return this.findAllTransactions.execute();
@@ -86,12 +82,12 @@ export class TransactionsController {
   })
   @Put()
   updateStatus(
-    @Body() { id, new_status, responsible_email }: UpdateStatusDTO,
+    @Body() { id, new_status, admin_email }: UpdateStatusDTO,
   ): Promise<Transaction> {
     return this.updateTransactionStatus.execute({
       id,
       new_status,
-      responsible_email,
+      admin_email,
     });
   }
 
