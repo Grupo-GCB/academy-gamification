@@ -8,7 +8,7 @@ import {
   BusinessUnits,
   CollaborationsTypes,
   Reasons,
-  ReedemTypes,
+  RedeemTypes,
   Status,
 } from '@shared/constants';
 import {
@@ -51,8 +51,8 @@ describe('Transaction Controller', () => {
         collaborator: 'flavio.marques@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
         business_unit: BusinessUnits.PEERBR,
-        reason: Reasons.REEDEM,
-        type: ReedemTypes.ACADEMY,
+        reason: Reasons.REDEEM,
+        type: RedeemTypes.ACADEMY,
         status: Status.PENDING,
         gcbits: -50000,
       },
@@ -81,8 +81,8 @@ describe('Transaction Controller', () => {
         collaborator: 'flavio.marques@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
         business_unit: BusinessUnits.PEERBR,
-        reason: Reasons.REEDEM,
-        type: ReedemTypes.ACADEMY,
+        reason: Reasons.REDEEM,
+        type: RedeemTypes.ACADEMY,
         status: Status.PENDING,
         gcbits: -50000,
       },
@@ -134,7 +134,7 @@ describe('Transaction Controller', () => {
   });
 
   describe('Find all transactions', () => {
-    it('should return an array of transactions', async () => {
+    it('should return an array of transactions', () => {
       return request(app.getHttpServer())
         .get('/transactions')
         .expect(200)

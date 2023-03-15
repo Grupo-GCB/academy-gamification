@@ -14,7 +14,7 @@ export enum CollaborationsTypes {
   TEAMCEREMONY = 'TEAM_CEREMONY',
 }
 
-export enum ReedemTypes {
+export enum RedeemTypes {
   PEERCREDIT = 'PEER_CREDIT',
   SIMPLEPROJECT = 'SIMPLE_PROJECT',
   MEDIUMPROJECT = 'MEDIUM_PROJECT',
@@ -31,7 +31,7 @@ export enum BusinessUnits {
 
 export enum Reasons {
   COLLABORATION = 'COLLABORATION',
-  REEDEM = 'REEDEM',
+  REDEEM = 'REDEEM',
   PENALTY = 'PENALTY',
 }
 
@@ -58,4 +58,19 @@ export enum Responsibles {
   ACADEMY2 = 'vitor.freitas@gcbinvestimentos.com',
   ACADEMY3 = 'rafael.costa@gcbinvestimentos.com',
   ACADEMY4 = 'leonardo.costa@gcbinvestimentos.com',
+}
+
+export enum TransactionTypes {
+  LOGICEXERCISE = 'LOGIC_EXERCISE',
+  CODEREVIEW = 'CODE_REVIEW',
+  COMMITTEE = 'COMMITTEE',
+  DOUBTS = 'DOUBTS',
+  PAIRPROGRAMMING = 'PAIR_PROGRAMMING',
+  FEEDBACK = 'FEEDBACK',
+  TEAMCEREMONY = 'TEAM_CEREMONY',
+  PEERCREDIT = 'PEER_CREDIT',
+  SIMPLEPROJECT = 'SIMPLE_PROJECT',
+  MEDIUMPROJECT = 'MEDIUM_PROJECT',
+  COMPLEXPROJECT = 'COMPLEX_PROJECT',
+  ACADEMY = 'ACADEMY',
 }

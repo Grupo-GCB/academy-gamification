@@ -9,9 +9,9 @@ import { RegisterUser } from '@users/use-cases';
 describe('Users Controller', () => {
   const registerUser = {
     execute: () => ({
-      name: 'John Doe',
-      email: 'john.doe@gmail.com',
-      passowrd: 'johndoe123',
+      name: 'Admin',
+      email: 'admin@gcbinvestimentos.com',
+      passowrd: 'admin123',
       role: Roles.ADMIN,
     }),
   };
@@ -37,7 +37,7 @@ describe('Users Controller', () => {
   describe('Register an user', () => {
     it('should be able to return a 201 status if create user', () => {
       return request(app.getHttpServer())
-        .post('/users')
+        .post('/users/register')
         .expect(201)
         .expect(registerUser.execute());
     });
