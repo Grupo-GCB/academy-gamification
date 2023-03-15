@@ -1,8 +1,6 @@
 import {
   Academys,
-  Admin,
   BusinessUnits,
-  CollaborationsTypes,
   Reasons,
   ReedemTypes,
   Roles,
@@ -38,10 +36,10 @@ describe('Register a transaction', () => {
 
     const transaction = await sut.execute({
       collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: Admin.ADMIN,
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: ReedemTypes.ACADEMY,
       status: Status.APPROVED,
       gcbits: 3000,
     });
@@ -74,7 +72,7 @@ describe('Register a transaction', () => {
         responsible: Academys.ACADEMY1,
         business_unit: BusinessUnits.ADIANTE,
         reason: Reasons.COLLABORATION,
-        type: CollaborationsTypes.CODEREVIEW,
+        type: ReedemTypes.MEDIUMPROJECT,
         status: Status.APPROVED,
         gcbits: 3000,
       }),
@@ -94,7 +92,7 @@ describe('Register a transaction', () => {
         collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: Academys.ACADEMY1,
         business_unit: BusinessUnits.ADIANTE,
-        reason: Reasons.REDEEM,
+        reason: Reasons.REEDEM,
         type: ReedemTypes.PEERCREDIT,
         status: Status.PENDING,
         gcbits: 3000,
