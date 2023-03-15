@@ -1,4 +1,4 @@
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
+import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
