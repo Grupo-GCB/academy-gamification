@@ -9,10 +9,14 @@ import {
 
 import {
   Academys,
+  Admin,
   BusinessUnits,
+  CollaborationsTypes,
   Reasons,
-  ReedemTypes,
+  RedeemTypes,
+  Responsibles,
   Status,
+  TransactionTypes,
 } from '@shared/constants';
 
 export class RegisterTransactionDTO {
@@ -27,14 +31,14 @@ export class RegisterTransactionDTO {
   collaborator: string;
 
   @IsNotEmpty()
-  @IsEnum(Academys)
+  @IsEnum(Responsibles)
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'Email do usuário que está registrando a transação',
     type: 'string',
     required: true,
   })
-  responsible: Academys;
+  responsible: Academys | Admin;
 
   @IsNotEmpty()
   @IsEnum(BusinessUnits)
@@ -49,34 +53,22 @@ export class RegisterTransactionDTO {
   @IsNotEmpty()
   @IsEnum(Reasons)
   @ApiProperty({
-    example: 'REEDEM',
-    description: 'Razão pela qual a transação existe',
+    example: 'REDEEM',
+    description: 'Razão pela qual essa transação está acontecendo',
     type: 'Reasons',
     required: true,
   })
   reason: Reasons;
 
   @IsNotEmpty()
-  @IsEnum(ReedemTypes)
+  @IsEnum(TransactionTypes)
   @ApiProperty({
     example: 'PAIR_PROGRAMMING',
     description: 'Tipo da transação realizada',
     type: 'string',
-    required: true,
+    required: false,
   })
-  type?: ReedemTypes;
-
-  // @IsNotEmpty()
-  // @IsArray()
-  // @IsString({ each: true })
-  // @ApiProperty({
-  //   example:
-  //     '["vitor.freitas@gcbinvestimentos.com", "leonardo.costa@gcbinvestimentos.com"]',
-  //   description: 'Academys que foram ajudados nesta transação',
-  //   type: 'string',
-  //   required: true,
-  // })
-  // academys: Academys[];
+  type?: CollaborationsTypes | RedeemTypes;
 
   @IsNotEmpty()
   @IsEnum(Status)
