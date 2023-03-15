@@ -15,7 +15,7 @@ import {
   BusinessUnits,
   CollaborationsTypes,
   Reasons,
-  ReedemTypes,
+  RedeemTypes,
   Status,
 } from '@shared/constants';
 import { User } from '@users/infra/entities/user.entity';
@@ -34,7 +34,7 @@ export class Transaction {
   collaborator: string;
 
   @Column()
-  responsible: Academys | Admin;
+  responsible: Academys | Admin | string;
 
   @Column()
   business_unit: BusinessUnits;
@@ -43,10 +43,7 @@ export class Transaction {
   reason: Reasons;
 
   @Column()
-  type?: CollaborationsTypes | ReedemTypes;
-
-  // @Column('enum', { array: true })
-  // academys: Academys[];
+  type?: CollaborationsTypes | RedeemTypes;
 
   @Column()
   status: Status;
