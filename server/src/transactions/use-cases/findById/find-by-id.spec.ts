@@ -1,7 +1,6 @@
 import {
-  Admin,
+  Academys,
   BusinessUnits,
-  CollaborationsTypes,
   Reasons,
   ReedemTypes,
   Status,
@@ -21,19 +20,19 @@ describe('Find a transaction by id', () => {
   it('shoud be able to find a transaction by id', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
       collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: Admin.ADMIN,
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: CollaborationsTypes.CODEREVIEW,
+      type: ReedemTypes.PEERCREDIT,
       status: Status.APPROVED,
       gcbits: 5000,
     });
 
     const transaction2 = await inMemoryTransactionsRepository.register({
       collaborator: 'thiago.ribeiro@gcbinvestimentos.com',
-      responsible: Admin.ADMIN,
+      responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.PEERBR,
-      reason: Reasons.REDEEM,
+      reason: Reasons.REEDEM,
       type: ReedemTypes.ACADEMY,
       status: Status.PENDING,
       gcbits: 5000,
