@@ -33,7 +33,7 @@ describe('Find all transactions', () => {
       collaborator: 'flavio.marques@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
       business_unit: BusinessUnits.PEERBR,
-      reason: Reasons.REDEEM,
+      reason: Reasons.REEDEM,
       type: ReedemTypes.ACADEMY,
       status: Status.PENDING,
       gcbits: -50000,
