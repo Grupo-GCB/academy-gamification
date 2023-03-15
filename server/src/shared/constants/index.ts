@@ -31,7 +31,7 @@ export enum BusinessUnits {
 
 export enum Reasons {
   COLLABORATION = 'COLLABORATION',
-  REDEEM = 'REDEEM',
+  REEDEM = 'REEDEM',
   PENALTY = 'PENALTY',
 }
 
