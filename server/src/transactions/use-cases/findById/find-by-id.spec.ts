@@ -2,7 +2,7 @@ import {
   Academys,
   BusinessUnits,
   Reasons,
-  ReedemTypes,
+  RedeemTypes,
   Status,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
@@ -23,7 +23,7 @@ describe('Find a transaction by id', () => {
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.ADIANTE,
       reason: Reasons.COLLABORATION,
-      type: ReedemTypes.PEERCREDIT,
+      type: RedeemTypes.PEERCREDIT,
       status: Status.APPROVED,
       gcbits: 5000,
     });
@@ -32,8 +32,8 @@ describe('Find a transaction by id', () => {
       collaborator: 'thiago.ribeiro@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
       business_unit: BusinessUnits.PEERBR,
-      reason: Reasons.REEDEM,
-      type: ReedemTypes.ACADEMY,
+      reason: Reasons.REDEEM,
+      type: RedeemTypes.ACADEMY,
       status: Status.PENDING,
       gcbits: 5000,
     });
