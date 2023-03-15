@@ -5,7 +5,6 @@ import request from 'supertest';
 import { AppModule } from '@/app.module';
 import {
   Admin,
-  BusinessUnits,
   CollaborationsSubType,
   RedeemSubType,
   Status,
@@ -24,7 +23,6 @@ describe('Transaction Controller', () => {
     execute: () => ({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
-      business_unit: BusinessUnits.ADIANTE,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.APPROVED,
@@ -41,7 +39,6 @@ describe('Transaction Controller', () => {
       {
         user: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
-        business_unit: BusinessUnits.ADIANTE,
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
@@ -50,7 +47,6 @@ describe('Transaction Controller', () => {
       {
         user: 'flavio.marques@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
-        business_unit: BusinessUnits.PEERBR,
         type: Types.REDEEM,
         sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,
@@ -71,7 +67,6 @@ describe('Transaction Controller', () => {
       {
         user: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
-        business_unit: BusinessUnits.ADIANTE,
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
@@ -80,7 +75,6 @@ describe('Transaction Controller', () => {
       {
         user: 'flavio.marques@gcbinvestimentos.com',
         responsible: Admin.ADMIN,
-        business_unit: BusinessUnits.PEERBR,
         type: Types.REDEEM,
         sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,

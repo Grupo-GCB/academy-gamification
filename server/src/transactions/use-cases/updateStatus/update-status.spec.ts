@@ -34,15 +34,15 @@ describe('Update a transaction status', () => {
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
       role: Roles.ADMIN,
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.ADIANTE,
       type: Types.COLLABORATION,
-      type: CollaborationsSubType.LOGICEXERCISE,
+      sub_type: CollaborationsSubType.LOGICEXERCISE,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -64,6 +64,7 @@ describe('Update a transaction status', () => {
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
       role: Roles.ADMIN,
     });
 
@@ -80,9 +81,8 @@ describe('Update a transaction status', () => {
     const transaction = await inMemoryTransactionsRepository.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.ADIANTE,
       type: Types.COLLABORATION,
-      type: CollaborationsSubType.CODEREVIEW,
+      sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -93,16 +93,15 @@ describe('Update a transaction status', () => {
         new_status: undefined,
         admin: Admin.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('new_status is required'));
+    ).rejects.toThrow(new BadRequestException('New status is required'));
   });
 
   it('should throw error if id are not passed', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.ADIANTE,
       type: Types.COLLABORATION,
-      type: CollaborationsSubType.CODEREVIEW,
+      sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -113,7 +112,7 @@ describe('Update a transaction status', () => {
         new_status: transaction.status,
         admin: Admin.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('id is required'));
+    ).rejects.toThrow(new BadRequestException('Id is required'));
   });
 
   it('should not be able to update a "transaction" if user is not an administrator', async () => {
@@ -121,15 +120,15 @@ describe('Update a transaction status', () => {
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
       role: Roles.ACADEMY,
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.ADIANTE,
       type: Types.COLLABORATION,
-      type: CollaborationsSubType.CODEREVIEW,
+      sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -140,6 +139,6 @@ describe('Update a transaction status', () => {
         new_status: Status.APPROVED,
         admin: Admin.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('you must be a administrator'));
+    ).rejects.toThrow(new BadRequestException('You must be a administrator'));
   });
 });

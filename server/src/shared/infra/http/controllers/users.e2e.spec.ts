@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Roles } from '@shared/constants';
+import { BusinessUnits, Roles } from '@shared/constants';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
@@ -11,8 +11,8 @@ describe('Users Controller', () => {
     execute: () => ({
       name: 'Admin',
       email: 'admin@gcbinvestimentos.com',
-      passowrd: 'admin123',
-      bu: BusinessUnits.ADIANTE,
+      password: 'admin123',
+      business_unit: BusinessUnits.ADIANTE,
       role: Roles.ADMIN,
     }),
   };

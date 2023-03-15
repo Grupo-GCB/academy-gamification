@@ -1,4 +1,4 @@
-import { Roles } from '@shared/constants';
+import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { FindByEmail } from './find-by-email';
 
@@ -16,6 +16,7 @@ describe('Find an user by email', () => {
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
       role: Roles.ACADEMY,
     });
 
@@ -27,6 +28,7 @@ describe('Find an user by email', () => {
         name: user.name,
         email: user.email,
         password: user.password,
+        business_unit: user.business_unit,
         role: user.role,
       }),
     );

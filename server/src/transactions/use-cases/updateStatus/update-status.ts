@@ -23,12 +23,12 @@ export class UpdateStatus {
     new_status,
     admin,
   }: UpdateStatusDTO): Promise<Transaction> {
-    if (!new_status) throw new BadRequestException('new status is required');
-    if (!id) throw new BadRequestException('ID is required');
+    if (!new_status) throw new BadRequestException('New status is required');
+    if (!id) throw new BadRequestException('Id is required');
 
     const responsible = this.usersRepository.findOne(admin);
     if ((await responsible).role != Roles.ADMIN) {
-      throw new UnauthorizedException('you must be a administrator');
+      throw new UnauthorizedException('You must be a administrator');
     }
 
     const transaction: Transaction = await this.transactionsRepository.findOne(

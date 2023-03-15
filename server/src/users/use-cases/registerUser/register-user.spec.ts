@@ -25,7 +25,7 @@ describe('Register user', () => {
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
-        business_units: BusinessUnits.ADIANTE,
+        business_unit: BusinessUnits.ADIANTE,
         role: Roles.ACADEMY,
       }),
     );
@@ -45,7 +45,7 @@ describe('Register user', () => {
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
-        business_units: BusinessUnits.ADIANTE,
+        business_unit: BusinessUnits.ADIANTE,
         role: Roles.ADMIN,
       }),
     );
@@ -65,7 +65,7 @@ describe('Register user', () => {
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
-        business_units: BusinessUnits.ADIANTE,
+        business_unit: BusinessUnits.ADIANTE,
         role: Roles.COLLABORATOR,
       }),
     );

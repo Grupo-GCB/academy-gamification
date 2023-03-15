@@ -1,6 +1,5 @@
 import {
   Admin,
-  BusinessUnits,
   CollaborationsSubType,
   RedeemSubType,
   Status,
@@ -22,9 +21,8 @@ describe('Find all transactions', () => {
     const transactionOne = await inMemoryTransactions.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
-      business_unit: BusinessUnits.ADIANTE,
       type: Types.COLLABORATION,
-      type: CollaborationsSubType.CODEREVIEW,
+      sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -32,9 +30,8 @@ describe('Find all transactions', () => {
     const transactionTwo = await inMemoryTransactions.register({
       user: 'flavio.marques@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
-      business_unit: BusinessUnits.PEERBR,
       type: Types.REDEEM,
-      type: RedeemSubType.ACADEMY,
+      sub_type: RedeemSubType.ACADEMY,
       status: Status.PENDING,
       gcbits: -50000,
     });

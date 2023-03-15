@@ -1,10 +1,4 @@
-import {
-  Academys,
-  BusinessUnits,
-  RedeemSubType,
-  Status,
-  Types,
-} from '@shared/constants';
+import { Academys, RedeemSubType, Status, Types } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FindById } from './find-by-id';
 
@@ -21,9 +15,8 @@ describe('Find a transaction by id', () => {
     const transaction = await inMemoryTransactionsRepository.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.ADIANTE,
       type: Types.COLLABORATION,
-      type: RedeemSubType.PEERCREDIT,
+      sub_type: RedeemSubType.PEERCREDIT,
       status: Status.APPROVED,
       gcbits: 5000,
     });
@@ -31,9 +24,8 @@ describe('Find a transaction by id', () => {
     const transaction2 = await inMemoryTransactionsRepository.register({
       user: 'thiago.ribeiro@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
-      business_unit: BusinessUnits.PEERBR,
       type: Types.REDEEM,
-      type: RedeemSubType.ACADEMY,
+      sub_type: RedeemSubType.ACADEMY,
       status: Status.PENDING,
       gcbits: 5000,
     });
@@ -45,9 +37,8 @@ describe('Find a transaction by id', () => {
       expect.objectContaining({
         id: transaction.id,
         user: transaction.user,
-        business_unit: transaction.business_unit,
         type: transaction.type,
-        type: transaction.type,
+        sub_type: transaction.sub_type,
         status: transaction.status,
         gcbits: transaction.gcbits,
       }),
