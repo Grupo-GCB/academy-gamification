@@ -18,7 +18,7 @@ export class RegisterTransaction {
 
     if (
       responsible.role == Roles.COLLABORATOR &&
-      data.reason != Reasons.REDEEM
+      data.reason != Reasons.REEDEM
     ) {
       throw new UnauthorizedException('You do not have permission');
     }
