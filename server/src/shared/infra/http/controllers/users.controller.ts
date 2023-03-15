@@ -17,7 +17,7 @@ export class UsersController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Falha ao registrar um usuário',
   })
-  @Post()
+  @Post('/register')
   register(
     @Body()
     data: RegisterUserDTO,
