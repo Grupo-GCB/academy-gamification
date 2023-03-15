@@ -3,7 +3,7 @@ import {
   BusinessUnits,
   CollaborationsTypes,
   Reasons,
-  ReedemTypes,
+  RedeemTypes,
   Status,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
@@ -19,7 +19,7 @@ describe('Find all transactions', () => {
   });
 
   it('should be able to return all transactions', async () => {
-    const transacitonOne = await inMemoryTransactions.register({
+    const transactionOne = await inMemoryTransactions.register({
       collaborator: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
       business_unit: BusinessUnits.ADIANTE,
@@ -29,12 +29,12 @@ describe('Find all transactions', () => {
       gcbits: 5000,
     });
 
-    const transacitonTwo = await inMemoryTransactions.register({
+    const transactionTwo = await inMemoryTransactions.register({
       collaborator: 'flavio.marques@gcbinvestimentos.com',
       responsible: Admin.ADMIN,
       business_unit: BusinessUnits.PEERBR,
-      reason: Reasons.REEDEM,
-      type: ReedemTypes.ACADEMY,
+      reason: Reasons.REDEEM,
+      type: RedeemTypes.ACADEMY,
       status: Status.PENDING,
       gcbits: -50000,
     });
@@ -42,7 +42,7 @@ describe('Find all transactions', () => {
     const transactions = await sut.execute();
 
     expect(transactions).toEqual(
-      expect.arrayContaining([transacitonOne, transacitonTwo]),
+      expect.arrayContaining([transactionOne, transactionTwo]),
     );
   });
 
