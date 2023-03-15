@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Roles } from '@shared/constants';
 
@@ -20,14 +21,14 @@ export class UpdateStatus {
   async execute({
     id,
     new_status,
-    responsible_email,
+    admin_email,
   }: UpdateStatusDTO): Promise<Transaction> {
-    if (!new_status) throw new BadRequestException('new_status is required');
-    if (!id) throw new BadRequestException('id is required');
+    if (!new_status) throw new BadRequestException('new status is required');
+    if (!id) throw new BadRequestException('ID is required');
 
-    const responsible = this.usersRepository.findOne(responsible_email);
+    const responsible = this.usersRepository.findOne(admin_email);
     if ((await responsible).role != Roles.ADMIN) {
-      throw new Error('you must be a administrator');
+      throw new UnauthorizedException('you must be a administrator');
     }
 
     const transaction: Transaction = await this.transactionsRepository.findOne(
@@ -41,7 +42,7 @@ export class UpdateStatus {
     return this.transactionsRepository.updateStatus({
       id,
       new_status,
-      responsible_email,
+      admin_email,
     });
   }
 }
