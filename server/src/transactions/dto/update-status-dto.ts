@@ -22,7 +22,7 @@ export class UpdateStatusDTO {
     type: 'string',
     required: true,
   })
-  responsible_email: Admin;
+  admin_email: Admin;
 
   @IsNotEmpty()
   @IsEnum(Status)
