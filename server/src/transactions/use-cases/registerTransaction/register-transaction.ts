@@ -24,14 +24,20 @@ export class RegisterTransaction {
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');
 
-    if (
-      (responsible.role == Roles.COLLABORATOR &&
-        data.type != Types.REDEEM &&
-        data.type != Types.TRANSFER) ||
-      (responsible.role == Roles.ACADEMY && data.type != Types.COLLABORATION)
-    ) {
+    const permissions = {
+      [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
+      [Roles.ACADEMY]: [Types.COLLABORATION],
+    };
+
+    const isAdmin = responsible.role === Roles.ADMIN;
+
+    const hasPermission =
+      (isAdmin || permissions[responsible.role]?.includes(data.type)) ?? false;
+
+    if (!hasPermission) {
       throw new UnauthorizedException('You do not have permission');
     }
+
     data.type == Types.COLLABORATION || data.type == Types.TRANSFER
       ? (data.gcbits = data.gcbits)
       : (data.gcbits = -data.gcbits);
