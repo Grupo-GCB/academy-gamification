@@ -31,9 +31,12 @@ export class UsersRepository {
   }
 
   async findOne(id: string): Promise<User> {
-    console.log(id);
     return this.usersRepository.findOne({
       where: { id },
     });
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { email } });
   }
 }

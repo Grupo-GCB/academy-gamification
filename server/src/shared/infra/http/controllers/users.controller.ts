@@ -9,13 +9,14 @@ import {
 
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
-import { FindById, RegisterUser } from '@users/use-cases';
+import { FindByEmail, FindById, RegisterUser } from '@users/use-cases';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private registerUser: RegisterUser,
     private findUserById: FindById,
+    private findUserByEmail: FindByEmail,
   ) {}
 
   @ApiCreatedResponse({
@@ -33,6 +34,7 @@ export class UsersController {
   ): Promise<User> {
     return this.registerUser.execute(data);
   }
+
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
@@ -43,5 +45,16 @@ export class UsersController {
   @Get('/:id')
   findById(@Query('id') id: string): Promise<User> {
     return this.findUserById.execute(id);
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar o usuário',
+  })
+  findByEmail(@Query('email') email: string): Promise<User> {
+    return this.findUserByEmail.execute(email);
   }
 }

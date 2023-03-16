@@ -4,7 +4,7 @@ import { BusinessUnits, Roles } from '@shared/constants';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { FindById, RegisterUser } from '@users/use-cases';
+import { FindByEmail, FindById, RegisterUser } from '@users/use-cases';
 
 describe('Users Controller', () => {
   const registerUser = {
@@ -21,6 +21,10 @@ describe('Users Controller', () => {
     execute: () => '791f78a4-2f05-4313-8124-e8ae5f4421a0',
   };
 
+  const findByEmail = {
+    execute: () => 'gustavo.wuelta@gcbinvestimentos.com',
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -31,6 +35,8 @@ describe('Users Controller', () => {
       .useValue(registerUser)
       .overrideProvider(FindById)
       .useValue(findById)
+      .overrideProvider(FindByEmail)
+      .useValue(findByEmail)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -56,6 +62,15 @@ describe('Users Controller', () => {
         .get('/users/791f78a4-2f05-4313-8124-e8ae5f4421a0')
         .expect(200)
         .expect(findById.execute());
+    });
+  });
+
+  describe('Find user by email', () => {
+    it('should return a collaboration', () => {
+      return request(app.getHttpServer())
+        .get('/users/gustavo.wuelta@gcbinvestimentos.com')
+        .expect(200)
+        .expect(findByEmail.execute());
     });
   });
 });

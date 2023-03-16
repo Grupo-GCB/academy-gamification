@@ -5,7 +5,7 @@ import { UsersController } from '@shared/infra/http/controllers/users.controller
 import { User } from '@users/infra/entities/user.entity';
 import { UsersRepository } from '@users/infra/repositories/users.repository';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
-import { RegisterUser, FindById } from '@users/use-cases';
+import { RegisterUser, FindById, FindByEmail } from '@users/use-cases';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -13,6 +13,7 @@ import { RegisterUser, FindById } from '@users/use-cases';
   providers: [
     RegisterUser,
     FindById,
+    FindByEmail,
     {
       provide: IUsersRepository,
       useClass: UsersRepository,
