@@ -4,7 +4,7 @@ import { BusinessUnits, Roles } from '@shared/constants';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { RegisterUser } from '@users/use-cases';
+import { FindById, RegisterUser } from '@users/use-cases';
 
 describe('Users Controller', () => {
   const registerUser = {
@@ -17,6 +17,10 @@ describe('Users Controller', () => {
     }),
   };
 
+  const findById = {
+    execute: () => '791f78a4-2f05-4313-8124-e8ae5f4421a0',
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -25,6 +29,8 @@ describe('Users Controller', () => {
     })
       .overrideProvider(RegisterUser)
       .useValue(registerUser)
+      .overrideProvider(FindById)
+      .useValue(findById)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -41,6 +47,15 @@ describe('Users Controller', () => {
         .post('/users/register')
         .expect(201)
         .expect(registerUser.execute());
+    });
+  });
+
+  describe('Find user by id', () => {
+    it('should return a collaboration', () => {
+      return request(app.getHttpServer())
+        .get('/users/791f78a4-2f05-4313-8124-e8ae5f4421a0')
+        .expect(200)
+        .expect(findById.execute());
     });
   });
 });
