@@ -1,13 +1,22 @@
+import { Get, Query } from '@nestjs/common';
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
-import { RegisterUser } from '@users/use-cases';
+import { FindById, RegisterUser } from '@users/use-cases';
 
 @Controller('users')
 export class UsersController {
-  constructor(private registerUser: RegisterUser) {}
+  constructor(
+    private registerUser: RegisterUser,
+    private findUserById: FindById,
+  ) {}
 
   @ApiCreatedResponse({
     status: HttpStatus.CREATED,
@@ -23,5 +32,16 @@ export class UsersController {
     data: RegisterUserDTO,
   ): Promise<User> {
     return this.registerUser.execute(data);
+  }
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar o usuário',
+  })
+  @Get('/:id')
+  findById(@Query('id') id: string): Promise<User> {
+    return this.findUserById.execute(id);
   }
 }
