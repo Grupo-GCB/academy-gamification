@@ -1,17 +1,17 @@
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { FindByEmail } from './find-by-email';
+import { FindById } from './find-by-id';
 
-describe('Find an user by email', () => {
+describe('Find an user by id', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
-  let sut: FindByEmail;
+  let sut: FindById;
 
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
-    sut = new FindByEmail(inMemoryUsersRepository);
+    sut = new FindById(inMemoryUsersRepository);
   });
 
-  it('should be able to find an user by email', async () => {
+  it('should be able to find an user by id', async () => {
     const user = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
@@ -20,7 +20,7 @@ describe('Find an user by email', () => {
       role: Roles.ACADEMY,
     });
 
-    const userFound = await sut.execute(user.email);
+    const userFound = await sut.execute(user.id);
 
     expect(userFound).toEqual(
       expect.objectContaining({

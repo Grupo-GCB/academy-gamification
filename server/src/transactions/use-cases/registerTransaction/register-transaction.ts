@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { Roles, Types } from '@shared/constants';
 import { RegisterTransactionDTO } from '@transactions/dto';
@@ -15,13 +19,28 @@ export class RegisterTransaction {
 
   async execute(data: RegisterTransactionDTO): Promise<Transaction> {
     const responsible = await this.usersRepository.findOne(data.responsible);
+    const user = await this.usersRepository.findOne(data.user);
 
-    if (
-      (responsible.role == Roles.COLLABORATOR && data.type != Types.REDEEM) ||
-      (responsible.role == Roles.ACADEMY && data.type != Types.COLLABORATION)
-    ) {
+    if (!responsible || !user)
+      throw new BadRequestException('User or responsible does not exist');
+
+    const permissions = {
+      [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
+      [Roles.ACADEMY]: [Types.COLLABORATION],
+    };
+
+    const isAdmin = responsible.role === Roles.ADMIN;
+
+    const hasPermission =
+      (isAdmin || permissions[responsible.role]?.includes(data.type)) ?? false;
+
+    if (!hasPermission) {
       throw new UnauthorizedException('You do not have permission');
     }
+
+    data.type == Types.COLLABORATION || data.type == Types.TRANSFER
+      ? (data.gcbits = data.gcbits)
+      : (data.gcbits = -data.gcbits);
     return this.transactionsRepository.register(data);
   }
 }

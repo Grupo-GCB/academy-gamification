@@ -17,8 +17,8 @@ export class UpdateStatusDTO {
   @IsNotEmpty()
   @IsUUID()
   @ApiProperty({
-    example: 'kayke.fujinaka@gcbinvestimentos.com',
-    description: 'Email de quem está atualizando o status da transação',
+    example: 'e88ed4fa-c89c-410e-b691-712fbfa6bf79',
+    description: 'ID de quem está atualizando o status da transação',
     type: 'string',
     required: true,
   })
