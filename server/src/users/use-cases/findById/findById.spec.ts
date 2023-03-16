@@ -1,14 +1,14 @@
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { FindByEmail } from './findById';
+import { FindById } from './findById';
 
 describe('Find an user by email', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
-  let sut: FindByEmail;
+  let sut: FindById;
 
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
-    sut = new FindByEmail(inMemoryUsersRepository);
+    sut = new FindById(inMemoryUsersRepository);
   });
 
   it('should be able to find an user by id', async () => {
