@@ -168,6 +168,35 @@ describe('Register a transaction', () => {
     );
   });
 
+  it('should be able to register a transfer if responsible is a collaborator', async () => {
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    const transaction = await sut.execute({
+      user: collaborator.id,
+      responsible: collaborator.id,
+      type: Types.TRANSFER,
+      status: Status.PENDING,
+      gcbits: 2000,
+    });
+
+    expect(transaction).toEqual(
+      expect.objectContaining({
+        id: transaction.id,
+        user: transaction.user,
+        responsible: transaction.responsible,
+        type: transaction.type,
+        status: transaction.status,
+        gcbits: transaction.gcbits,
+      }),
+    );
+  });
+
   it('should not be able to register a penalty if responsible is a collaborator', async () => {
     const collaborator = await inMemoryUsersRepository.create({
       name: 'Levi',

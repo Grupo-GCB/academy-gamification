@@ -25,12 +25,13 @@ export class RegisterTransaction {
       throw new BadRequestException('User or responsible does not exist');
 
     if (
-      (responsible.role == Roles.COLLABORATOR && data.type != Types.REDEEM) ||
+      (responsible.role == Roles.COLLABORATOR &&
+        data.type != Types.REDEEM &&
+        data.type != Types.TRANSFER) ||
       (responsible.role == Roles.ACADEMY && data.type != Types.COLLABORATION)
     ) {
       throw new UnauthorizedException('You do not have permission');
     }
-
     data.type == Types.COLLABORATION || data.type == Types.TRANSFER
       ? (data.gcbits = data.gcbits)
       : (data.gcbits = -data.gcbits);
