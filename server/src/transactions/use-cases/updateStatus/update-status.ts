@@ -39,6 +39,10 @@ export class UpdateStatus {
       throw new NotFoundException('Transaction not found');
     }
 
+    if (transaction.status === new_status) {
+      throw new NotFoundException('The transaction already has this status');
+    }
+
     return this.transactionsRepository.updateStatus({
       id,
       new_status,

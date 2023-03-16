@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { Roles, Types } from '@shared/constants';
+import { Roles, Status, Types } from '@shared/constants';
 import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
@@ -24,18 +24,34 @@ export class RegisterTransaction {
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');
 
-    const permissions = {
+    const typesPermissions = {
       [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
       [Roles.ACADEMY]: [Types.COLLABORATION],
     };
 
     const isAdmin = responsible.role === Roles.ADMIN;
 
-    const hasPermission =
-      (isAdmin || permissions[responsible.role]?.includes(data.type)) ?? false;
+    const hasTypePermission =
+      (isAdmin || typesPermissions[responsible.role]?.includes(data.type)) ??
+      false;
 
-    if (!hasPermission) {
+    if (!hasTypePermission) {
       throw new UnauthorizedException('You do not have permission');
+    }
+
+    const statusPermissions = {
+      [Roles.COLLABORATOR]: [Status.PENDING],
+      [Roles.ACADEMY]: [Status.PENDING],
+      [Roles.ADMIN]: [Status.APPROVED],
+    };
+
+    const hasStatusPermission =
+      statusPermissions[responsible.role]?.includes(data.status) ?? false;
+
+    if (!hasStatusPermission) {
+      throw new UnauthorizedException(
+        'You can not register a transaction with this status',
+      );
     }
 
     data.type == Types.COLLABORATION || data.type == Types.TRANSFER
