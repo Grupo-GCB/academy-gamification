@@ -1,6 +1,6 @@
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { FindByEmail } from './find-by-email';
+import { FindByEmail } from './findById';
 
 describe('Find an user by email', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
@@ -11,7 +11,7 @@ describe('Find an user by email', () => {
     sut = new FindByEmail(inMemoryUsersRepository);
   });
 
-  it('should be able to find an user by email', async () => {
+  it('should be able to find an user by id', async () => {
     const user = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
@@ -20,7 +20,7 @@ describe('Find an user by email', () => {
       role: Roles.ACADEMY,
     });
 
-    const userFound = await sut.execute(user.email);
+    const userFound = await sut.execute(user.id);
 
     expect(userFound).toEqual(
       expect.objectContaining({
@@ -36,7 +36,7 @@ describe('Find an user by email', () => {
 
   it('should not be able to find a nonexistent user', async () => {
     await expect(async () => {
-      await sut.execute('john.doe@gcbinvestimentos.com');
+      await sut.execute('a627d758-8d8d-4e75-9937-835a1f02b43e');
     }).rejects.toThrow('User does not exist');
   });
 });

@@ -7,8 +7,8 @@ import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 export class FindByEmail {
   constructor(private usersRepository: IUsersRepository) {}
 
-  async execute(email: string): Promise<User> {
-    const user: User = await this.usersRepository.findOne(email);
+  async execute(id: string): Promise<User> {
+    const user: User = await this.usersRepository.findOne(id);
 
     if (!user) throw new NotFoundException('User does not exist');
 

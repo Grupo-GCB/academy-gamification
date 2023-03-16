@@ -1,2 +1,2 @@
-export * from './findByEmail/find-by-email';
+export * from './findById/findById';
 export * from './registerUser/register-user';
