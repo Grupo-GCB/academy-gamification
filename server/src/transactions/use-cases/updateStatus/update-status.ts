@@ -26,8 +26,11 @@ export class UpdateStatus {
     if (!new_status) throw new BadRequestException('New status is required');
     if (!id) throw new BadRequestException('Id is required');
 
-    const responsible = this.usersRepository.findOne(admin);
-    if ((await responsible).role != Roles.ADMIN) {
+    const responsible = await this.usersRepository.findOne(admin);
+
+    if (!responsible) throw new BadRequestException('Administrator not found');
+
+    if (responsible.role != Roles.ADMIN) {
       throw new UnauthorizedException('You must be a administrator');
     }
 
