@@ -42,7 +42,7 @@ export class UsersController {
     description: 'Não foi possível alterar a unidade de negócio',
   })
   @Put()
-  updateStatus(
+  updateBU(
     @Body() { id, responsible, new_bu }: UpdateBusinessUnitDTO,
   ): Promise<User> {
     return this.updateBusinessUnit.execute({
