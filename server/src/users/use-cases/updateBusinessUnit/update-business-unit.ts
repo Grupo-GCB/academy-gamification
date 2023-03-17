@@ -37,7 +37,7 @@ export class UpdateBusinessUnit {
       throw new BadRequestException('User already in this business unit');
     }
 
-    return this.usersRepository.updateStatus({
+    return this.usersRepository.updateBusinessUnit({
       id,
       responsible,
       new_bu,
