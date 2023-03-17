@@ -2,6 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Injectable } from '@nestjs/common';
+import { UpdateBusinessUnitDTO } from '@users/dto';
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
 
@@ -31,9 +32,17 @@ export class UsersRepository {
   }
 
   async findOne(id: string): Promise<User> {
-    console.log(id);
     return this.usersRepository.findOne({
       where: { id },
     });
+  }
+
+  async updateBusinessUnit({
+    id,
+    new_bu,
+  }: UpdateBusinessUnitDTO): Promise<User> {
+    await this.usersRepository.update({ id }, { business_unit: new_bu });
+
+    return this.findOne(id);
   }
 }
