@@ -18,9 +18,11 @@ export class UpdateBusinessUnit {
     responsible,
     new_bu,
   }: UpdateBusinessUnitDTO): Promise<User> {
-    if (!new_bu) throw new BadRequestException('Business unit is required');
-    if (!id) throw new BadRequestException('User id is required');
-    if (!responsible) throw new BadRequestException('Responsible is required');
+    if (!new_bu || !id || !responsible) {
+      throw new BadRequestException(
+        'User id, Responsible id and Business unit are required',
+      );
+    }
 
     const user = await this.usersRepository.findOne(id);
     const updateResponsible = await this.usersRepository.findOne(responsible);
@@ -29,12 +31,23 @@ export class UpdateBusinessUnit {
       throw new BadRequestException('User or responsible does not exist');
     }
 
+    if (
+      updateResponsible.role == Roles.COLLABORATOR &&
+      user != updateResponsible
+    ) {
+      throw new UnauthorizedException(
+        'Collaborators can only update their own business unit',
+      );
+    }
+
     if (updateResponsible.role == Roles.ACADEMY) {
       throw new UnauthorizedException('Academys cannot perform this action');
     }
 
     if (user.business_unit === new_bu) {
-      throw new BadRequestException('User already in this business unit');
+      throw new BadRequestException(
+        'User already belongs to this business unit',
+      );
     }
 
     return this.usersRepository.updateBusinessUnit({
