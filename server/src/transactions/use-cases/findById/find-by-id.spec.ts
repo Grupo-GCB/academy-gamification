@@ -11,7 +11,7 @@ describe('Find a transaction by id', () => {
     sut = new FindById(inMemoryTransactionsRepository);
   });
 
-  it('shoud be able to find a transaction by id', async () => {
+  it('should be able to find a transaction by id', async () => {
     const transaction = await inMemoryTransactionsRepository.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: Academys.ACADEMY1,
@@ -45,7 +45,7 @@ describe('Find a transaction by id', () => {
     );
   });
 
-  it('shoud not be able to find a nonexisent transaction', async () => {
+  it('should not be able to find a nonexisent transaction', async () => {
     await expect(async () => {
       await sut.execute('793139f0-7dcd-470e-a868-88196d8ac20b');
     }).rejects.toThrow('Transaction does not exist');

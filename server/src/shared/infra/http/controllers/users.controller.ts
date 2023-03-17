@@ -1,13 +1,21 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { Body, Controller, HttpStatus, Post, Put } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
+import { UpdateBusinessUnitDTO } from '@users/dto';
 
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
-import { RegisterUser } from '@users/use-cases';
+import { RegisterUser, UpdateBusinessUnit } from '@users/use-cases';
 
 @Controller('users')
 export class UsersController {
-  constructor(private registerUser: RegisterUser) {}
+  constructor(
+    private registerUser: RegisterUser,
+    private updateBusinessUnit: UpdateBusinessUnit,
+  ) {}
 
   @ApiCreatedResponse({
     status: HttpStatus.CREATED,
@@ -23,5 +31,24 @@ export class UsersController {
     data: RegisterUserDTO,
   ): Promise<User> {
     return this.registerUser.execute(data);
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Unidade de negócio alterada com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Não foi possível alterar a unidade de negócio',
+  })
+  @Put()
+  updateBU(
+    @Body() { id, responsible, new_bu }: UpdateBusinessUnitDTO,
+  ): Promise<User> {
+    return this.updateBusinessUnit.execute({
+      id,
+      responsible,
+      new_bu,
+    });
   }
 }
