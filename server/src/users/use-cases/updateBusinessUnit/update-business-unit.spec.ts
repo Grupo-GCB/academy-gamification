@@ -36,7 +36,7 @@ describe('Update a transaction status', () => {
     );
   });
 
-  it('should be able to update a academy business unit', async () => {
+  it('should be able to update an academy business unit', async () => {
     const academy = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
@@ -83,7 +83,7 @@ describe('Update a transaction status', () => {
     ).rejects.toThrow('User or responsible does not exist');
   });
 
-  it('should not be able to update a user business unit if responsible does not exist', async () => {
+  it('should not be able to update an user business unit if responsible does not exist', async () => {
     const collaborator = await inMemoryUsersRepository.create({
       name: 'Levi',
       email: 'levi.ciarrochi@gcbinvestimentos.com',
@@ -101,7 +101,7 @@ describe('Update a transaction status', () => {
     ).rejects.toThrow('User or responsible does not exist');
   });
 
-  it('should not be able to update a user business unit if responsible is an academy', async () => {
+  it('should not be able to update an user business unit if responsible is an academy', async () => {
     const academy = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
@@ -119,7 +119,7 @@ describe('Update a transaction status', () => {
     ).rejects.toThrow('Academys cannot perform this action');
   });
 
-  it('should not be able to update a user business unit to which it already belongs', async () => {
+  it('should not be able to update an user business unit to which it already belongs', async () => {
     const collaborator = await inMemoryUsersRepository.create({
       name: 'Levi',
       email: 'levi.ciarrochi@gcbinvestimentos.com',
@@ -134,6 +134,32 @@ describe('Update a transaction status', () => {
         responsible: collaborator.id,
         new_bu: BusinessUnits.ADIANTE,
       }),
-    ).rejects.toThrow('User already in this business unit');
+    ).rejects.toThrow('User already belongs to this business unit');
+  });
+
+  it('should not be able to update an user bussines unit if collaborator try update other user business unit', async () => {
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    const collaboratorTwo = await inMemoryUsersRepository.create({
+      name: 'Flavio',
+      email: 'flavio.marques@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.PEERBR,
+      role: Roles.COLLABORATOR,
+    });
+
+    await expect(
+      sut.execute({
+        id: collaboratorTwo.id,
+        responsible: collaborator.id,
+        new_bu: BusinessUnits.ADIANTE,
+      }),
+    ).rejects.toThrow('Collaborators can only update their own business unit');
   });
 });
