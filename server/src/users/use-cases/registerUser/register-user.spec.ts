@@ -15,7 +15,6 @@ describe('Register user', () => {
     const user = await sut.execute({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
-      password: 'gcb123',
       business_unit: BusinessUnits.ADIANTE,
       role: Roles.ACADEMY,
     });
@@ -24,7 +23,7 @@ describe('Register user', () => {
       expect.objectContaining({
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
-        password: 'gcb123',
+
         business_unit: BusinessUnits.ADIANTE,
         role: Roles.ACADEMY,
       }),
@@ -35,7 +34,6 @@ describe('Register user', () => {
     const user = await sut.execute({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
-      password: 'gcb123',
       business_unit: BusinessUnits.ADIANTE,
       role: Roles.ADMIN,
     });
@@ -44,7 +42,7 @@ describe('Register user', () => {
       expect.objectContaining({
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
-        password: 'gcb123',
+
         business_unit: BusinessUnits.ADIANTE,
         role: Roles.ADMIN,
       }),
@@ -55,7 +53,6 @@ describe('Register user', () => {
     const user = await sut.execute({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
-      password: 'gcb123',
       business_unit: BusinessUnits.ADIANTE,
       role: Roles.COLLABORATOR,
     });
@@ -64,10 +61,22 @@ describe('Register user', () => {
       expect.objectContaining({
         name: 'Gustavo',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
-        password: 'gcb123',
+
         business_unit: BusinessUnits.ADIANTE,
         role: Roles.COLLABORATOR,
       }),
     );
+  });
+
+  it('should not be able to register a user if email passed is invalid', async () => {
+    await expect(
+      sut.execute({
+        name: 'Gustavo',
+        email: 'gustavo.wuelta@gmail.com',
+
+        business_unit: BusinessUnits.ADIANTE,
+        role: Roles.COLLABORATOR,
+      }),
+    ).rejects.toThrow('Invalid email');
   });
 });
