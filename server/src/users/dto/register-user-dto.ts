@@ -24,15 +24,14 @@ export class RegisterUserDTO {
   })
   email: string;
 
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty({
-    example: 'gcb123',
-    description: 'Senha do usuário',
+    example: 'eNv12lP',
+    description:
+      'Senha do usuário, que no primeiro acesso será gerada aleatoriamente',
     type: 'string',
-    required: true,
+    required: false,
   })
-  password: string;
+  password?: string;
 
   @IsNotEmpty()
   @IsEnum(BusinessUnits)
