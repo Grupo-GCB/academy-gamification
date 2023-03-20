@@ -71,8 +71,8 @@ export class UsersController {
     status: HttpStatus.NOT_FOUND,
     description: 'Não foi possível encontrar o usuário!',
   })
-  @Delete(':user')
-  delete(@Param('user') user, admin): Promise<void> {
-    return this.deleteUser.execute({ user, admin });
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.deleteUser.execute(id);
   }
 }
