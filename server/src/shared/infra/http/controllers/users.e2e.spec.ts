@@ -4,7 +4,7 @@ import { BusinessUnits, Roles } from '@shared/constants';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
-import { RegisterUser, UpdateBusinessUnit } from '@users/use-cases';
+import { DeleteUser, RegisterUser, UpdateBusinessUnit } from '@users/use-cases';
 
 describe('Users Controller', () => {
   const registerUser = {
@@ -24,6 +24,8 @@ describe('Users Controller', () => {
     }),
   };
 
+  const deleteUser = { execute: () => 200 };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -34,6 +36,8 @@ describe('Users Controller', () => {
       .useValue(registerUser)
       .overrideProvider(UpdateBusinessUnit)
       .useValue(updateBusinessUnit)
+      .overrideProvider(DeleteUser)
+      .useValue(deleteUser)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -59,6 +63,15 @@ describe('Users Controller', () => {
         .put('/users')
         .expect(200)
         .expect(updateBusinessUnit.execute());
+    });
+  });
+
+  describe('Delete an user', () => {
+    it('should return a 200 status when an user is deleted', () => {
+      return request(app.getHttpServer())
+        .delete('/users/123456')
+        .expect(200)
+        .expect(deleteUser.execute());
     });
   });
 });

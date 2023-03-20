@@ -1,20 +1,31 @@
-import { Body, Controller, HttpStatus, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
 import { UpdateBusinessUnitDTO } from '@users/dto';
 
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
-import { RegisterUser, UpdateBusinessUnit } from '@users/use-cases';
+import { DeleteUser, RegisterUser, UpdateBusinessUnit } from '@users/use-cases';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private registerUser: RegisterUser,
     private updateBusinessUnit: UpdateBusinessUnit,
+    private deleteUser: DeleteUser,
   ) {}
 
   @ApiCreatedResponse({
@@ -50,5 +61,18 @@ export class UsersController {
       responsible,
       new_bu,
     });
+  }
+
+  @ApiNoContentResponse({
+    status: HttpStatus.OK,
+    description: 'Usuário deletado com sucesso!',
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar o usuário!',
+  })
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.deleteUser.execute(id);
   }
 }

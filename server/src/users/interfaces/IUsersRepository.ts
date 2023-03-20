@@ -11,4 +11,6 @@ export abstract class IUsersRepository {
     id,
     new_bu,
   }: UpdateBusinessUnitDTO): Promise<User>;
+
+  abstract delete(id: string): Promise<void>;
 }
