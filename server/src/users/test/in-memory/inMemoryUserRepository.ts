@@ -27,4 +27,10 @@ export class InMemoryUsersRepository implements IUsersRepository {
 
     return user;
   }
+
+  async delete(id: string): Promise<void> {
+    const user = await this.findOne(id);
+
+    user.deleted_at = new Date();
+  }
 }

@@ -45,4 +45,8 @@ export class UsersRepository {
 
     return this.findOne(id);
   }
+
+  async delete(id: string): Promise<void> {
+    await this.usersRepository.softDelete({ id });
+  }
 }
