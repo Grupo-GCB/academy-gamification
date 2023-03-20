@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { Utils } from '@shared/utils/utils';
+import crypto from 'crypto';
 
 import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
@@ -26,11 +26,10 @@ export class RegisterUser {
 
     // Dar um findByEmail com o email passado e validar se já existe este email cadastrado
 
-    const utils = new Utils();
+    const buffer = crypto.randomBytes(8);
+    const randomString = buffer.toString('hex');
 
-    const hashPassword = utils.generateRandomString(8);
-
-    password = hashPassword;
+    password = randomString;
 
     const user = await this.userRepository.create({
       name,
