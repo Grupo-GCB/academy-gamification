@@ -1,9 +1,13 @@
-import { NotFoundException } from '@nestjs/common';
+import {
+  MethodNotAllowedException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { DeleteUser } from './delete-user';
 
-describe('Delete a user', () => {
+describe('Delete an user', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
   let sut: DeleteUser;
 
@@ -12,8 +16,8 @@ describe('Delete a user', () => {
     sut = new DeleteUser(inMemoryUsersRepository);
   });
 
-  it('should be able to delete a user', async () => {
-    const userCreated = await inMemoryUsersRepository.create({
+  it('should be able to delete an user', async () => {
+    const user = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
       password: 'gcb123',
@@ -21,20 +25,104 @@ describe('Delete a user', () => {
       role: Roles.ACADEMY,
     });
 
-    await sut.execute(userCreated.id);
+    const admin = await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ADMIN,
+    });
 
-    await expect(
-      inMemoryUsersRepository.findOne(userCreated.id),
-    ).resolves.toEqual(
+    await sut.execute({ user: user.id, admin: admin.id });
+
+    await expect(inMemoryUsersRepository.findOne(user.id)).resolves.toEqual(
       expect.objectContaining({
         deleted_at: expect.any(Date),
       }),
     );
   });
 
-  it('should not be able to delete a non existing user', async () => {
+  it('should not be able to delete a non-existing user', async () => {
+    const admin = await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ADMIN,
+    });
+
     await expect(
-      async () => await sut.execute('ea1cafbb-2029-4a2a-99c4-e58cde1ad7a7'),
-    ).rejects.toEqual(new NotFoundException('User does not exist'));
+      async () =>
+        await sut.execute({
+          user: '694920a3-e253-4624-95cc-dd6fea1520d3',
+          admin: admin.id,
+        }),
+    ).rejects.toEqual(new NotFoundException('User or admin does not exist'));
+  });
+
+  it('should not be able to delete an user with non-existing admin', async () => {
+    const user = await inMemoryUsersRepository.create({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.ACADEMY,
+    });
+
+    await expect(
+      async () =>
+        await sut.execute({
+          user: user.id,
+          admin: '694920a3-e253-4624-95cc-dd6fea1520d3',
+        }),
+    ).rejects.toEqual(new NotFoundException('User or admin does not exist'));
+  });
+
+  it('should not be able to delete an user if not an admin', async () => {
+    const user = await inMemoryUsersRepository.create({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ACADEMY,
+    });
+
+    const userTwo = await inMemoryUsersRepository.create({
+      name: 'Vitor',
+      email: 'vitor.freitas@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ACADEMY,
+    });
+
+    await expect(
+      async () =>
+        await sut.execute({
+          user: user.id,
+          admin: userTwo.id,
+        }),
+    ).rejects.toEqual(
+      new UnauthorizedException('Only admins can delete users'),
+    );
+  });
+
+  it('should not be able to delete yourself', async () => {
+    const admin = await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ADMIN,
+    });
+
+    await expect(
+      async () =>
+        await sut.execute({
+          user: admin.id,
+          admin: admin.id,
+        }),
+    ).rejects.toEqual(
+      new MethodNotAllowedException('Unable to delete yourself'),
+    );
   });
 });
