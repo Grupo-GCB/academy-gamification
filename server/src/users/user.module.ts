@@ -6,7 +6,7 @@ import { User } from '@users/infra/entities/user.entity';
 import { UsersRepository } from '@users/infra/repositories/users.repository';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 import { RegisterUser } from '@users/use-cases/registerUser/register-user';
-import { UpdateBusinessUnit } from './use-cases';
+import { DeleteUser, UpdateBusinessUnit } from './use-cases';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -14,6 +14,7 @@ import { UpdateBusinessUnit } from './use-cases';
   providers: [
     RegisterUser,
     UpdateBusinessUnit,
+    DeleteUser,
     {
       provide: IUsersRepository,
       useClass: UsersRepository,
