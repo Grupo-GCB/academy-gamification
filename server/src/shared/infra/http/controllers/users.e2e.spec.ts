@@ -66,8 +66,8 @@ describe('Users Controller', () => {
     });
   });
 
-  describe('Delete a user', () => {
-    it('should return a 200 status when user is deleted', () => {
+  describe('Delete an user', () => {
+    it('should return a 200 status when an user is deleted', () => {
       return request(app.getHttpServer())
         .delete('/users/123456')
         .expect(200)
