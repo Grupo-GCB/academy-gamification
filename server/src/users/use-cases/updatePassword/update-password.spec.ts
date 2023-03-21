@@ -27,11 +27,11 @@ describe('Update an user password', () => {
     const updatedUser = await sut.execute({
       id: collaborator.id,
       password: collaborator.password,
-      new_password: 'newpassword123',
+      new_password: 'pa91489ssword',
     });
 
     const isValidPassword = await compare(
-      'newpassword123',
+      'pa91489ssword',
       updatedUser.password,
     );
 
@@ -70,5 +70,23 @@ describe('Update an user password', () => {
         new_password: 'newpassword123',
       }),
     ).rejects.toThrow('Incorrect current password');
+  });
+
+  it('should not be able to update an user password if password passed is too weak', async () => {
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'password123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    await expect(
+      sut.execute({
+        id: collaborator.id,
+        password: 'password123',
+        new_password: 'password123',
+      }),
+    ).rejects.toThrow('Too weak password');
   });
 });

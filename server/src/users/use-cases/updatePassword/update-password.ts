@@ -1,5 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { hash } from 'bcrypt';
+import zxcvbn from 'zxcvbn';
 
 import { UpdatePasswordDTO } from '@users/dto/update-password.dto';
 import { User } from '@users/infra/entities/user.entity';
@@ -26,6 +27,11 @@ export class UpdatePassword {
     if (password !== user.password) {
       throw new BadRequestException('Incorrect current password');
     }
+
+    const passwordStrength = zxcvbn(new_password);
+    const passwordRank = passwordStrength.score;
+
+    if (passwordRank < 3) throw new BadRequestException('Too weak password');
 
     new_password = await hash(new_password, 8);
 
