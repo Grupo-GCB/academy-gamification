@@ -1,10 +1,11 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { Injectable } from '@nestjs/common';
+
 import { UpdateBusinessUnitDTO } from '@users/dto';
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
+import { IUpdatePassword } from '@users/interfaces/IUpdatePassword';
 
 @Injectable()
 export class UsersRepository {
@@ -48,5 +49,11 @@ export class UsersRepository {
 
   async delete(id: string): Promise<void> {
     await this.usersRepository.softDelete({ id });
+  }
+
+  async updatePassword({ id, new_password }: IUpdatePassword): Promise<User> {
+    await this.usersRepository.update({ id }, { password: new_password });
+
+    return this.findOne(id);
   }
 }
