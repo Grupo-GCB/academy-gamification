@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -11,7 +12,10 @@ import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
 @Injectable()
 export class UpdateBusinessUnit {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor(
+    @Inject(IUsersRepository)
+    private readonly usersRepository: IUsersRepository,
+  ) {}
 
   async execute({
     id,
