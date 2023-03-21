@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { FindByEmail } from '@users/use-cases';
 import { User } from '@users/infra/entities/user.entity';
 import { IJwtPayload, IUserToken } from '@auth/interfaces';
+import { LoginDTO } from '@auth/dto';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<User> {
+  async validateUser({ email, password }: LoginDTO): Promise<User> {
     const user = await this.findByEmail.execute(email);
 
     if (user) {
