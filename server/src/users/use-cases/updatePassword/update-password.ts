@@ -1,9 +1,8 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import zxcvbn from 'zxcvbn';
 
-import { UpdatePasswordDTO } from '@users/dto/update-password.dto';
-import { User } from '@users/infra/entities/user.entity';
+import { UpdatePasswordDTO } from '@users/dto';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
 Injectable();
@@ -18,15 +17,19 @@ export class UpdatePassword {
     password,
     new_password,
     confirm_new_password,
-  }: UpdatePasswordDTO): Promise<User> {
+  }: UpdatePasswordDTO): Promise<void> {
     const user = await this.usersRepository.findOne(id);
 
     if (!user) throw new BadRequestException('User does not exist');
 
-    if (password !== user.password)
+    const arePasswordsEqual = await compare(password, user.password);
+
+    if (!arePasswordsEqual)
       throw new BadRequestException('Incorrect current password');
 
-    if (password === new_password)
+    const isEqualCurrentPassword = await compare(new_password, user.password);
+
+    if (isEqualCurrentPassword === true)
       throw new BadRequestException(
         'Unable to change password to current password',
       );
@@ -43,11 +46,11 @@ export class UpdatePassword {
     if (passwordRank < PASSWORD_MIN_STRENGTH)
       throw new BadRequestException('Too weak password');
 
-    new_password = await hash(new_password, 8);
+    const hashedPassword = await hash(new_password, 8);
 
     return this.usersRepository.updatePassword({
       id,
-      new_password,
+      new_password: hashedPassword,
     });
   }
 }
