@@ -24,6 +24,16 @@ export class RegisterTransaction {
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');
 
+    if (
+      data.type === Types.COLLABORATION &&
+      responsible.role === Roles.ACADEMY &&
+      user.role === Roles.ACADEMY
+    ) {
+      throw new UnauthorizedException(
+        'You cannot pass yourself or another Academy as the user for a collaboration transaction.',
+      );
+    }
+
     const typesPermissions = {
       [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
       [Roles.ACADEMY]: [Types.COLLABORATION],
