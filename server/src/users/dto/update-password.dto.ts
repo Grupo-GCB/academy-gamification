@@ -31,4 +31,14 @@ export class UpdatePasswordDTO {
     required: true,
   })
   new_password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    example: '123gcb',
+    description: 'Confirmação da nova senha do usuário',
+    type: 'string',
+    required: true,
+  })
+  confirm_new_password: string;
 }
