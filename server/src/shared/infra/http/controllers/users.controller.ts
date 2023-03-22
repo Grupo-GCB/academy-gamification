@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpStatus,
   Param,
   Post,
@@ -16,14 +17,20 @@ import {
 } from '@nestjs/swagger';
 import { UpdateBusinessUnitDTO } from '@users/dto';
 
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
+import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { DeleteUser, RegisterUser, UpdateBusinessUnit } from '@users/use-cases';
+import {
+  DeleteUser,
+  ListAllUsers,
+  RegisterUser,
+  UpdateBusinessUnit,
+} from '@users/use-cases';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private registerUser: RegisterUser,
+    private listAllUsers: ListAllUsers,
     private updateBusinessUnit: UpdateBusinessUnit,
     private deleteUser: DeleteUser,
   ) {}
@@ -42,6 +49,14 @@ export class UsersController {
     data: RegisterUserDTO,
   ): Promise<User> {
     return this.registerUser.execute(data);
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.listAllUsers.execute();
   }
 
   @ApiOkResponse({
