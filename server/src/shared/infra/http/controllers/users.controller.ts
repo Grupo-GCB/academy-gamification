@@ -15,7 +15,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { UpdateBusinessUnitDTO } from '@users/dto';
+import { FindUserByIdDTO, UpdateBusinessUnitDTO } from '@users/dto';
 
 import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
@@ -61,7 +61,7 @@ export class UsersController {
     description: 'Não foi possível encontrar o usuário',
   })
   @Get('/:id')
-  findOne(@Param('id') id: string): Promise<User> {
+  async findOne(@Param() { id }: FindUserByIdDTO): Promise<User> {
     return this.findById.execute(id);
   }
 
