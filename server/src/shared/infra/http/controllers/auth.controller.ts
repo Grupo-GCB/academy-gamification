@@ -14,11 +14,20 @@ import { IAuthRequest } from '@auth/interfaces';
 import { IsPublic } from '@auth/decorators';
 import { RefreshToken } from '@auth/infra/typeorm/entities/refresh-token.entity';
 import { RefreshTokenGuard } from '@auth/guards/refresh-token.guard';
+import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
 @Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @ApiCreatedResponse({
+    status: HttpStatus.CREATED,
+    description: 'Usuário logado com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Falha ao logar o usuário',
+  })
   @IsPublic()
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -27,6 +36,14 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
+  @ApiCreatedResponse({
+    status: HttpStatus.CREATED,
+    description: 'Refresh token gerado com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Falha ao gerar refresh token',
+  })
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(RefreshTokenGuard)
@@ -34,6 +51,14 @@ export class AuthController {
     return this.authService.refresh(refreshToken);
   }
 
+  @ApiCreatedResponse({
+    status: HttpStatus.CREATED,
+    description: 'Usuário deslogado com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Falha ao deslogar usuário',
+  })
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(RefreshTokenGuard)
