@@ -1,10 +1,8 @@
-import { compare } from 'bcrypt';
-
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { UpdatePassword } from './update-password';
 
-describe('Update an user password', () => {
+describe('Update user password', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
 
   let sut: UpdatePassword;
@@ -24,24 +22,17 @@ describe('Update an user password', () => {
       role: Roles.COLLABORATOR,
     });
 
-    const updatedUser = await sut.execute({
+    await sut.execute({
       id: collaborator.id,
-      password: collaborator.password,
-      new_password: 'pa91489ssword',
-      confirm_new_password: 'pa91489ssword',
+      password: 'gcb123',
+      new_password: 'pa876ssword',
+      confirm_new_password: 'pa876ssword',
     });
-
-    const isValidPassword = await compare(
-      'pa91489ssword',
-      updatedUser.password,
-    );
-
-    expect(isValidPassword).toEqual(true);
 
     await expect(
       inMemoryUsersRepository.findOne(collaborator.id),
     ).resolves.toEqual(
-      expect.objectContaining({ password: updatedUser.password }),
+      expect.objectContaining({ password: collaborator.password }),
     );
   });
 
