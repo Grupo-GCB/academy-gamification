@@ -54,6 +54,9 @@ export class RegisterTransaction {
       );
     }
 
+    if (data.gcbits === 0)
+      throw new BadRequestException('You can not pass GCBits with value zero');
+
     data.type == Types.COLLABORATION || data.type == Types.TRANSFER
       ? (data.gcbits = data.gcbits)
       : (data.gcbits = -data.gcbits);
