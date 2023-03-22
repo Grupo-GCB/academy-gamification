@@ -18,8 +18,8 @@ export class RegisterTransaction {
   ) {}
 
   async execute(data: RegisterTransactionDTO): Promise<Transaction> {
-    const responsible = await this.usersRepository.findOne(data.responsible);
-    const user = await this.usersRepository.findOne(data.user);
+    const responsible = await this.usersRepository.findById(data.responsible);
+    const user = await this.usersRepository.findById(data.user);
 
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');

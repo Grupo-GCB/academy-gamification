@@ -24,7 +24,7 @@ describe('Delete an user', () => {
     await sut.execute(userCreated.id);
 
     await expect(
-      inMemoryUsersRepository.findOne(userCreated.id),
+      inMemoryUsersRepository.findById(userCreated.id),
     ).resolves.toEqual(
       expect.objectContaining({
         deleted_at: expect.any(Date),

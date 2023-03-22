@@ -63,7 +63,7 @@ describe('Update a transaction status', () => {
     expect(updatedTransaction.status).toEqual(Status.APPROVED);
 
     await expect(
-      inMemoryTransactionsRepository.findOne(transaction.id),
+      inMemoryTransactionsRepository.findById(transaction.id),
     ).resolves.toEqual(expect.objectContaining({ status: Status.APPROVED }));
   });
 

@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { RegisterUser } from './register-user';
@@ -6,15 +7,15 @@ describe('Register user', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
   let sut: RegisterUser;
 
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     sut = new RegisterUser(inMemoryUsersRepository);
   });
 
   it('should be able to register an user', async () => {
     const user = await sut.execute({
-      name: 'Gustavo',
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      name: 'Levi',
+      email: 'levi.cirarrochi@gcbinvestimentos.com',
       password: 'gcb123',
       business_unit: BusinessUnits.ADIANTE,
       role: Roles.ACADEMY,
@@ -22,9 +23,9 @@ describe('Register user', () => {
 
     expect(user).toEqual(
       expect.objectContaining({
-        name: 'Gustavo',
-        email: 'gustavo.wuelta@gcbinvestimentos.com',
-        password: 'gcb123',
+        name: user.name,
+        email: user.email,
+        password: user.password,
         business_unit: BusinessUnits.ADIANTE,
         role: Roles.ACADEMY,
       }),
@@ -33,8 +34,8 @@ describe('Register user', () => {
 
   it('should be able to register an with Admin role', async () => {
     const user = await sut.execute({
-      name: 'Gustavo',
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
       business_unit: BusinessUnits.ADIANTE,
       role: Roles.ADMIN,
@@ -42,9 +43,9 @@ describe('Register user', () => {
 
     expect(user).toEqual(
       expect.objectContaining({
-        name: 'Gustavo',
-        email: 'gustavo.wuelta@gcbinvestimentos.com',
-        password: 'gcb123',
+        name: user.name,
+        email: user.email,
+        password: user.password,
         business_unit: BusinessUnits.ADIANTE,
         role: Roles.ADMIN,
       }),
@@ -62,12 +63,32 @@ describe('Register user', () => {
 
     expect(user).toEqual(
       expect.objectContaining({
-        name: 'Gustavo',
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        business_unit: BusinessUnits.ADIANTE,
+        role: Roles.COLLABORATOR,
+      }),
+    );
+  });
+
+  it('should not be able to register an user', async () => {
+    await sut.execute({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    await expect(
+      sut.execute({
+        name: 'Pedro',
         email: 'gustavo.wuelta@gcbinvestimentos.com',
         password: 'gcb123',
         business_unit: BusinessUnits.ADIANTE,
         role: Roles.COLLABORATOR,
       }),
-    );
+    ).rejects.toEqual(new BadRequestException('Email already registered'));
   });
 });

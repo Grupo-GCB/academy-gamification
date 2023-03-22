@@ -24,8 +24,8 @@ export class UpdateBusinessUnit {
       );
     }
 
-    const user = await this.usersRepository.findOne(id);
-    const updateResponsible = await this.usersRepository.findOne(responsible);
+    const user = await this.usersRepository.findById(id);
+    const updateResponsible = await this.usersRepository.findById(responsible);
 
     if (!user || !updateResponsible) {
       throw new BadRequestException('User or responsible does not exist');

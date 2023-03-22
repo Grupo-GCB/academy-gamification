@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
@@ -15,6 +15,12 @@ export class RegisterUser {
     business_unit,
     role,
   }: RegisterUserDTO): Promise<User> {
+    const userAlreadyExists = await this.userRepository.findByEmail(email);
+
+    if (userAlreadyExists) {
+      throw new BadRequestException('Email already registered');
+    }
+
     const user = await this.userRepository.create({
       name,
       email,

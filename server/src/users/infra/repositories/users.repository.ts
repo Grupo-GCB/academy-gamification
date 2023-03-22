@@ -31,9 +31,15 @@ export class UsersRepository {
     return this.usersRepository.save(user);
   }
 
-  async findOne(id: string): Promise<User> {
+  async findById(id: string): Promise<User> {
     return this.usersRepository.findOne({
       where: { id },
+    });
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: { email },
     });
   }
 
@@ -43,7 +49,7 @@ export class UsersRepository {
   }: UpdateBusinessUnitDTO): Promise<User> {
     await this.usersRepository.update({ id }, { business_unit: new_bu });
 
-    return this.findOne(id);
+    return this.findById(id);
   }
 
   async delete(id: string): Promise<void> {

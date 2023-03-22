@@ -76,7 +76,7 @@ export class TransactionsController {
     description: 'Não foi possível encontrar a transação',
   })
   @Get('/:id')
-  findOne(@Param('id') id: string): Promise<Transaction> {
+  getById(@Param('id') id: string): Promise<Transaction> {
     return this.findById.execute(id);
   }
 

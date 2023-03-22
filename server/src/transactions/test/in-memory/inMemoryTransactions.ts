@@ -16,7 +16,7 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     return transaction;
   }
 
-  async findOne(id: string): Promise<Transaction> {
+  async findById(id: string): Promise<Transaction> {
     return this.transactions.find((transaction) => transaction.id === id);
   }
 
@@ -24,7 +24,7 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     id,
     new_status,
   }: UpdateStatusDTO): Promise<Transaction> {
-    const transaction = await this.findOne(id);
+    const transaction = await this.findById(id);
 
     transaction.status = new_status;
 
