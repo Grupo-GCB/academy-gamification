@@ -1,4 +1,4 @@
-import { Get, Query } from '@nestjs/common';
+import { Get, Query, UseGuards } from '@nestjs/common';
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -10,8 +10,11 @@ import {
 import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
 import { FindByEmail, FindById, RegisterUser } from '@users/use-cases';
+import { JwtAuthGuard } from '@auth/guards';
+import { IsPublic } from '@auth/decorators';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(
     private registerUser: RegisterUser,
@@ -28,6 +31,7 @@ export class UsersController {
     description: 'Falha ao registrar um usuário',
   })
   @Post('/register')
+  @IsPublic()
   register(
     @Body()
     data: RegisterUserDTO,
