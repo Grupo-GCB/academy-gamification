@@ -91,7 +91,7 @@ describe('Users Controller', () => {
   });
 
   describe('Update user password', () => {
-    it('should return an user password', () => {
+    it('should be able to update user password', () => {
       return request(app.getHttpServer())
         .put('/users/changePassword')
         .expect(200)
