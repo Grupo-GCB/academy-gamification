@@ -2,8 +2,8 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
-import { BusinessUnits, Roles } from '@shared/constants';
 import { AppModule } from '@/app.module';
+import { BusinessUnits, Roles } from '@shared/constants';
 import {
   DeleteUser,
   RegisterUser,
@@ -33,6 +33,7 @@ describe('Users Controller', () => {
     execute: () => ({
       id: '093efa1e-8506-43a9-b2c0-c6b713591bb3',
       new_password: 'new_password',
+      confirm_new_password: 'new_password',
     }),
   };
 
@@ -89,7 +90,7 @@ describe('Users Controller', () => {
     });
   });
 
-  describe('Update an user password', () => {
+  describe('Update user password', () => {
     it('should return an user password', () => {
       return request(app.getHttpServer())
         .put('/users/changePassword')
