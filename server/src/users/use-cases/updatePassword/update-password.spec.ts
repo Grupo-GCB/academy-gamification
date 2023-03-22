@@ -28,6 +28,7 @@ describe('Update an user password', () => {
       id: collaborator.id,
       password: collaborator.password,
       new_password: 'pa91489ssword',
+      confirm_new_password: 'pa91489ssword',
     });
 
     const isValidPassword = await compare(
@@ -49,7 +50,8 @@ describe('Update an user password', () => {
       sut.execute({
         id: '908c3c38-f3ce-4380-8e80-2b8708a2dd2e',
         password: 'password123',
-        new_password: 'newpassword123',
+        new_password: 'pa91489ssword',
+        confirm_new_password: 'pa91489ssword',
       }),
     ).rejects.toThrow('User does not exist');
   });
@@ -67,7 +69,8 @@ describe('Update an user password', () => {
       sut.execute({
         id: collaborator.id,
         password: 'password123',
-        new_password: 'newpassword123',
+        new_password: 'pa91489ssword',
+        confirm_new_password: 'pa91489ssword',
       }),
     ).rejects.toThrow('Incorrect current password');
   });
@@ -85,8 +88,47 @@ describe('Update an user password', () => {
       sut.execute({
         id: collaborator.id,
         password: 'password123',
-        new_password: 'password123',
+        new_password: 'easy-password',
+        confirm_new_password: 'easy-password',
       }),
     ).rejects.toThrow('Too weak password');
+  });
+
+  it('should not be able to update an user password if confirm password passed is different to new password', async () => {
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'password123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    await expect(
+      sut.execute({
+        id: collaborator.id,
+        password: 'password123',
+        new_password: 'pa91489ssword',
+        confirm_new_password: 'not_pa91489ssword',
+      }),
+    ).rejects.toThrow('Confirm password must be same as new password');
+  });
+
+  it('should not be able to update an user password if new password is equal to current password', async () => {
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'password123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    await expect(
+      sut.execute({
+        id: collaborator.id,
+        password: 'password123',
+        new_password: 'password123',
+        confirm_new_password: 'password123',
+      }),
+    ).rejects.toThrow('Unable to change password to current password');
   });
 });

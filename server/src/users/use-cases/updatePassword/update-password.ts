@@ -17,21 +17,31 @@ export class UpdatePassword {
     id,
     password,
     new_password,
+    confirm_new_password,
   }: UpdatePasswordDTO): Promise<User> {
     const user = await this.usersRepository.findOne(id);
 
-    if (!user) {
-      throw new BadRequestException('User does not exist');
-    }
+    if (!user) throw new BadRequestException('User does not exist');
 
-    if (password !== user.password) {
+    if (password !== user.password)
       throw new BadRequestException('Incorrect current password');
-    }
+
+    if (password === new_password)
+      throw new BadRequestException(
+        'Unable to change password to current password',
+      );
+
+    if (confirm_new_password !== new_password)
+      throw new BadRequestException(
+        'Confirm password must be same as new password',
+      );
 
     const passwordStrength = zxcvbn(new_password);
     const passwordRank = passwordStrength.score;
+    const PASSWORD_MIN_STRENGTH = 3;
 
-    if (passwordRank < 3) throw new BadRequestException('Too weak password');
+    if (passwordRank < PASSWORD_MIN_STRENGTH)
+      throw new BadRequestException('Too weak password');
 
     new_password = await hash(new_password, 8);
 
