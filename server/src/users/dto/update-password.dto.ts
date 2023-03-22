@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class UpdatePasswordDTO {
   @IsNotEmpty()
@@ -24,6 +30,8 @@ export class UpdatePasswordDTO {
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(8)
+  @MaxLength(24)
   @ApiProperty({
     example: '123gcb',
     description: 'Nova senha do usuário',
@@ -34,6 +42,8 @@ export class UpdatePasswordDTO {
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(8)
+  @MaxLength(24)
   @ApiProperty({
     example: '123gcb',
     description: 'Confirmação da nova senha do usuário',
