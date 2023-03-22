@@ -17,11 +17,12 @@ import {
 } from '@nestjs/swagger';
 import { UpdateBusinessUnitDTO } from '@users/dto';
 
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
+import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import {
   DeleteUser,
   FindById,
+  ListAllUsers,
   RegisterUser,
   UpdateBusinessUnit,
 } from '@users/use-cases';
@@ -31,6 +32,7 @@ export class UsersController {
   constructor(
     private registerUser: RegisterUser,
     private findById: FindById,
+    private listAllUsers: ListAllUsers,
     private updateBusinessUnit: UpdateBusinessUnit,
     private deleteUser: DeleteUser,
   ) {}
@@ -61,6 +63,11 @@ export class UsersController {
   @Get('/:id')
   findOne(@Param('id') id: string): Promise<User> {
     return this.findById.execute(id);
+  }
+
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.listAllUsers.execute();
   }
 
   @ApiOkResponse({

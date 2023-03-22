@@ -7,6 +7,8 @@ export abstract class IUsersRepository {
 
   abstract findOne(id: string): Promise<User>;
 
+  abstract findAll(): Promise<User[]>;
+
   abstract updateBusinessUnit({
     id,
     new_bu,
