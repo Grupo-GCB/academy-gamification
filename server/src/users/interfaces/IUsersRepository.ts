@@ -1,5 +1,4 @@
-import { UpdateBusinessUnitDTO } from '@users/dto';
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
+import { RegisterUserDTO, UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IUpdatePassword } from './IUpdatePassword';
 
