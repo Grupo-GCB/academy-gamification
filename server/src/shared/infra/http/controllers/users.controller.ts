@@ -97,7 +97,7 @@ export class UsersController {
   UpdatePassword(
     @Body()
     { id, password, new_password, confirm_new_password }: UpdatePasswordDTO,
-  ): Promise<User> {
+  ): Promise<void> {
     return this.updatePassword.execute({
       id,
       password,
