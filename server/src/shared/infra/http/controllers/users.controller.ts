@@ -15,9 +15,11 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 
-import { UpdateBusinessUnitDTO } from '@users/dto';
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
-import { UpdatePasswordDTO } from '@users/dto/update-password.dto';
+import {
+  RegisterUserDTO,
+  UpdateBusinessUnitDTO,
+  UpdatePasswordDTO,
+} from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import {
   DeleteUser,
@@ -93,12 +95,14 @@ export class UsersController {
   })
   @Put('/changePassword')
   UpdatePassword(
-    @Body() { id, password, new_password }: UpdatePasswordDTO,
+    @Body()
+    { id, password, new_password, confirm_new_password }: UpdatePasswordDTO,
   ): Promise<User> {
     return this.updatePassword.execute({
       id,
       password,
       new_password,
+      confirm_new_password,
     });
   }
 }
