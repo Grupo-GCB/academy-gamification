@@ -1,4 +1,3 @@
-import { User } from '@users/infra/entities/user.entity';
 import { randomUUID } from 'node:crypto';
 import {
   Column,
@@ -8,6 +7,8 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
+
+import { User } from '@users/infra/entities/user.entity';
 
 @Entity('refresh_tokens')
 export class RefreshToken {
