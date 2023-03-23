@@ -124,8 +124,7 @@ export class RegisterTransaction {
       );
     }
 
-    if (data.gcbits === 0)
-      throw new BadRequestException('You can not pass GCBits with value zero');
+    this.checkGCBitsValue(data.gcbits);
 
     if (data.type === Types.REDEEM) {
       data.gcbits = -Math.abs(data.gcbits);
@@ -147,5 +146,10 @@ export class RegisterTransaction {
 
     if (!isAdmin && !permissions.includes(type))
       throw new UnauthorizedException(message);
+  }
+
+  private checkGCBitsValue(gcbits: number): void {
+    if (gcbits === 0)
+      throw new BadRequestException('You cannot pass GCBits with value zero');
   }
 }
