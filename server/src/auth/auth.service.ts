@@ -63,8 +63,6 @@ export class AuthService {
       token,
     );
 
-    console.log(refreshToken);
-
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token inválido');
     }
