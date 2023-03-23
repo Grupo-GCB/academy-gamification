@@ -25,6 +25,15 @@ interface CheckPermissionProps {
   message?: string;
 }
 
+interface TransactionType {
+  [type: string]: (value: number) => number;
+}
+
+const transactionTypes: TransactionType = {
+  [Types.REDEEM]: (value) => -Math.abs(value),
+  [Types.COLLABORATION]: Math.abs,
+};
+
 @Injectable()
 export class RegisterTransaction {
   constructor(
@@ -126,6 +135,8 @@ export class RegisterTransaction {
 
     this.checkGCBitsValue(data.gcbits);
 
+    this.setGCBitsValue(data.type, data.gcbits);
+
     if (data.type === Types.REDEEM) {
       data.gcbits = -Math.abs(data.gcbits);
     } else if (data.type === Types.COLLABORATION) {
@@ -143,13 +154,19 @@ export class RegisterTransaction {
   }: CheckPermissionProps): void {
     const permissions = permissionMap[role] ?? [];
     const isAdmin = role === Roles.ADMIN;
+    const hasPermission = isAdmin || permissions.includes(type);
 
-    if (!isAdmin && !permissions.includes(type))
+    if (!hasPermission) {
       throw new UnauthorizedException(message);
+    }
   }
 
   private checkGCBitsValue(gcbits: number): void {
     if (gcbits === 0)
       throw new BadRequestException('You cannot pass GCBits with value zero');
+  }
+
+  private setGCBitsValue(type: string, gcbits: number): void {
+    if (transactionTypes[type]) gcbits = transactionTypes[type](gcbits);
   }
 }
