@@ -43,6 +43,10 @@ export class UsersRepository {
     });
   }
 
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
   async updateBusinessUnit({
     id,
     new_bu,

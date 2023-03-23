@@ -9,6 +9,8 @@ export abstract class IUsersRepository {
 
   abstract findByEmail(email: string): Promise<User>;
 
+  abstract findAll(): Promise<User[]>;
+
   abstract updateBusinessUnit({
     id,
     new_bu,
