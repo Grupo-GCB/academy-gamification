@@ -15,9 +15,13 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { FindUserByIdDTO, UpdateBusinessUnitDTO } from '@users/dto';
 
-import { RegisterUserDTO } from '@users/dto';
+import {
+  FindUserByIdDTO,
+  RegisterUserDTO,
+  UpdateBusinessUnitDTO,
+  UpdatePasswordDTO,
+} from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import {
   DeleteUser,
@@ -25,6 +29,7 @@ import {
   ListAllUsers,
   RegisterUser,
   UpdateBusinessUnit,
+  UpdatePassword,
 } from '@users/use-cases';
 
 @Controller('users')
@@ -35,6 +40,7 @@ export class UsersController {
     private listAllUsers: ListAllUsers,
     private updateBusinessUnit: UpdateBusinessUnit,
     private deleteUser: DeleteUser,
+    private updatePassword: UpdatePassword,
   ) {}
 
   @ApiCreatedResponse({
@@ -78,7 +84,7 @@ export class UsersController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Não foi possível alterar a unidade de negócio',
   })
-  @Put()
+  @Put('/change-bu')
   updateBU(
     @Body() { id, responsible, new_bu }: UpdateBusinessUnitDTO,
   ): Promise<User> {
@@ -100,5 +106,26 @@ export class UsersController {
   @Delete(':id')
   delete(@Param('id') id: string): Promise<void> {
     return this.deleteUser.execute(id);
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Senha alterada com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Não foi possível alterar a senha',
+  })
+  @Put('/change-password')
+  changePassword(
+    @Body()
+    { id, password, new_password, confirm_new_password }: UpdatePasswordDTO,
+  ): Promise<void> {
+    return this.updatePassword.execute({
+      id,
+      password,
+      new_password,
+      confirm_new_password,
+    });
   }
 }

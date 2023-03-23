@@ -10,7 +10,7 @@ import {
   DeleteUser,
   FindById,
   ListAllUsers,
-  UpdateBusinessUnit,
+  UpdateBusinessUnit, UpdatePassword,
 } from './use-cases';
 
 @Module({
@@ -22,6 +22,7 @@ import {
     ListAllUsers,
     UpdateBusinessUnit,
     DeleteUser,
+    UpdatePassword,
     {
       provide: IUsersRepository,
       useClass: UsersRepository,

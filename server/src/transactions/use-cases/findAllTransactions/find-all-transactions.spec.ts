@@ -1,5 +1,5 @@
 import {
-  Admin,
+  Admins,
   CollaborationsSubType,
   RedeemSubType,
   Status,
@@ -20,7 +20,7 @@ describe('Find all transactions', () => {
   it('should be able to return all transactions', async () => {
     const transactionOne = await inMemoryTransactions.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: Admin.ADMIN,
+      responsible: Admins.ADMIN,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
@@ -29,7 +29,7 @@ describe('Find all transactions', () => {
 
     const transactionTwo = await inMemoryTransactions.register({
       user: 'flavio.marques@gcbinvestimentos.com',
-      responsible: Admin.ADMIN,
+      responsible: Admins.ADMIN,
       type: Types.REDEEM,
       sub_type: RedeemSubType.ACADEMY,
       status: Status.PENDING,
