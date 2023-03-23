@@ -4,7 +4,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { Roles, Status, Types } from '@shared/constants';
+import {
+  CollaborationsSubType,
+  RedeemSubType,
+  Roles,
+  Status,
+  Types,
+} from '@shared/constants';
 import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
@@ -39,6 +45,29 @@ export class RegisterTransaction {
       throw new UnauthorizedException('You do not have permission');
     }
 
+    if (data.type !== Types.REDEEM && data.type !== Types.COLLABORATION) {
+      if (data.sub_type !== undefined) {
+        throw new BadRequestException(
+          `Subtype should not be defined for ${data.type} transactions`,
+        );
+      }
+    } else if (!data.sub_type) {
+      throw new BadRequestException(
+        `Subtype is required for ${data.type} transactions`,
+      );
+    } else {
+      const isValidSubtype =
+        (data.type === Types.REDEEM && data.sub_type in RedeemSubType) ||
+        (data.type === Types.COLLABORATION &&
+          data.sub_type in CollaborationsSubType);
+
+      if (!isValidSubtype) {
+        throw new BadRequestException(
+          `Invalid subtype for type ${data.type} transaction.`,
+        );
+      }
+    }
+
     if (
       data.type === Types.COLLABORATION &&
       responsible.role === Roles.ACADEMY &&
@@ -52,7 +81,8 @@ export class RegisterTransaction {
     if (
       data.type !== Types.TRANSFER &&
       responsible.role === Roles.COLLABORATOR &&
-      user.role === Roles.COLLABORATOR
+      user.role === Roles.COLLABORATOR &&
+      user.id !== responsible.id
     ) {
       throw new UnauthorizedException(
         'Collaborators cannot define the user for another collaborator',
