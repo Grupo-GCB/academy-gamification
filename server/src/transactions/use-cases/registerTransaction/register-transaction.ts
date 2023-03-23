@@ -45,6 +45,16 @@ export class RegisterTransaction {
       throw new UnauthorizedException('You do not have permission');
     }
 
+    if (
+      (responsible.role === Roles.COLLABORATOR ||
+        responsible.role === Roles.ACADEMY) &&
+      user.role === Roles.ADMIN
+    ) {
+      throw new UnauthorizedException(
+        'Collaborators or Academies cannot define an ADMIN as the user for a transaction',
+      );
+    }
+
     if (data.type !== Types.REDEEM && data.type !== Types.COLLABORATION) {
       if (data.sub_type !== undefined) {
         throw new BadRequestException(
