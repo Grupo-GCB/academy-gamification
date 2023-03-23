@@ -32,6 +32,7 @@ describe('Users Controller', () => {
   const updatePassword = {
     execute: () => ({
       id: '093efa1e-8506-43a9-b2c0-c6b713591bb3',
+      password: 'current_password',
       new_password: 'new_password',
       confirm_new_password: 'new_password',
     }),
@@ -75,7 +76,7 @@ describe('Users Controller', () => {
   describe('Update business unit', () => {
     it('should return an updated business unit user', () => {
       return request(app.getHttpServer())
-        .put('/users')
+        .put('/users/change-bu')
         .expect(200)
         .expect(updateBusinessUnit.execute());
     });
@@ -93,7 +94,7 @@ describe('Users Controller', () => {
   describe('Update user password', () => {
     it('should be able to update user password', () => {
       return request(app.getHttpServer())
-        .put('/users/changePassword')
+        .put('/users/change-password')
         .expect(200)
         .expect(updatePassword.execute());
     });
