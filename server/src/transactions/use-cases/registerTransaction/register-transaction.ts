@@ -25,15 +25,6 @@ interface CheckPermissionProps {
   message?: string;
 }
 
-interface TransactionType {
-  [type: string]: (value: number) => number;
-}
-
-const transactionTypes: TransactionType = {
-  [Types.REDEEM]: (value) => -Math.abs(value),
-  [Types.COLLABORATION]: Math.abs,
-};
-
 @Injectable()
 export class RegisterTransaction {
   constructor(
@@ -42,8 +33,10 @@ export class RegisterTransaction {
   ) {}
 
   async execute(data: RegisterTransactionDTO): Promise<Transaction> {
-    const responsible = await this.usersRepository.findById(data.responsible);
-    const user = await this.usersRepository.findById(data.user);
+    const [responsible, user] = await Promise.all([
+      this.usersRepository.findById(data.responsible),
+      this.usersRepository.findById(data.user),
+    ]);
 
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');
@@ -60,8 +53,7 @@ export class RegisterTransaction {
     });
 
     if (
-      (responsible.role === Roles.COLLABORATOR ||
-        responsible.role === Roles.ACADEMY) &&
+      [Roles.COLLABORATOR, Roles.ACADEMY].includes(responsible.role) &&
       user.role === Roles.ADMIN
     ) {
       throw new UnauthorizedException(
@@ -69,32 +61,39 @@ export class RegisterTransaction {
       );
     }
 
-    if (data.type !== Types.REDEEM && data.type !== Types.COLLABORATION) {
-      if (data.sub_type !== undefined) {
-        throw new BadRequestException(
-          `Subtype should not be defined for ${data.type} transactions`,
-        );
-      }
-    } else if (!data.sub_type) {
+    if (
+      data.type !== Types.REDEEM &&
+      data.type !== Types.COLLABORATION &&
+      data.sub_type !== undefined
+    ) {
+      throw new BadRequestException(
+        `Subtype should not be defined for ${data.type} transactions`,
+      );
+    }
+
+    if (
+      [Types.REDEEM, Types.COLLABORATION].includes(data.type) &&
+      !data.sub_type
+    ) {
       throw new BadRequestException(
         `Subtype is required for ${data.type} transactions`,
       );
-    } else {
-      const isValidSubtype =
-        (data.type === Types.REDEEM &&
-          Object.values(RedeemSubType).includes(
-            data.sub_type as RedeemSubType,
-          )) ||
-        (data.type === Types.COLLABORATION &&
-          Object.values(CollaborationsSubType).includes(
-            data.sub_type as CollaborationsSubType,
-          ));
+    }
 
-      if (!isValidSubtype) {
-        throw new BadRequestException(
-          `Invalid subtype for type ${data.type} transaction.`,
-        );
-      }
+    const isValidSubtype =
+      (data.type === Types.REDEEM &&
+        Object.values(RedeemSubType).includes(
+          data.sub_type as RedeemSubType,
+        )) ||
+      (data.type === Types.COLLABORATION &&
+        Object.values(CollaborationsSubType).includes(
+          data.sub_type as CollaborationsSubType,
+        ));
+
+    if (!isValidSubtype) {
+      throw new BadRequestException(
+        `Invalid subtype for type ${data.type} transaction.`,
+      );
     }
 
     if (
