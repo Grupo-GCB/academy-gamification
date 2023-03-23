@@ -18,8 +18,12 @@ export class InMemoryUsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findOne(id: string): Promise<User> {
+  async findById(id: string): Promise<User> {
     return this.users.find((user) => user.id === id);
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return this.users.find((user) => user.email === email);
   }
 
   async findAll(): Promise<User[]> {
@@ -30,7 +34,7 @@ export class InMemoryUsersRepository implements IUsersRepository {
     id,
     new_bu,
   }: UpdateBusinessUnitDTO): Promise<User> {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     user.business_unit = new_bu;
 
@@ -38,7 +42,7 @@ export class InMemoryUsersRepository implements IUsersRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     user.deleted_at = new Date();
   }

@@ -26,7 +26,7 @@ export class UpdateStatus {
     if (!new_status) throw new BadRequestException('New status is required');
     if (!id) throw new BadRequestException('Id is required');
 
-    const responsible = await this.usersRepository.findOne(admin);
+    const responsible = await this.usersRepository.findById(admin);
 
     if (!responsible) throw new BadRequestException('Administrator not found');
 
@@ -34,7 +34,7 @@ export class UpdateStatus {
       throw new UnauthorizedException('You must be a administrator');
     }
 
-    const transaction: Transaction = await this.transactionsRepository.findOne(
+    const transaction: Transaction = await this.transactionsRepository.findById(
       id,
     );
 

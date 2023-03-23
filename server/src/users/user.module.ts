@@ -8,9 +8,11 @@ import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 import { RegisterUser } from '@users/use-cases/registerUser/register-user';
 import {
   DeleteUser,
+  FindByEmail,
   FindById,
   ListAllUsers,
-  UpdateBusinessUnit, UpdatePassword,
+  UpdateBusinessUnit,
+  UpdatePassword,
 } from './use-cases';
 
 @Module({
@@ -22,6 +24,7 @@ import {
     ListAllUsers,
     UpdateBusinessUnit,
     DeleteUser,
+    FindByEmail,
     UpdatePassword,
     {
       provide: IUsersRepository,

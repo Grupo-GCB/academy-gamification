@@ -30,7 +30,7 @@ describe('Update a transaction status', () => {
     expect(updatedUser.business_unit).toEqual(BusinessUnits.PEERBR);
 
     await expect(
-      inMemoryUsersRepository.findOne(collaborator.id),
+      inMemoryUsersRepository.findById(collaborator.id),
     ).resolves.toEqual(
       expect.objectContaining({ business_unit: BusinessUnits.PEERBR }),
     );
@@ -60,7 +60,7 @@ describe('Update a transaction status', () => {
     });
     expect(updatedUser.business_unit).toEqual(BusinessUnits.GRUPOGCB);
 
-    await expect(inMemoryUsersRepository.findOne(academy.id)).resolves.toEqual(
+    await expect(inMemoryUsersRepository.findById(academy.id)).resolves.toEqual(
       expect.objectContaining({ business_unit: BusinessUnits.GRUPOGCB }),
     );
   });

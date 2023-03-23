@@ -39,7 +39,7 @@ export class TransactionsRepository {
     return this.transactionsRepository.save(transaction);
   }
 
-  async findOne(id: string): Promise<Transaction> {
+  async findById(id: string): Promise<Transaction> {
     return this.transactionsRepository.findOne({
       where: { id },
     });
@@ -51,7 +51,7 @@ export class TransactionsRepository {
   }: UpdateStatusDTO): Promise<Transaction> {
     await this.transactionsRepository.update({ id }, { status: new_status });
 
-    return this.findOne(id);
+    return this.findById(id);
   }
 
   async filterByStatus({

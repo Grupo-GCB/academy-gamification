@@ -8,7 +8,7 @@ import { Transaction } from '@transactions/infra/typeorm/entities/transaction.en
 export abstract class ITransactionsRepository {
   abstract register(data: RegisterTransactionDTO): Promise<Transaction>;
 
-  abstract findOne(id: string): Promise<Transaction>;
+  abstract findById(id: string): Promise<Transaction>;
 
   abstract updateStatus({
     id,

@@ -47,8 +47,8 @@ export class RegisterTransactionDTO {
   })
   type: Types;
 
-  @IsNotEmpty()
   @IsEnum(TransactionSubType)
+  @IsOptional()
   @ApiProperty({
     example: 'PAIR_PROGRAMMING',
     description: 'Tipo da transação realizada',

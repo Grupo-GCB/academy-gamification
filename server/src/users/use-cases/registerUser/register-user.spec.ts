@@ -6,7 +6,7 @@ describe('Register user', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
   let sut: RegisterUser;
 
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     sut = new RegisterUser(inMemoryUsersRepository);
   });

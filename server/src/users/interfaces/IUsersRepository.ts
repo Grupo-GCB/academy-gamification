@@ -6,7 +6,9 @@ import { IUpdatePassword } from './IUpdatePassword';
 export abstract class IUsersRepository {
   abstract create(data: IRegisterUser): Promise<User>;
 
-  abstract findOne(id: string): Promise<User>;
+  abstract findById(id: string): Promise<User>;
+
+  abstract findByEmail(email: string): Promise<User>;
 
   abstract findAll(): Promise<User[]>;
 
