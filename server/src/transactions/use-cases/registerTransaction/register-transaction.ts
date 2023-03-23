@@ -24,16 +24,6 @@ export class RegisterTransaction {
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');
 
-    if (
-      data.type === Types.COLLABORATION &&
-      responsible.role === Roles.ACADEMY &&
-      user.role === Roles.ACADEMY
-    ) {
-      throw new UnauthorizedException(
-        'You cannot pass yourself or another Academy as the user for a collaboration transaction.',
-      );
-    }
-
     const typesPermissions = {
       [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
       [Roles.ACADEMY]: [Types.COLLABORATION],
@@ -47,6 +37,25 @@ export class RegisterTransaction {
 
     if (!hasTypePermission) {
       throw new UnauthorizedException('You do not have permission');
+    }
+
+    if (
+      data.type === Types.COLLABORATION &&
+      responsible.role === Roles.ACADEMY &&
+      user.role === Roles.ACADEMY
+    ) {
+      throw new UnauthorizedException(
+        'You cannot pass yourself or another Academy as the user for a collaboration transaction.',
+      );
+    }
+
+    if (
+      responsible.role === Roles.COLLABORATOR &&
+      user.role === Roles.COLLABORATOR
+    ) {
+      throw new UnauthorizedException(
+        'Collaborators cannot define the user for another collaborator',
+      );
     }
 
     const statusPermissions = {
