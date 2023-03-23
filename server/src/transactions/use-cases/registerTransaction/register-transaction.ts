@@ -57,9 +57,14 @@ export class RegisterTransaction {
       );
     } else {
       const isValidSubtype =
-        (data.type === Types.REDEEM && data.sub_type in RedeemSubType) ||
+        (data.type === Types.REDEEM &&
+          Object.values(RedeemSubType).includes(
+            data.sub_type as RedeemSubType,
+          )) ||
         (data.type === Types.COLLABORATION &&
-          data.sub_type in CollaborationsSubType);
+          Object.values(CollaborationsSubType).includes(
+            data.sub_type as CollaborationsSubType,
+          ));
 
       if (!isValidSubtype) {
         throw new BadRequestException(
@@ -107,9 +112,12 @@ export class RegisterTransaction {
     if (data.gcbits === 0)
       throw new BadRequestException('You can not pass GCBits with value zero');
 
-    data.type == Types.COLLABORATION || data.type == Types.TRANSFER
-      ? (data.gcbits = data.gcbits)
-      : (data.gcbits = -data.gcbits);
+    if (data.type === Types.REDEEM) {
+      data.gcbits = -Math.abs(data.gcbits);
+    } else if (data.type === Types.COLLABORATION) {
+      data.gcbits = Math.abs(data.gcbits);
+    }
+
     return this.transactionsRepository.register(data);
   }
 }
