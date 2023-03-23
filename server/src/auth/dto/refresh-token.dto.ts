@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsDate, IsNotEmpty, IsString } from 'class-validator';
 export class RefreshTokenDTO {
   @IsNotEmpty()
-  @IsEmail()
+  @IsString()
   @ApiProperty({
     example: 'f08cad13-89e5-447b-b910-123b5d6c03b4',
     description: 'Id de identificação do usuário',
