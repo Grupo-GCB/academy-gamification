@@ -61,7 +61,7 @@ export class UsersController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Não foi possível alterar a unidade de negócio',
   })
-  @Put()
+  @Put('/change-bu')
   updateBU(
     @Body() { id, responsible, new_bu }: UpdateBusinessUnitDTO,
   ): Promise<User> {
@@ -93,7 +93,7 @@ export class UsersController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Não foi possível alterar a senha',
   })
-  @Put('/changePassword')
+  @Put('/change-password')
   UpdatePassword(
     @Body()
     { id, password, new_password, confirm_new_password }: UpdatePasswordDTO,
