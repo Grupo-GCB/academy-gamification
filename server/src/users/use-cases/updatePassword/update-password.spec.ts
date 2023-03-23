@@ -30,7 +30,7 @@ describe('Update user password', () => {
     });
 
     await expect(
-      inMemoryUsersRepository.findOne(collaborator.id),
+      inMemoryUsersRepository.findById(collaborator.id),
     ).resolves.toEqual(
       expect.objectContaining({ password: collaborator.password }),
     );
