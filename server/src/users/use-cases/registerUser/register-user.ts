@@ -64,6 +64,35 @@ export class RegisterUser {
       text: `Você se registrou no AcadeMe com sucesso! 
 Criamos uma senha inicial para você realizar o seu login. 
 Sua senha é: ${passwordAsRandomString}`,
+      html: `
+        <div
+          style="
+            background-color: #ffffff;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+          "
+        >
+          <img
+            src="https://gcbinvestimentos.com/_next/image?url=%2Fassets%2Fillustrations%2Flogo_gcb_color.svg&w=256&q=75"
+            alt="Logo"
+            style="display: block; margin: auto; width: 200px"
+          />  
+          <br />
+          <h3 style="text-align: center">Bem-vindo ao AcadeMe</h3>
+          <p>Olá <strong>${name}</strong>,</p>
+          <p>Criamos uma senha inicial para você realizar o seu login.</p>
+          <p>Sua senha é: ${passwordAsRandomString}</p>
+          <p>
+            Caso tenha alguma dúvida ou problema, não hesite em entrar em contato com o
+            nosso suporte no email: kayke.fujinaka@gcbinvestimentos.com
+          </p>
+          <div style="text-align: center; margin-top: 30px; background: #ff6f61; padding: 10px 20px; cursor: pointer;" >
+            <a style="text-decoration: none; color: #ffffff" href="https://gcbinvestimentos.com/">
+                Acessar AcadeMe
+            </a>
+          </div>
+        </div>  
+      `,
     });
 
     return user;
