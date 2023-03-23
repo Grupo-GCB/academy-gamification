@@ -135,8 +135,6 @@ export class RegisterTransaction {
 
     this.checkGCBitsValue(data.gcbits);
 
-    this.setGCBitsValue(data.type, data.gcbits);
-
     if (data.type === Types.REDEEM) {
       data.gcbits = -Math.abs(data.gcbits);
     } else if (data.type === Types.COLLABORATION) {
@@ -164,9 +162,5 @@ export class RegisterTransaction {
   private checkGCBitsValue(gcbits: number): void {
     if (gcbits === 0)
       throw new BadRequestException('You cannot pass GCBits with value zero');
-  }
-
-  private setGCBitsValue(type: string, gcbits: number): void {
-    if (transactionTypes[type]) gcbits = transactionTypes[type](gcbits);
   }
 }
