@@ -28,33 +28,12 @@ describe('Register user', () => {
     );
   });
 
-  it('should be able to register an with Admin role', async () => {
-    const user = await sut.execute({
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
-      business_unit: BusinessUnits.ADIANTE,
-    });
-
-    expect(user).toEqual(
-      expect.objectContaining({
-        email: 'gustavo.wuelta@gcbinvestimentos.com',
-        password: user.password,
+  it('should not be able to register an user if invalid email is passed', async () => {
+    await expect(
+      sut.execute({
+        email: 'gustavo.wuelta@gmail.com',
         business_unit: BusinessUnits.ADIANTE,
       }),
-    );
-  });
-
-  it('should be able to register an user with user role', async () => {
-    const user = await sut.execute({
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
-      business_unit: BusinessUnits.ADIANTE,
-    });
-
-    expect(user).toEqual(
-      expect.objectContaining({
-        email: 'gustavo.wuelta@gcbinvestimentos.com',
-        password: user.password,
-        business_unit: BusinessUnits.ADIANTE,
-      }),
-    );
+    ).rejects.toThrow('Invalid email');
   });
 });
