@@ -1,3 +1,4 @@
+import { SendGridService } from '@anchan828/nest-sendgrid';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'bcrypt';
 import crypto from 'node:crypto';
@@ -9,7 +10,10 @@ import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
 @Injectable()
 export class RegisterUser {
-  constructor(private userRepository: IUsersRepository) {}
+  constructor(
+    private userRepository: IUsersRepository,
+    private readonly sendGrid: SendGridService,
+  ) {}
 
   async execute({ email, business_unit }: RegisterUserDTO): Promise<User> {
     const emailFormat = /^[a-z]+.[a-z]+@gcbinvestimentos.com$/;
@@ -32,8 +36,8 @@ export class RegisterUser {
     const name = `${firstName} ${lastName}`;
 
     const buffer = crypto.randomBytes(8);
-    const randomString = buffer.toString('hex');
-    const hashedPassword = await hash(randomString, 8);
+    const passwordAsRandomString = buffer.toString('hex');
+    const hashedPassword = await hash(passwordAsRandomString, 8);
 
     const roleByEmail = {
       [Admins.ADMIN]: Roles.ADMIN,
@@ -51,6 +55,15 @@ export class RegisterUser {
       password: hashedPassword,
       business_unit,
       role,
+    });
+
+    await this.sendGrid.send({
+      to: email,
+      from: process.env.FROM_EMAIL,
+      subject: 'Registro no AcadeMe',
+      text: `Você se registrou no AcadeMe com sucesso! 
+Criamos uma senha inicial para você realizar o seu login. 
+Sua senha é: ${passwordAsRandomString}`,
     });
 
     return user;
