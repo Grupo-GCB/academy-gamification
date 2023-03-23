@@ -26,6 +26,7 @@
     "migration:revert": "yarn typeorm migration:revert"
   },
   "dependencies": {
+    "@anchan828/nest-sendgrid": "^0.6.36",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
