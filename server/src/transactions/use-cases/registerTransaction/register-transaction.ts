@@ -144,10 +144,8 @@ export class RegisterTransaction {
   }: CheckPermissionProps): void {
     const permissions = permissionMap[role] ?? [];
     const isAdmin = role === Roles.ADMIN;
-    const hasPermission = isAdmin || permissions.includes(type);
 
-    if (!hasPermission) {
+    if (!isAdmin && !permissions.includes(type))
       throw new UnauthorizedException(message);
-    }
   }
 }
