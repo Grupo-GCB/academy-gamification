@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'bcrypt';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 import { Academys, Admins, Roles } from '@shared/constants';
 import { RegisterUserDTO } from '@users/dto';
@@ -20,8 +20,6 @@ export class RegisterUser {
       throw new BadRequestException('Invalid email');
     }
 
-    // Dar um findByEmail com o email passado e validar se já existe este email cadastrado
-
     const splittedEmail = email.split('@');
 
     const splittedName = splittedEmail[0].split('.');
@@ -35,27 +33,22 @@ export class RegisterUser {
 
     const buffer = crypto.randomBytes(8);
     const randomString = buffer.toString('hex');
-    const password = await hash(randomString, 8);
+    const hashedPassword = await hash(randomString, 8);
 
-    //fazer a questão da Role!!
+    const roleByEmail = {
+      [Admins.ADMIN]: Roles.ADMIN,
+      [Academys.ACADEMY1]: Roles.ACADEMY,
+      [Academys.ACADEMY2]: Roles.ACADEMY,
+      [Academys.ACADEMY3]: Roles.ACADEMY,
+      [Academys.ACADEMY4]: Roles.ACADEMY,
+    };
 
-    let role: Roles;
-
-    const emailAsAdmin = email as Admins;
-    const emailAsAcademy = email as Academys;
-
-    if (Object.values(Admins).includes(emailAsAdmin)) {
-      role = Roles.ADMIN;
-    } else if (Object.values(Academys).includes(emailAsAcademy)) {
-      role = Roles.ACADEMY;
-    } else {
-      role = Roles.COLLABORATOR;
-    }
+    const role = roleByEmail[email] ?? Roles.COLLABORATOR;
 
     const user = await this.userRepository.create({
       name,
       email,
-      password,
+      password: hashedPassword,
       business_unit,
       role,
     });
