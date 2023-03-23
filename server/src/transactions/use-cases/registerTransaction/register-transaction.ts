@@ -30,20 +30,7 @@ export class RegisterTransaction {
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');
 
-    const typesPermissions = {
-      [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
-      [Roles.ACADEMY]: [Types.COLLABORATION],
-    };
-
-    const isAdmin = responsible.role === Roles.ADMIN;
-
-    const hasTypePermission =
-      (isAdmin || typesPermissions[responsible.role]?.includes(data.type)) ??
-      false;
-
-    if (!hasTypePermission) {
-      throw new UnauthorizedException('You do not have permission');
-    }
+    this.checkTypePermission(responsible.role, data.type);
 
     if (
       (responsible.role === Roles.COLLABORATOR ||
@@ -129,5 +116,20 @@ export class RegisterTransaction {
     }
 
     return this.transactionsRepository.register(data);
+  }
+
+  private checkTypePermission(role: Roles, type: Types): void {
+    const permissions = {
+      [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
+      [Roles.ACADEMY]: [Types.COLLABORATION],
+    };
+
+    const isAdmin = role === Roles.ADMIN;
+
+    const isPermissionGranted = isAdmin || permissions[role]?.includes(type);
+
+    if (isPermissionGranted) return;
+
+    throw new UnauthorizedException('You do not have permission');
   }
 }
