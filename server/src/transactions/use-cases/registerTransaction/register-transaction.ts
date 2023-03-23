@@ -50,6 +50,7 @@ export class RegisterTransaction {
     }
 
     if (
+      data.type !== Types.TRANSFER &&
       responsible.role === Roles.COLLABORATOR &&
       user.role === Roles.COLLABORATOR
     ) {
