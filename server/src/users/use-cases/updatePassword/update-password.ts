@@ -18,7 +18,7 @@ export class UpdatePassword {
     new_password,
     confirm_new_password,
   }: UpdatePasswordDTO): Promise<void> {
-    const user = await this.usersRepository.findOne(id);
+    const user = await this.usersRepository.findById(id);
 
     if (!user) throw new BadRequestException('User does not exist');
 

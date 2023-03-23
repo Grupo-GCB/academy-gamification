@@ -44,7 +44,7 @@ export class InMemoryUsersRepository implements IUsersRepository {
   }
 
   async updatePassword({ id, new_password }: IUpdatePassword): Promise<void> {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     user.password = new_password;
   }
