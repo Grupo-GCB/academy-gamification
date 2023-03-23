@@ -30,8 +30,6 @@ describe('Find all users', () => {
 
     const users = await sut.execute();
 
-    console.log(users);
-
     expect(users).toEqual(expect.arrayContaining([userOne, userTwo]));
   });
 
