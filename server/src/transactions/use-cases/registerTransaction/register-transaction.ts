@@ -16,6 +16,15 @@ import { Transaction } from '@transactions/infra/typeorm/entities/transaction.en
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 
+type PermissionMap = Record<string, string[]>;
+
+interface CheckPermissionProps {
+  role: Roles;
+  type: Types;
+  permissionMap: PermissionMap;
+  message?: string;
+}
+
 @Injectable()
 export class RegisterTransaction {
   constructor(
@@ -30,7 +39,16 @@ export class RegisterTransaction {
     if (!responsible || !user)
       throw new BadRequestException('User or responsible does not exist');
 
-    this.checkTypePermission(responsible.role, data.type);
+    const transactionPermissions: PermissionMap = {
+      [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
+      [Roles.ACADEMY]: [Types.COLLABORATION],
+    };
+
+    this.checkPermission({
+      role: responsible.role,
+      type: data.type,
+      permissionMap: transactionPermissions,
+    });
 
     if (
       (responsible.role === Roles.COLLABORATOR ||
@@ -118,18 +136,18 @@ export class RegisterTransaction {
     return this.transactionsRepository.register(data);
   }
 
-  private checkTypePermission(role: Roles, type: Types): void {
-    const permissions = {
-      [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
-      [Roles.ACADEMY]: [Types.COLLABORATION],
-    };
-
+  private checkPermission({
+    role,
+    type,
+    permissionMap,
+    message = 'You do not have permission',
+  }: CheckPermissionProps): void {
+    const permissions = permissionMap[role] ?? [];
     const isAdmin = role === Roles.ADMIN;
+    const hasPermission = isAdmin || permissions.includes(type);
 
-    const isPermissionGranted = isAdmin || permissions[role]?.includes(type);
-
-    if (isPermissionGranted) return;
-
-    throw new UnauthorizedException('You do not have permission');
+    if (!hasPermission) {
+      throw new UnauthorizedException(message);
+    }
   }
 }
