@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpStatus,
   Param,
   Post,
@@ -14,6 +15,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
+import { FindUserByIdDTO, UpdateBusinessUnitDTO } from '@users/dto';
 
 import {
   RegisterUserDTO,
@@ -22,16 +24,24 @@ import {
 } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import {
+ 
   DeleteUser,
+ 
+  FindById,
+  ListAllUsers,
   RegisterUser,
+ 
   UpdateBusinessUnit,
-  UpdatePassword,
+ ,
+UpdatePassword,
 } from '@users/use-cases';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private registerUser: RegisterUser,
+    private findById: FindById,
+    private listAllUsers: ListAllUsers,
     private updateBusinessUnit: UpdateBusinessUnit,
     private deleteUser: DeleteUser,
     private updatePassword: UpdatePassword,
@@ -51,6 +61,23 @@ export class UsersController {
     data: RegisterUserDTO,
   ): Promise<User> {
     return this.registerUser.execute(data);
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar o usuário',
+  })
+  @Get('/:id')
+  async findOne(@Param() { id }: FindUserByIdDTO): Promise<User> {
+    return this.findById.execute(id);
+  }
+
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.listAllUsers.execute();
   }
 
   @ApiOkResponse({

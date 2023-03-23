@@ -22,6 +22,10 @@ export class InMemoryUsersRepository implements IUsersRepository {
     return this.users.find((user) => user.id === id);
   }
 
+  async findAll(): Promise<User[]> {
+    return this.users;
+  }
+
   async updateBusinessUnit({
     id,
     new_bu,
