@@ -15,25 +15,21 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { FindUserByIdDTO, UpdateBusinessUnitDTO } from '@users/dto';
 
 import {
+  FindUserByIdDTO,
   RegisterUserDTO,
   UpdateBusinessUnitDTO,
   UpdatePasswordDTO,
 } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import {
- 
   DeleteUser,
- 
   FindById,
   ListAllUsers,
   RegisterUser,
- 
   UpdateBusinessUnit,
- ,
-UpdatePassword,
+  UpdatePassword,
 } from '@users/use-cases';
 
 @Controller('users')
