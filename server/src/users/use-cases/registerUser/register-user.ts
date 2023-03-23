@@ -1,5 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { hash } from 'bcrypt';
+import crypto from 'node:crypto';
 
+import { Academys, Admins, Roles } from '@shared/constants';
 import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces/IUsersRepository';
@@ -8,23 +11,44 @@ import { IUsersRepository } from '@users/interfaces/IUsersRepository';
 export class RegisterUser {
   constructor(private userRepository: IUsersRepository) {}
 
-  async execute({
-    name,
-    email,
-    password,
-    business_unit,
-    role,
-  }: RegisterUserDTO): Promise<User> {
-    const userAlreadyExists = await this.userRepository.findByEmail(email);
+  async execute({ email, business_unit }: RegisterUserDTO): Promise<User> {
+    const emailFormat = /^[a-z]+.[a-z]+@gcbinvestimentos.com$/;
 
-    if (userAlreadyExists) {
-      throw new BadRequestException('Email already registered');
+    const isValidEmail: boolean = emailFormat.test(email);
+
+    if (!isValidEmail) {
+      throw new BadRequestException('Invalid email');
     }
+
+    const splittedEmail = email.split('@');
+
+    const splittedName = splittedEmail[0].split('.');
+
+    const firstName =
+      splittedName[0].charAt(0).toUpperCase() + splittedName[0].slice(1);
+    const lastName =
+      splittedName[1].charAt(0).toUpperCase() + splittedName[1].slice(1);
+
+    const name = `${firstName} ${lastName}`;
+
+    const buffer = crypto.randomBytes(8);
+    const randomString = buffer.toString('hex');
+    const hashedPassword = await hash(randomString, 8);
+
+    const roleByEmail = {
+      [Admins.ADMIN]: Roles.ADMIN,
+      [Academys.ACADEMY1]: Roles.ACADEMY,
+      [Academys.ACADEMY2]: Roles.ACADEMY,
+      [Academys.ACADEMY3]: Roles.ACADEMY,
+      [Academys.ACADEMY4]: Roles.ACADEMY,
+    };
+
+    const role = roleByEmail[email] ?? Roles.COLLABORATOR;
 
     const user = await this.userRepository.create({
       name,
       email,
-      password,
+      password: hashedPassword,
       business_unit,
       role,
     });

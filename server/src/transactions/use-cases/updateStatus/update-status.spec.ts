@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 
 import {
   Academys,
-  Admin,
+  Admins,
   BusinessUnits,
   CollaborationsSubType,
   Roles,
@@ -99,7 +99,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: undefined,
-        admin: Admin.ADMIN,
+        admin: Admins.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('New status is required'));
   });
@@ -118,7 +118,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: undefined,
         new_status: transaction.status,
-        admin: Admin.ADMIN,
+        admin: Admins.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('Id is required'));
   });

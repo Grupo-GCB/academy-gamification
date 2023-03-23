@@ -1,9 +1,10 @@
 import { UpdateBusinessUnitDTO } from '@users/dto';
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
 import { User } from '@users/infra/entities/user.entity';
+import { IRegisterUser } from './IRegisterUser';
+import { IUpdatePassword } from './IUpdatePassword';
 
 export abstract class IUsersRepository {
-  abstract create(data: RegisterUserDTO): Promise<User>;
+  abstract create(data: IRegisterUser): Promise<User>;
 
   abstract findById(id: string): Promise<User>;
 
@@ -17,4 +18,6 @@ export abstract class IUsersRepository {
   }: UpdateBusinessUnitDTO): Promise<User>;
 
   abstract delete(id: string): Promise<void>;
+
+  abstract updatePassword({ id, new_password }: IUpdatePassword): Promise<void>;
 }

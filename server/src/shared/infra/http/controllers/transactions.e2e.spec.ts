@@ -4,7 +4,7 @@ import request from 'supertest';
 
 import { AppModule } from '@/app.module';
 import {
-  Admin,
+  Admins,
   CollaborationsSubType,
   RedeemSubType,
   Status,
@@ -22,7 +22,7 @@ describe('Transaction Controller', () => {
   const registerTransaction = {
     execute: () => ({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: Admin.ADMIN,
+      responsible: Admins.ADMIN,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.APPROVED,
@@ -38,7 +38,7 @@ describe('Transaction Controller', () => {
     execute: () => [
       {
         user: 'levi.ciarrochi@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
@@ -46,7 +46,7 @@ describe('Transaction Controller', () => {
       },
       {
         user: 'flavio.marques@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.REDEEM,
         sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,
@@ -66,7 +66,7 @@ describe('Transaction Controller', () => {
     execute: () => [
       {
         user: 'levi.ciarrochi@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
@@ -74,7 +74,7 @@ describe('Transaction Controller', () => {
       },
       {
         user: 'flavio.marques@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.REDEEM,
         sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,
