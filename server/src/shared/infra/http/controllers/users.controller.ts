@@ -94,7 +94,7 @@ export class UsersController {
     description: 'Não foi possível alterar a senha',
   })
   @Put('/change-password')
-  UpdatePassword(
+  changePassword(
     @Body()
     { id, password, new_password, confirm_new_password }: UpdatePasswordDTO,
   ): Promise<void> {
