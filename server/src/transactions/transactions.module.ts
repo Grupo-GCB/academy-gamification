@@ -28,5 +28,6 @@ import { UsersModule } from '@users/user.module';
       useClass: TransactionsRepository,
     },
   ],
+  exports: [ITransactionsRepository],
 })
 export class TransactionsModule {}
