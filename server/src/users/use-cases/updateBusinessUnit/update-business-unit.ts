@@ -8,7 +8,7 @@ import {
 import { Roles } from '@shared/constants';
 import { UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { IUsersRepository } from '@users/interfaces/IUsersRepository';
+import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
 export class UpdateBusinessUnit {

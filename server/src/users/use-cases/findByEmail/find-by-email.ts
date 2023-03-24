@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
-import { FindByEmailDTO } from '@users/dto/find-by-email.dto';
+import { FindByEmailDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { IUsersRepository } from '@users/interfaces/IUsersRepository';
+import { IUsersRepository } from '@users/interfaces';
 
 export class FindByEmail {
   constructor(private usersRepository: IUsersRepository) {}
