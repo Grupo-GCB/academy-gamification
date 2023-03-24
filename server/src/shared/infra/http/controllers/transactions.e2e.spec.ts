@@ -14,9 +14,9 @@ import {
   FilterTransactionsByStatus,
   FindById,
   RegisterTransaction,
+  FindAllTransactions,
   UpdateStatus,
 } from '@transactions/use-cases';
-import { FindAllTransactions } from '@transactions/use-cases/findAllTransactions/find-all-transactions';
 
 describe('Transaction Controller', () => {
   const registerTransaction = {
