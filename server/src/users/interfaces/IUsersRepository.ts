@@ -1,5 +1,7 @@
+import { FilterTransactionsByUserDTO } from '@transactions/dto';
 import { UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
+import { IGCBitsBalance } from './IGCBitsBalance';
 import { IRegisterUser } from './IRegisterUser';
 import { IUpdatePassword } from './IUpdatePassword';
 
@@ -20,4 +22,8 @@ export abstract class IUsersRepository {
   abstract delete(id: string): Promise<void>;
 
   abstract updatePassword({ id, new_password }: IUpdatePassword): Promise<void>;
+
+  abstract getGCBitsBalance({
+    user,
+  }: FilterTransactionsByUserDTO): Promise<IGCBitsBalance>;
 }

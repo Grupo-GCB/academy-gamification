@@ -1,8 +1,12 @@
+import { FilterTransactionsByUserDTO } from '@transactions/dto';
 import { UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { IRegisterUser } from '@users/interfaces/IRegisterUser';
-import { IUpdatePassword } from '@users/interfaces/IUpdatePassword';
-import { IUsersRepository } from '@users/interfaces/IUsersRepository';
+import {
+  IGCBitsBalance,
+  IRegisterUser,
+  IUpdatePassword,
+  IUsersRepository,
+} from '@users/interfaces';
 import { hash } from 'bcrypt';
 
 export class InMemoryUsersRepository implements IUsersRepository {
@@ -51,5 +55,13 @@ export class InMemoryUsersRepository implements IUsersRepository {
     const user = await this.findById(id);
 
     user.password = new_password;
+  }
+
+  async getGCBitsBalance({
+    user,
+  }: FilterTransactionsByUserDTO): Promise<IGCBitsBalance> {
+    const user_balance = await this.getGCBitsBalance({ user });
+
+    return { balance: user_balance.balance };
   }
 }
