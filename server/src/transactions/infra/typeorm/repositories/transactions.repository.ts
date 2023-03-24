@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import {
   FilterTransactionsByStatusDTO,
+  FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
@@ -64,5 +65,13 @@ export class TransactionsRepository {
 
   async findAll(): Promise<Transaction[]> {
     return this.transactionsRepository.find();
+  }
+
+  async filterByUser({
+    user,
+  }: FilterTransactionsByUserDTO): Promise<Transaction[]> {
+    return this.transactionsRepository.find({
+      where: { user },
+    });
   }
 }

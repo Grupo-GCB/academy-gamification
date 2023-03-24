@@ -1,5 +1,6 @@
 import {
   FilterTransactionsByStatusDTO,
+  FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
@@ -20,4 +21,8 @@ export abstract class ITransactionsRepository {
   }: FilterTransactionsByStatusDTO): Promise<Transaction[]>;
 
   abstract findAll(): Promise<Transaction[]>;
+
+  abstract filterByUser({
+    user,
+  }: FilterTransactionsByUserDTO): Promise<Transaction[]>;
 }
