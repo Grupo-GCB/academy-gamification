@@ -1,22 +1,27 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersController } from '@shared/infra/http/controllers/users.controller';
+import { TransactionsModule } from '@transactions/transactions.module';
 import { User } from '@users/infra/entities/user.entity';
 import { UsersRepository } from '@users/infra/repositories/users.repository';
-import { IUsersRepository } from '@users/interfaces/IUsersRepository';
-import { RegisterUser } from '@users/use-cases/registerUser/register-user';
+import { IUsersRepository } from './interfaces';
 import {
   DeleteUser,
   FindByEmail,
   FindById,
+  GetGCBitsBalance,
   ListAllUsers,
+  RegisterUser,
   UpdateBusinessUnit,
   UpdatePassword,
 } from './use-cases';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    forwardRef(() => TransactionsModule),
+  ],
   controllers: [UsersController],
   providers: [
     RegisterUser,
@@ -26,6 +31,7 @@ import {
     DeleteUser,
     FindByEmail,
     UpdatePassword,
+    GetGCBitsBalance,
     {
       provide: IUsersRepository,
       useClass: UsersRepository,
