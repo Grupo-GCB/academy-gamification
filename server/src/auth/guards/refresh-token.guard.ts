@@ -15,11 +15,13 @@ export class RefreshTokenGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
 
     const refreshToken = req.body.refreshToken;
+
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token not provided');
     }
 
     const isValid = await this.authService.verifyRefreshToken(refreshToken);
+
     if (!isValid) {
       throw new UnauthorizedException('Invalid refresh token');
     }
