@@ -1,13 +1,12 @@
-import { bcrypt } from 'bcryptjs';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { FindByEmail } from '@users/use-cases';
 import { User } from '@users/infra/entities/user.entity';
 import { IJwtPayload, IUserToken } from '@auth/interfaces';
-import { LoginDTO } from '@auth/dto';
 import { RefreshTokenRepository } from '@auth/infra/typeorm/repositories/refresh-token.repository';
 import { RevokedTokenRepository } from '@auth/infra/typeorm/repositories/revoked-token.repository';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
@@ -18,19 +17,15 @@ export class AuthService {
     private revokedTokenRepository: RevokedTokenRepository,
   ) {}
 
-  async validateUser({ email, password }: LoginDTO): Promise<User> {
+  async validateUser(email: string, password: string): Promise<User> {
     const user = await this.findByEmail.execute(email);
 
-    // if (user) {
-    //   const isPasswordValid = await bcrypt.compare(password, user.password);
-    //   if (isPasswordValid) return { ...user, password: undefined };
-    // }
-
-    if (!user) {
-      throw new Error('Email address or password provided is incorrect.');
+    if (user) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (isPasswordValid) return { ...user, password: undefined };
     }
 
-    return user;
+    throw new Error('Email address or password provided is incorrect.');
   }
 
   async login(user: User): Promise<IUserToken> {
@@ -104,6 +99,7 @@ export class AuthService {
     const refreshToken = await this.refreshTokenRepository.findRefreshToken(
       token,
     );
+
     return !!refreshToken;
   }
 }
