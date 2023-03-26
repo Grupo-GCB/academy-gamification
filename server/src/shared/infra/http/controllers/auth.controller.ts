@@ -47,7 +47,7 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(RefreshTokenGuard)
-  async refresh(@Body() refreshToken: string) {
+  async refresh(@Body() { refreshToken }: { refreshToken: string }) {
     return this.authService.refresh(refreshToken);
   }
 
