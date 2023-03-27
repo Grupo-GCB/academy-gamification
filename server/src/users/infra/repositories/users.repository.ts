@@ -2,9 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { FilterTransactionsByUserDTO } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
-import { ITransactionsRepository } from '@transactions/interfaces';
 import { UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IRegisterUser, IUpdatePassword } from '@users/interfaces';
@@ -14,7 +11,6 @@ export class UsersRepository {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    private transactionsRepository: ITransactionsRepository,
   ) {}
 
   async create({
@@ -66,11 +62,5 @@ export class UsersRepository {
 
   async updatePassword({ id, new_password }: IUpdatePassword): Promise<void> {
     await this.usersRepository.update({ id }, { password: new_password });
-  }
-
-  async getGCBitsBalance({
-    user,
-  }: FilterTransactionsByUserDTO): Promise<Transaction[]> {
-    return this.transactionsRepository.filterByUser({ user });
   }
 }
