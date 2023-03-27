@@ -18,7 +18,7 @@ import { RefreshToken } from './infra/typeorm/entities/refresh-token.entity';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: 'chave-secreta',
+      secret: process.env.JWT_STRATEGY,
       signOptions: { expiresIn: '600s' },
     }),
     TypeOrmModule.forFeature([RevokedToken, RefreshToken]),
