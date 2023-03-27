@@ -17,6 +17,7 @@ import {
   FindAllTransactions,
   UpdateStatus,
 } from '@transactions/use-cases';
+import { JwtAuthGuard } from '@auth/guards';
 
 describe('Transaction Controller', () => {
   const registerTransaction = {
@@ -83,6 +84,10 @@ describe('Transaction Controller', () => {
     ],
   };
 
+  const jwtAuthGuard = {
+    canActivate: () => true,
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -99,6 +104,8 @@ describe('Transaction Controller', () => {
       .useValue(filterTransactionsByStatus)
       .overrideProvider(FindAllTransactions)
       .useValue(findAllTransactions)
+      .overrideGuard(JwtAuthGuard)
+      .useValue(jwtAuthGuard)
       .compile();
 
     app = moduleRef.createNestApplication();

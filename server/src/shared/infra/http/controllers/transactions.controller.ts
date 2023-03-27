@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -28,8 +29,10 @@ import {
   RegisterTransaction,
   UpdateStatus,
 } from '@transactions/use-cases';
+import { JwtAuthGuard } from '@auth/guards';
 
 @Controller('transactions')
+@UseGuards(JwtAuthGuard)
 export class TransactionsController {
   constructor(
     private registerTransaction: RegisterTransaction,
