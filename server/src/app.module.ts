@@ -9,14 +9,10 @@ import { ormconfig } from './ormconfig';
 
 @Module({
   imports: [
-    
     TypeOrmModule.forRoot(ormconfig),
-   
     TransactionsModule,
-   
     UsersModule,
     AuthModule,
-  ,
     SendGridModule.forRoot({ apikey: process.env.SEND_GRID_ACESS_KEY }),
   ],
 })
