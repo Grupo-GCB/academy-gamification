@@ -12,8 +12,7 @@ import { AuthService } from '@auth/auth.service';
 import { LocalAuthGuard } from '@auth/guards';
 import { IAuthRequest } from '@auth/interfaces';
 import { IsPublic } from '@auth/decorators';
-import { RefreshToken } from '@auth/infra/typeorm/entities/refresh-token.entity';
-import { RefreshTokenGuard } from '@auth/guards/refresh-token.guard';
+import { RefreshTokenGuard } from '@auth/guards';
 import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
 @Controller()
