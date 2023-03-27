@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { FindByEmail } from '@users/use-cases';
+import { FindByEmail, FindById } from '@users/use-cases';
 import { User } from '@users/infra/entities/user.entity';
 import { IJwtPayload, IUserToken } from '@auth/interfaces';
 import { RefreshTokenRepository } from '@auth/infra/typeorm/repositories/refresh-token.repository';
@@ -12,6 +12,7 @@ import * as bcrypt from 'bcryptjs';
 export class AuthService {
   constructor(
     private findByEmail: FindByEmail,
+    private findById: FindById,
     private jwtService: JwtService,
     private refreshTokenRepository: RefreshTokenRepository,
     private revokedTokenRepository: RevokedTokenRepository,
@@ -66,7 +67,7 @@ export class AuthService {
       throw new UnauthorizedException('Refresh token expirado');
     }
 
-    const user = await this.findByEmail.execute(refreshToken.user);
+    const user = await this.findById.execute(refreshToken.user);
 
     if (!user) throw new UnauthorizedException('Sem autorização');
 
