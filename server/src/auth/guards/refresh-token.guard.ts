@@ -20,12 +20,14 @@ export class RefreshTokenGuard implements CanActivate {
       throw new UnauthorizedException('Refresh token not provided');
     }
 
-    const isValid = await this.authService.verifyRefreshToken(refreshToken);
-
-    if (!isValid) {
+    try {
+      const decodedPayload = await this.authService.verifyRefreshToken(
+        refreshToken,
+      );
+      req.user = decodedPayload;
+      return true;
+    } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
     }
-
-    return true;
   }
 }
