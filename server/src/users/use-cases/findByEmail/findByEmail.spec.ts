@@ -1,6 +1,6 @@
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { FindByEmail } from './find-by-email';
+import { FindByEmail } from '@users/use-cases';
 
 describe('Find an user by email', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
@@ -36,7 +36,7 @@ describe('Find an user by email', () => {
 
   it('should not be able to find a nonexistent user', async () => {
     await expect(async () => {
-      await sut.execute({ email: 'john.doe@gcbinvestimentos.com' });
+      await sut.execute('vitor.freitas@gcbinvestimentos.com');
     }).rejects.toThrow('User does not exist');
   });
 });

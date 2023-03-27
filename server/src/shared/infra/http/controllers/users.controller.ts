@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -22,22 +23,28 @@ import {
   UpdateBusinessUnitDTO,
   UpdatePasswordDTO,
 } from '@users/dto';
+
 import { User } from '@users/infra/entities/user.entity';
 import {
   DeleteUser,
   FindById,
+  FindByEmail,
   ListAllUsers,
   RegisterUser,
   UpdateBusinessUnit,
   GetGCBitsBalance,
   UpdatePassword,
 } from '@users/use-cases';
+import { JwtAuthGuard } from '@auth/guards';
+import { IsPublic } from '@auth/decorators';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(
     private registerUser: RegisterUser,
-    private findById: FindById,
+    private findUserById: FindById,
+    private findUserByEmail: FindByEmail,
     private listAllUsers: ListAllUsers,
     private updateBusinessUnit: UpdateBusinessUnit,
     private deleteUser: DeleteUser,
@@ -54,6 +61,7 @@ export class UsersController {
     description: 'Falha ao registrar um usuário',
   })
   @Post('/register')
+  @IsPublic()
   register(
     @Body()
     data: RegisterUserDTO,
@@ -70,7 +78,7 @@ export class UsersController {
   })
   @Get('/:id')
   async findOne(@Param() { id }: FindUserByIdDTO): Promise<User> {
-    return this.findById.execute(id);
+    return this.findUserById.execute(id);
   }
 
   @Get()

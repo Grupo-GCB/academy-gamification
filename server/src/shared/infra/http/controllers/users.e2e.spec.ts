@@ -5,11 +5,14 @@ import request from 'supertest';
 import { AppModule } from '@/app.module';
 import { BusinessUnits, Roles } from '@shared/constants';
 import {
+  FindByEmail,
+  FindById,
   DeleteUser,
   RegisterUser,
   UpdateBusinessUnit,
   UpdatePassword,
 } from '@users/use-cases';
+import { JwtAuthGuard } from '@auth/guards';
 
 describe('Users Controller', () => {
   const registerUser = {
@@ -20,6 +23,18 @@ describe('Users Controller', () => {
       business_unit: BusinessUnits.ADIANTE,
       role: Roles.ADMIN,
     }),
+  };
+
+  const findById = {
+    execute: () => '791f78a4-2f05-4313-8124-e8ae5f4421a0',
+  };
+
+  const findByEmail = {
+    execute: () => 'gustavo.wuelta@gcbinvestimentos.com',
+  };
+
+  const jwtAuthGuard = {
+    canActivate: () => true,
   };
 
   const updateBusinessUnit = {
@@ -48,6 +63,12 @@ describe('Users Controller', () => {
     })
       .overrideProvider(RegisterUser)
       .useValue(registerUser)
+      .overrideProvider(FindById)
+      .useValue(findById)
+      .overrideProvider(FindByEmail)
+      .useValue(findByEmail)
+      .overrideGuard(JwtAuthGuard)
+      .useValue(jwtAuthGuard)
       .overrideProvider(UpdateBusinessUnit)
       .useValue(updateBusinessUnit)
       .overrideProvider(DeleteUser)
@@ -70,6 +91,24 @@ describe('Users Controller', () => {
         .post('/users/register')
         .expect(201)
         .expect(registerUser.execute());
+    });
+  });
+
+  describe('Find user by id', () => {
+    it('should return a collaboration', () => {
+      return request(app.getHttpServer())
+        .get('/users/791f78a4-2f05-4313-8124-e8ae5f4421a0')
+        .expect(200)
+        .expect(findById.execute());
+    });
+  });
+
+  describe('Find user by email', () => {
+    it('should return a collaboration', () => {
+      return request(app.getHttpServer())
+        .get('/users/gustavo.wuelta@gcbinvestimentos.com')
+        .expect(200)
+        .expect(findByEmail.execute());
     });
   });
 
