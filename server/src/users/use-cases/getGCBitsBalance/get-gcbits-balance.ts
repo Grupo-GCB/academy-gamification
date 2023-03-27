@@ -14,9 +14,9 @@ export class GetGCBitsBalance {
   async execute({
     user,
   }: FilterTransactionsByUserDTO): Promise<IGCBitsBalance> {
-    const fullUser = await this.usersRepository.findById(user);
+    const userFound = await this.usersRepository.findById(user);
 
-    if (!fullUser) {
+    if (!userFound) {
       throw new BadRequestException('User not found');
     }
 
