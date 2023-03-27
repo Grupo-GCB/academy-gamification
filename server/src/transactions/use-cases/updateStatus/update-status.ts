@@ -1,21 +1,23 @@
+import { SendGridService } from '@anchan828/nest-sendgrid';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Roles } from '@shared/constants';
+import { Roles, Status } from '@shared/constants';
 
 import { UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
-import { IUsersRepository } from '@users/interfaces/IUsersRepository';
+import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
 export class UpdateStatus {
   constructor(
     private transactionsRepository: ITransactionsRepository,
     private usersRepository: IUsersRepository,
+    private readonly sendGrid: SendGridService,
   ) {}
 
   async execute({
@@ -26,17 +28,76 @@ export class UpdateStatus {
     if (!new_status) throw new BadRequestException('New status is required');
     if (!id) throw new BadRequestException('Id is required');
 
-    const responsible = this.usersRepository.findOne(admin);
-    if ((await responsible).role != Roles.ADMIN) {
+    const responsible = await this.usersRepository.findById(admin);
+
+    if (!responsible) throw new BadRequestException('Administrator not found');
+
+    if (responsible.role != Roles.ADMIN) {
       throw new UnauthorizedException('You must be a administrator');
     }
 
-    const transaction: Transaction = await this.transactionsRepository.findOne(
+    const transaction: Transaction = await this.transactionsRepository.findById(
       id,
     );
 
     if (!transaction) {
       throw new NotFoundException('Transaction not found');
+    }
+
+    if (transaction.status === new_status) {
+      throw new NotFoundException('The transaction already has this status');
+    }
+
+    const user = await this.usersRepository.findById(transaction.user);
+
+    if (new_status === Status.APPROVED) {
+      await this.sendGrid.send({
+        to: user.email,
+        from: process.env.FROM_EMAIL,
+        subject: 'Registro de Transação',
+        html: `
+          <div
+            style="
+              background-color: #ffffff;
+              padding: 20px;
+              font-family: Arial, sans-serif;
+            "
+          >
+            <img
+              src="https://gcbinvestimentos.com/_next/image?url=%2Fassets%2Fillustrations%2Flogo_gcb_color.svg&w=256&q=75"
+              alt="Logo"
+              style="display: block; margin: auto; width: 200px"
+            />  
+            <br />
+            <h3 style="text-align: center">Registro de Transação</h3>
+            <p>Olá <strong>${
+              user.name
+            }</strong>, uma transação na qual você está envolvido foi registrada!</p>
+  
+            <div>
+              <h4>Dados da transação</h4>
+              <p>Tipo da Transação: ${transaction.type}</p>
+              <p>Subtipo: ${transaction.sub_type}</p>
+              <p>GCBits: ${transaction.gcbits}</p>
+              <p>Description: ${
+                transaction.description === undefined
+                  ? 'Esta transação não possui descrição'
+                  : transaction.description
+              }</p>
+            </div>
+  
+            <p>
+              Caso tenha alguma dúvida ou problema, não hesite em entrar em contato com o
+              nosso suporte no email: kayke.fujinaka@gcbinvestimentos.com
+            </p>
+            <div style="text-align: center; margin-top: 30px; background: #ff6f61; padding: 10px 20px; cursor: pointer;" >
+              <a style="text-decoration: none; color: #ffffff" href="https://gcbinvestimentos.com/">
+                  Acessar AcadeMe
+              </a>
+            </div>
+          </div>  
+        `,
+      });
     }
 
     return this.transactionsRepository.updateStatus({

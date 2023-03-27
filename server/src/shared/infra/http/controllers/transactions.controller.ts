@@ -16,8 +16,11 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 
-import { Status } from '@shared/constants';
-import { RegisterTransactionDTO, UpdateStatusDTO } from '@transactions/dto';
+import {
+  FilterTransactionsByStatusDTO,
+  RegisterTransactionDTO,
+  UpdateStatusDTO,
+} from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import {
   FilterTransactionsByStatus,
@@ -67,8 +70,12 @@ export class TransactionsController {
     status: HttpStatus.OK,
   })
   @Get('/filter-by-status')
-  filterByStatus(@Query('status') status: Status): Promise<Transaction[]> {
-    return this.filterTransactionsByStatus.execute({ status });
+  async filterByStatus(
+    @Query() filterTransactionsByStatusDTO: FilterTransactionsByStatusDTO,
+  ): Promise<Transaction[]> {
+    return this.filterTransactionsByStatus.execute(
+      filterTransactionsByStatusDTO,
+    );
   }
 
   @ApiOkResponse({
@@ -79,7 +86,7 @@ export class TransactionsController {
     description: 'Não foi possível encontrar a transação',
   })
   @Get('/:id')
-  findOne(@Param('id') id: string): Promise<Transaction> {
+  getById(@Param('id') id: string): Promise<Transaction> {
     return this.findById.execute(id);
   }
 

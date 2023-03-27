@@ -1,15 +1,39 @@
-import { Get, Query, UseGuards } from '@nestjs/common';
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
 
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
+import {
+  FindUserByIdDTO,
+  RegisterUserDTO,
+  UpdateBusinessUnitDTO,
+  UpdatePasswordDTO,
+} from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { FindByEmail, FindById, RegisterUser } from '@users/use-cases';
+import {
+  DeleteUser,
+  FindById,
+  FindByEmail,
+  ListAllUsers,
+  RegisterUser,
+  UpdateBusinessUnit,
+  GetGCBitsBalance,
+  UpdatePassword,
+} from '@users/use-cases';
 import { JwtAuthGuard } from '@auth/guards';
 import { IsPublic } from '@auth/decorators';
 
@@ -20,6 +44,11 @@ export class UsersController {
     private registerUser: RegisterUser,
     private findUserById: FindById,
     private findUserByEmail: FindByEmail,
+    private listAllUsers: ListAllUsers,
+    private updateBusinessUnit: UpdateBusinessUnit,
+    private deleteUser: DeleteUser,
+    private updatePassword: UpdatePassword,
+    private getGCBitsBalance: GetGCBitsBalance,
   ) {}
 
   @ApiCreatedResponse({
@@ -47,18 +76,78 @@ export class UsersController {
     description: 'Não foi possível encontrar o usuário',
   })
   @Get('/:id')
-  findById(@Query('id') id: string): Promise<User> {
+  async findOne(@Param() { id }: FindUserByIdDTO): Promise<User> {
     return this.findUserById.execute(id);
+  }
+
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.listAllUsers.execute();
   }
 
   @ApiOkResponse({
     status: HttpStatus.OK,
+    description: 'Unidade de negócio alterada com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Não foi possível alterar a unidade de negócio',
+  })
+  @Put('/change-bu')
+  updateBU(
+    @Body() { id, responsible, new_bu }: UpdateBusinessUnitDTO,
+  ): Promise<User> {
+    return this.updateBusinessUnit.execute({
+      id,
+      responsible,
+      new_bu,
+    });
+  }
+
+  @ApiNoContentResponse({
+    status: HttpStatus.OK,
+    description: 'Usuário deletado com sucesso!',
   })
   @ApiNotFoundResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Não foi possível encontrar o usuário',
+    description: 'Não foi possível encontrar o usuário!',
   })
-  findByEmail(@Query('email') email: string): Promise<User> {
-    return this.findUserByEmail.execute(email);
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.deleteUser.execute(id);
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Senha alterada com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Não foi possível alterar a senha',
+  })
+  @Put('/change-password')
+  changePassword(
+    @Body()
+    { id, password, new_password, confirm_new_password }: UpdatePasswordDTO,
+  ): Promise<void> {
+    return this.updatePassword.execute({
+      id,
+      password,
+      new_password,
+      confirm_new_password,
+    });
+  }
+
+  @Get('/balance/:user')
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Saldo do colaborador',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Não foi possível retornar o saldo do colaborador',
+  })
+  getGcbitBalance(@Param('user') user: string) {
+    return this.getGCBitsBalance.execute({ user });
   }
 }

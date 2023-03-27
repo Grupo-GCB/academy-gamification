@@ -1,13 +1,15 @@
 import {
   FilterTransactionsByStatusDTO,
+  FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
-import { ITransactionsRepository } from '@transactions/interfaces/ITransactionsRepository';
+import { ITransactionsRepository } from '@transactions/interfaces';
 
 export class InMemoryTransactionsRepository implements ITransactionsRepository {
   transactions: Transaction[] = [];
+
   async register(data: RegisterTransactionDTO): Promise<Transaction> {
     const transaction: Transaction = Object.assign(new Transaction(), data);
 
@@ -16,7 +18,7 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     return transaction;
   }
 
-  async findOne(id: string): Promise<Transaction> {
+  async findById(id: string): Promise<Transaction> {
     return this.transactions.find((transaction) => transaction.id === id);
   }
 
@@ -24,7 +26,7 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     id,
     new_status,
   }: UpdateStatusDTO): Promise<Transaction> {
-    const transaction = await this.findOne(id);
+    const transaction = await this.findById(id);
 
     transaction.status = new_status;
 
@@ -43,5 +45,15 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
 
   async findAll(): Promise<Transaction[]> {
     return this.transactions;
+  }
+
+  async filterByUser({
+    user,
+  }: FilterTransactionsByUserDTO): Promise<Transaction[]> {
+    const transactions: Transaction[] = this.transactions.filter(
+      (transaction) => transaction.user === user,
+    );
+
+    return transactions;
   }
 }

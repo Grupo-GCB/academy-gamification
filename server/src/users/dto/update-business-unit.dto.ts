@@ -1,14 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { BusinessUnits } from '@shared/constants';
 import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
 
-import { Status } from '@shared/constants';
-
-export class UpdateStatusDTO {
+export class UpdateBusinessUnitDTO {
   @IsNotEmpty()
   @IsUUID()
   @ApiProperty({
     example: 'e88ed4fa-c89c-410e-b691-712fbfa6bf79',
-    description: 'Id da transação',
+    description: 'Id do usuário que terá seu dado atualizado',
     type: 'uuid',
     required: true,
   })
@@ -18,19 +17,19 @@ export class UpdateStatusDTO {
   @IsUUID()
   @ApiProperty({
     example: 'e88ed4fa-c89c-410e-b691-712fbfa6bf79',
-    description: 'ID de quem está atualizando o status da transação',
-    type: 'string',
+    description: 'ID de quem está realizando a alteração',
+    type: 'uuid',
     required: true,
   })
-  admin: string;
+  responsible: string;
 
   @IsNotEmpty()
-  @IsEnum(Status)
+  @IsEnum(BusinessUnits)
   @ApiProperty({
-    example: 'PENDING',
-    description: 'Status da transação que irá ser atualizado',
-    type: 'CollaborationStatus',
+    example: 'ADIANTE',
+    description: 'Novo dado que irá ser atualizado',
+    type: 'BusinessUnits',
     required: true,
   })
-  new_status: Status;
+  new_bu: BusinessUnits;
 }

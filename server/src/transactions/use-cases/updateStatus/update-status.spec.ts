@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 
 import {
   Academys,
-  Admin,
+  Admins,
   BusinessUnits,
   CollaborationsSubType,
   Roles,
@@ -30,7 +30,7 @@ describe('Update a transaction status', () => {
   });
 
   it('should be able to update a transaction status', async () => {
-    inMemoryUsersRepository.create({
+    const admin = await inMemoryUsersRepository.create({
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
@@ -38,9 +38,17 @@ describe('Update a transaction status', () => {
       role: Roles.ADMIN,
     });
 
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
     const transaction = await inMemoryTransactionsRepository.register({
-      user: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: Academys.ACADEMY1,
+      user: collaborator.id,
+      responsible: admin.id,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.LOGICEXERCISE,
       status: Status.PENDING,
@@ -50,17 +58,17 @@ describe('Update a transaction status', () => {
     const updatedTransaction = await sut.execute({
       id: transaction.id,
       new_status: Status.APPROVED,
-      admin: Admin.ADMIN,
+      admin: admin.id,
     });
     expect(updatedTransaction.status).toEqual(Status.APPROVED);
 
     await expect(
-      inMemoryTransactionsRepository.findOne(transaction.id),
+      inMemoryTransactionsRepository.findById(transaction.id),
     ).resolves.toEqual(expect.objectContaining({ status: Status.APPROVED }));
   });
 
-  it('shoud not be able to update a nonexistent transaction status', async () => {
-    inMemoryUsersRepository.create({
+  it('should not be able to update a nonexistent transaction status', async () => {
+    const admin = await inMemoryUsersRepository.create({
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
@@ -72,7 +80,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_status: Status.PENDING,
-        admin: Admin.ADMIN,
+        admin: admin.id,
       }),
     ).rejects.toThrow('Transaction not found');
   });
@@ -91,7 +99,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: undefined,
-        admin: Admin.ADMIN,
+        admin: Admins.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('New status is required'));
   });
@@ -110,23 +118,31 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: undefined,
         new_status: transaction.status,
-        admin: Admin.ADMIN,
+        admin: Admins.ADMIN,
       }),
     ).rejects.toThrow(new BadRequestException('Id is required'));
   });
 
-  it('should not be able to update a "transaction" if user is not an administrator', async () => {
-    inMemoryUsersRepository.create({
+  it('should not be able to update a transaction if user is not an administrator', async () => {
+    const admin = await inMemoryUsersRepository.create({
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
       business_unit: BusinessUnits.ACADEMY,
-      role: Roles.ACADEMY,
+      role: Roles.ADMIN,
+    });
+
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      user: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: Academys.ACADEMY1,
+      user: collaborator.id,
+      responsible: admin.id,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
@@ -137,8 +153,35 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: Status.APPROVED,
-        admin: Admin.ADMIN,
+        admin: collaborator.id,
       }),
     ).rejects.toThrow(new BadRequestException('You must be a administrator'));
+  });
+
+  it('should not be able to update a transaction status if admin passed does not exist', async () => {
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    const transaction = await inMemoryTransactionsRepository.register({
+      user: collaborator.id,
+      responsible: collaborator.id,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.CODEREVIEW,
+      status: Status.PENDING,
+      gcbits: 5000,
+    });
+
+    await expect(
+      sut.execute({
+        id: transaction.id,
+        new_status: Status.APPROVED,
+        admin: '19906417-70ea-4f6a-a158-c6c6043e7919',
+      }),
+    ).rejects.toThrow(new BadRequestException('Administrator not found'));
   });
 });

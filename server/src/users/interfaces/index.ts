@@ -1,1 +1,4 @@
-export * from '@users/interfaces/IUsersRepository';
+export * from './IGCBitsBalance';
+export * from './IRegisterUser';
+export * from './IUpdatePassword';
+export * from './IUsersRepository';

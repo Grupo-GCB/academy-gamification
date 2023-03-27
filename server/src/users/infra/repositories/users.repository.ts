@@ -1,9 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Injectable } from '@nestjs/common';
-import { RegisterUserDTO } from '@users/dto/register-user-dto';
+import { UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
+import { IRegisterUser, IUpdatePassword } from '@users/interfaces';
 
 @Injectable()
 export class UsersRepository {
@@ -18,7 +19,7 @@ export class UsersRepository {
     password,
     business_unit,
     role,
-  }: RegisterUserDTO): Promise<User> {
+  }: IRegisterUser): Promise<User> {
     const user: User = this.usersRepository.create({
       name,
       email,
@@ -30,13 +31,36 @@ export class UsersRepository {
     return this.usersRepository.save(user);
   }
 
-  async findOne(id: string): Promise<User> {
+  async findById(id: string): Promise<User> {
     return this.usersRepository.findOne({
       where: { id },
     });
   }
 
   async findByEmail(email: string): Promise<User> {
-    return this.usersRepository.findOne({ where: { email } });
+    return this.usersRepository.findOne({
+      where: { email },
+    });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
+  async updateBusinessUnit({
+    id,
+    new_bu,
+  }: UpdateBusinessUnitDTO): Promise<User> {
+    await this.usersRepository.update({ id }, { business_unit: new_bu });
+
+    return this.findById(id);
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.usersRepository.softDelete({ id });
+  }
+
+  async updatePassword({ id, new_password }: IUpdatePassword): Promise<void> {
+    await this.usersRepository.update({ id }, { password: new_password });
   }
 }

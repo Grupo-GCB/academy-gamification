@@ -1,5 +1,6 @@
 import {
   FilterTransactionsByStatusDTO,
+  FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
@@ -8,7 +9,7 @@ import { Transaction } from '@transactions/infra/typeorm/entities/transaction.en
 export abstract class ITransactionsRepository {
   abstract register(data: RegisterTransactionDTO): Promise<Transaction>;
 
-  abstract findOne(id: string): Promise<Transaction>;
+  abstract findById(id: string): Promise<Transaction>;
 
   abstract updateStatus({
     id,
@@ -20,4 +21,8 @@ export abstract class ITransactionsRepository {
   }: FilterTransactionsByStatusDTO): Promise<Transaction[]>;
 
   abstract findAll(): Promise<Transaction[]>;
+
+  abstract filterByUser({
+    user,
+  }: FilterTransactionsByUserDTO): Promise<Transaction[]>;
 }

@@ -8,7 +8,7 @@ export class FindById {
   constructor(private transactionsRepository: ITransactionsRepository) {}
 
   async execute(id: string): Promise<Transaction> {
-    const transaction: Transaction = await this.transactionsRepository.findOne(
+    const transaction: Transaction = await this.transactionsRepository.findById(
       id,
     );
 

@@ -4,7 +4,7 @@ import request from 'supertest';
 
 import { AppModule } from '@/app.module';
 import {
-  Admin,
+  Admins,
   CollaborationsSubType,
   RedeemSubType,
   Status,
@@ -14,16 +14,16 @@ import {
   FilterTransactionsByStatus,
   FindById,
   RegisterTransaction,
+  FindAllTransactions,
   UpdateStatus,
 } from '@transactions/use-cases';
-import { FindAllTransactions } from '@transactions/use-cases/findAllTransactions/find-all-transactions';
 import { JwtAuthGuard } from '@auth/guards';
 
 describe('Transaction Controller', () => {
   const registerTransaction = {
     execute: () => ({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: Admin.ADMIN,
+      responsible: Admins.ADMIN,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.APPROVED,
@@ -39,7 +39,7 @@ describe('Transaction Controller', () => {
     execute: () => [
       {
         user: 'levi.ciarrochi@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
@@ -47,7 +47,7 @@ describe('Transaction Controller', () => {
       },
       {
         user: 'flavio.marques@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.REDEEM,
         sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,
@@ -67,7 +67,7 @@ describe('Transaction Controller', () => {
     execute: () => [
       {
         user: 'levi.ciarrochi@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
@@ -75,7 +75,7 @@ describe('Transaction Controller', () => {
       },
       {
         user: 'flavio.marques@gcbinvestimentos.com',
-        responsible: Admin.ADMIN,
+        responsible: Admins.ADMIN,
         type: Types.REDEEM,
         sub_type: RedeemSubType.ACADEMY,
         status: Status.PENDING,

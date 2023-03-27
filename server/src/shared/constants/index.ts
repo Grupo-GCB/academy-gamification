@@ -51,7 +51,7 @@ export enum Academys {
   ACADEMY4 = 'leonardo.costa@gcbinvestimentos.com',
 }
 
-export enum Admin {
+export enum Admins {
   ADMIN = 'kayke.fujinaka@gcbinvestimentos.com',
 }
 
