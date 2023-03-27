@@ -1,24 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BusinessUnits } from '@shared/constants';
-import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateBusinessUnitDTO {
   @IsNotEmpty()
-  @IsUUID()
+  @IsString()
   @ApiProperty({
-    example: 'e88ed4fa-c89c-410e-b691-712fbfa6bf79',
-    description: 'Id do usuário que terá seu dado atualizado',
-    type: 'uuid',
+    example: 'gustavo.wuelta@gcbinvestimentos.com',
+    description: 'Email do usuário que terá seu dado atualizado',
+    type: 'string',
     required: true,
   })
-  id: string;
+  email: string;
 
   @IsNotEmpty()
-  @IsUUID()
+  @IsString()
   @ApiProperty({
-    example: 'e88ed4fa-c89c-410e-b691-712fbfa6bf79',
-    description: 'ID de quem está realizando a alteração',
-    type: 'uuid',
+    example: 'kayke.fujinaka@gcbinvestimentos.com',
+    description: 'Email de quem está realizando a alteração',
+    type: 'string',
     required: true,
   })
   responsible: string;

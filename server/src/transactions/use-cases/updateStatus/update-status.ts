@@ -28,7 +28,7 @@ export class UpdateStatus {
     if (!new_status) throw new BadRequestException('New status is required');
     if (!id) throw new BadRequestException('Id is required');
 
-    const responsible = await this.usersRepository.findById(admin);
+    const responsible = await this.usersRepository.findByEmail(admin);
 
     if (!responsible) throw new BadRequestException('Administrator not found');
 

@@ -1,22 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsString,
-  IsUUID,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class UpdatePasswordDTO {
   @IsNotEmpty()
-  @IsUUID()
+  @IsString()
   @ApiProperty({
-    example: 'e88ed4fa-c89c-410e-b691-712fbfa6bf79',
-    description: 'Id do usuário que terá sua senha atualizada',
-    type: 'uuid',
+    example: 'kayke.fujinaka@gcbinvestimentos.com',
+    description: 'Email do usuário que terá sua senha atualizada',
+    type: 'string',
     required: true,
   })
-  id: string;
+  email: string;
 
   @IsNotEmpty()
   @IsString()

@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
 } from 'class-validator';
 
 import {
@@ -18,7 +17,7 @@ import {
 
 export class RegisterTransactionDTO {
   @IsNotEmpty()
-  @IsUUID()
+  @IsString()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
     description: 'Email do colaborador que está envolvido na transação',
@@ -28,7 +27,7 @@ export class RegisterTransactionDTO {
   user: string;
 
   @IsNotEmpty()
-  @IsUUID()
+  @IsString()
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'Email do usuário que está registrando a transação',

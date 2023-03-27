@@ -29,7 +29,6 @@ export class TransactionsRepository {
     const transaction: Transaction = this.transactionsRepository.create({
       user,
       responsible,
-
       type,
       sub_type,
       status,

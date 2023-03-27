@@ -23,7 +23,7 @@ describe('Update user password', () => {
     });
 
     await sut.execute({
-      id: collaborator.id,
+      email: collaborator.email,
       password: 'gcb123',
       new_password: 'pa876ssword',
       confirm_new_password: 'pa876ssword',
@@ -39,7 +39,7 @@ describe('Update user password', () => {
   it('should not be able to update a non-existing user password', async () => {
     await expect(
       sut.execute({
-        id: '908c3c38-f3ce-4380-8e80-2b8708a2dd2e',
+        email: 'kayke.fujinaka@gcbinvestimentos.com',
         password: 'password123',
         new_password: 'pa91489ssword',
         confirm_new_password: 'pa91489ssword',
@@ -58,7 +58,7 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'pa91489ssword',
         confirm_new_password: 'pa91489ssword',
@@ -77,7 +77,7 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'easy-password',
         confirm_new_password: 'easy-password',
@@ -96,7 +96,7 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'pa91489ssword',
         confirm_new_password: 'not_pa91489ssword',
@@ -115,7 +115,7 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'password123',
         confirm_new_password: 'password123',
