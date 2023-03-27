@@ -20,7 +20,7 @@ describe('Find an user by email', () => {
       role: Roles.ACADEMY,
     });
 
-    const userFound = await sut.execute(user.email);
+    const userFound = await sut.execute({ email: user.email });
 
     expect(userFound).toEqual(
       expect.objectContaining({
