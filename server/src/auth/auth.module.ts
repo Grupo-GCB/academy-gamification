@@ -2,6 +2,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import 'dotenv/config';
 
 import { JwtStrategy, LocalStrategy } from '@auth/strategies';
 import { AuthController } from '@shared/infra/http/controllers/auth.controller';
@@ -18,7 +19,7 @@ import { RefreshToken } from './infra/typeorm/entities/refresh-token.entity';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: 'chave-secreta',
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '600s' },
     }),
     TypeOrmModule.forFeature([RevokedToken, RefreshToken]),
