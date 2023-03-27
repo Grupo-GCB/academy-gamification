@@ -5,6 +5,7 @@ import request from 'supertest';
 
 import { AppModule } from '@/app.module';
 import { FindByEmail, FindById, RegisterUser } from '@users/use-cases';
+import { JwtAuthGuard } from '@auth/guards';
 
 describe('Users Controller', () => {
   const registerUser = {
@@ -25,6 +26,10 @@ describe('Users Controller', () => {
     execute: () => 'gustavo.wuelta@gcbinvestimentos.com',
   };
 
+  const jwtAuthGuard = {
+    canActivate: () => true,
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -37,6 +42,8 @@ describe('Users Controller', () => {
       .useValue(findById)
       .overrideProvider(FindByEmail)
       .useValue(findByEmail)
+      .overrideGuard(JwtAuthGuard)
+      .useValue(jwtAuthGuard)
       .compile();
 
     app = moduleRef.createNestApplication();
