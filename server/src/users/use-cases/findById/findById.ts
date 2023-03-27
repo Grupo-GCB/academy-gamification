@@ -8,7 +8,7 @@ export class FindById {
   constructor(private usersRepository: IUsersRepository) {}
 
   async execute(id: string): Promise<User> {
-    const user: User = await this.usersRepository.findOne(id);
+    const user: User = await this.usersRepository.findById(id);
 
     if (!user) throw new NotFoundException('User does not exist');
 
