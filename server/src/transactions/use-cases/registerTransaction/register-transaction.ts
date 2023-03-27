@@ -15,7 +15,7 @@ import {
 import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
-import { IUsersRepository } from '@users/interfaces/IUsersRepository';
+import { IUsersRepository } from '@users/interfaces';
 
 type PermissionMap = Record<string, string[]>;
 

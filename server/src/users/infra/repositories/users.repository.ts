@@ -4,8 +4,7 @@ import { Repository } from 'typeorm';
 
 import { UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { IRegisterUser } from '@users/interfaces/IRegisterUser';
-import { IUpdatePassword } from '@users/interfaces/IUpdatePassword';
+import { IRegisterUser, IUpdatePassword } from '@users/interfaces';
 
 @Injectable()
 export class UsersRepository {

@@ -29,6 +29,7 @@ import {
   ListAllUsers,
   RegisterUser,
   UpdateBusinessUnit,
+  GetGCBitsBalance,
   UpdatePassword,
 } from '@users/use-cases';
 
@@ -41,6 +42,7 @@ export class UsersController {
     private updateBusinessUnit: UpdateBusinessUnit,
     private deleteUser: DeleteUser,
     private updatePassword: UpdatePassword,
+    private getGCBitsBalance: GetGCBitsBalance,
   ) {}
 
   @ApiCreatedResponse({
@@ -127,5 +129,18 @@ export class UsersController {
       new_password,
       confirm_new_password,
     });
+  }
+
+  @Get('/balance/:user')
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Saldo do colaborador',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Não foi possível retornar o saldo do colaborador',
+  })
+  getGcbitBalance(@Param('user') user: string) {
+    return this.getGCBitsBalance.execute({ user });
   }
 }

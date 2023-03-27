@@ -1,13 +1,15 @@
 import {
   FilterTransactionsByStatusDTO,
+  FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
-import { ITransactionsRepository } from '@transactions/interfaces/ITransactionsRepository';
+import { ITransactionsRepository } from '@transactions/interfaces';
 
 export class InMemoryTransactionsRepository implements ITransactionsRepository {
   transactions: Transaction[] = [];
+
   async register(data: RegisterTransactionDTO): Promise<Transaction> {
     const transaction: Transaction = Object.assign(new Transaction(), data);
 
@@ -43,5 +45,15 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
 
   async findAll(): Promise<Transaction[]> {
     return this.transactions;
+  }
+
+  async filterByUser({
+    user,
+  }: FilterTransactionsByUserDTO): Promise<Transaction[]> {
+    const transactions: Transaction[] = this.transactions.filter(
+      (transaction) => transaction.user === user,
+    );
+
+    return transactions;
   }
 }

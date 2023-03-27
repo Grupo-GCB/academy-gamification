@@ -6,7 +6,7 @@ import crypto from 'node:crypto';
 import { Academys, Admins, Roles } from '@shared/constants';
 import { RegisterUserDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { IUsersRepository } from '@users/interfaces/IUsersRepository';
+import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
 export class RegisterUser {
