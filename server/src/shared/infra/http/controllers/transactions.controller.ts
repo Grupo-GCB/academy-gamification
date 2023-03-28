@@ -16,6 +16,7 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 
+import { JwtAuthGuard } from '@auth/guards';
 import {
   FilterTransactionsByStatusDTO,
   RegisterTransactionDTO,
@@ -29,7 +30,6 @@ import {
   RegisterTransaction,
   UpdateStatus,
 } from '@transactions/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
 
 @Controller('transactions')
 @UseGuards(JwtAuthGuard)
@@ -98,7 +98,7 @@ export class TransactionsController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Não foi possível alterar o status da transação',
   })
-  @Put()
+  @Put('/update-status')
   updateStatus(
     @Body() { id, new_status, admin }: UpdateStatusDTO,
   ): Promise<Transaction> {
