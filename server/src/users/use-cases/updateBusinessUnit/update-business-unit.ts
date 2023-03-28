@@ -40,7 +40,7 @@ export class UpdateBusinessUnit {
       user != updateResponsible
     ) {
       throw new UnauthorizedException(
-        'Colaboradores somente podem editar sua própria unidade de negócio!',
+        'Colaboradores podem editar somente sua própria unidade de negócio!',
       );
     }
 
