@@ -3,16 +3,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
+import { JwtAuthGuard } from '@auth/guards';
 import { BusinessUnits, Roles } from '@shared/constants';
 import {
+  DeleteUser,
+  FilterUsersByRole,
   FindByEmail,
   FindById,
-  DeleteUser,
   RegisterUser,
   UpdateBusinessUnit,
   UpdatePassword,
 } from '@users/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
 
 describe('Users Controller', () => {
   const registerUser = {
@@ -30,7 +31,7 @@ describe('Users Controller', () => {
   };
 
   const findByEmail = {
-    execute: () => 'gustavo.wuelta@gcbinvestimentos.com',
+    execute: () => '791f78a4-2f05-4313-8124-e8ae5f4421a0',
   };
 
   const jwtAuthGuard = {
@@ -55,6 +56,18 @@ describe('Users Controller', () => {
 
   const deleteUser = { execute: () => 200 };
 
+  const filterUsersByRole = {
+    execute: () => [
+      {
+        name: 'Kayke',
+        email: 'kayke.fujinaka@gcbinvestimentos.com',
+        password: 'admin123',
+        business_unit: BusinessUnits.ACADEMY,
+        role: Roles.ADMIN,
+      },
+    ],
+  };
+
   let app: INestApplication;
   let moduleRef: TestingModule;
   beforeAll(async () => {
@@ -75,6 +88,8 @@ describe('Users Controller', () => {
       .useValue(deleteUser)
       .overrideProvider(UpdatePassword)
       .useValue(updatePassword)
+      .overrideProvider(FilterUsersByRole)
+      .useValue(filterUsersByRole)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -136,6 +151,15 @@ describe('Users Controller', () => {
         .put('/users/change-password')
         .expect(200)
         .expect(updatePassword.execute());
+    });
+  });
+
+  describe('Filter users by role', () => {
+    it('should return an array of users', () => {
+      return request(app.getHttpServer())
+        .get('/users/filter/users-by-role/?role=ADMIN')
+        .expect(200)
+        .expect(filterUsersByRole.execute());
     });
   });
 });

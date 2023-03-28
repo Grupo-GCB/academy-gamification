@@ -171,8 +171,8 @@ export class RegisterTransaction {
               <p>Tipo da Transação: ${data.type}</p>
               <p>Subtipo: ${data.sub_type}</p>
               <p>GCBits: ${data.gcbits}</p>
-              <p>Description: ${
-                data.description === undefined
+              <p>Descrição: ${
+                !data.description
                   ? 'Esta transação não possui descrição'
                   : data.description
               }</p>

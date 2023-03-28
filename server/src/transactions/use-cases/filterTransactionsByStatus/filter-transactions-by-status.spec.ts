@@ -1,5 +1,3 @@
-import { BadRequestException } from '@nestjs/common';
-
 import {
   Academys,
   CollaborationsSubType,
@@ -19,12 +17,9 @@ describe('Filter transactions by status', () => {
   });
 
   it('should throw error if no status is passed', async () => {
-    try {
+    await expect(async () => {
       await sut.execute({ status: undefined });
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-      expect(err.message).toBe('Status é exigido!');
-    }
+    }).rejects.toThrow('Status é exigido!');
   });
 
   it('should return all transactions that matches the passed status', async () => {

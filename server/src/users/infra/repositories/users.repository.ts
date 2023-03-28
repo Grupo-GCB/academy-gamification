@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { UpdateBusinessUnitDTO } from '@users/dto';
+import { FilterUserByRoleDTO, UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IRegisterUser, IUpdatePassword } from '@users/interfaces';
 
@@ -65,5 +65,11 @@ export class UsersRepository {
     new_password,
   }: IUpdatePassword): Promise<void> {
     await this.usersRepository.update({ email }, { password: new_password });
+  }
+
+  async filterByRole({ role }: FilterUserByRoleDTO): Promise<User[]> {
+    return this.usersRepository.find({
+      where: { role },
+    });
   }
 }

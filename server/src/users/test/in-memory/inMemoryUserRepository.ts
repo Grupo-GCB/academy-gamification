@@ -1,5 +1,5 @@
 import { FilterTransactionsByUserDTO } from '@transactions/dto';
-import { UpdateBusinessUnitDTO } from '@users/dto';
+import { FilterUserByRoleDTO, UpdateBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import {
   IGCBitsBalance,
@@ -66,5 +66,11 @@ export class InMemoryUsersRepository implements IUsersRepository {
     const user_balance = await this.getGCBitsBalance({ user });
 
     return { balance: user_balance.balance };
+  }
+
+  async filterByRole({ role }: FilterUserByRoleDTO): Promise<User[]> {
+    const users: User[] = this.users.filter((user) => user.role === role);
+
+    return users;
   }
 }
