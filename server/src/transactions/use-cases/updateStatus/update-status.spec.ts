@@ -1,4 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
+import { SendGridService } from '@anchan828/nest-sendgrid';
+import { MailService } from '@sendgrid/mail';
 
 import {
   Academys,
@@ -13,19 +15,36 @@ import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inM
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { UpdateStatus } from './update-status';
 
+jest.mock('@anchan828/nest-sendgrid', () => {
+  return {
+    SendGridService: jest.fn().mockImplementation(() => {
+      return {
+        send: jest.fn().mockImplementation(() => Promise.resolve()),
+        mailService: new MailService(),
+      };
+    }),
+  };
+});
+
 describe('Update a transaction status', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
   let inMemoryUsersRepository: InMemoryUsersRepository;
+  let sendGridMock: SendGridService;
 
   let sut: UpdateStatus;
 
   beforeEach(() => {
     inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
     inMemoryUsersRepository = new InMemoryUsersRepository();
+    sendGridMock = new SendGridService(
+      { apikey: 'fake-api-key' },
+      new MailService(),
+    );
 
     sut = new UpdateStatus(
       inMemoryTransactionsRepository,
       inMemoryUsersRepository,
+      sendGridMock,
     );
   });
 
@@ -183,5 +202,34 @@ describe('Update a transaction status', () => {
         admin: '19906417-70ea-4f6a-a158-c6c6043e7919',
       }),
     ).rejects.toThrow(new BadRequestException('Administrator not found'));
+  });
+
+  it('should call sendGrid.send with correct arguments when new_status is approved', async () => {
+    const updateStatusData = {
+      id: 'transaction-id',
+      new_status: Status.APPROVED,
+      admin: 'admin-id',
+    };
+
+    inMemoryUsersRepository.findById = jest
+      .fn()
+      .mockResolvedValueOnce({ role: Roles.ADMIN }) // Responsible
+      .mockResolvedValueOnce({ email: 'user@example.com', name: 'User Name' }); // User
+
+    inMemoryTransactionsRepository.findById = jest.fn().mockResolvedValue({
+      user: 'user-id',
+      type: 'transaction-type',
+      sub_type: 'transaction-sub_type',
+      gcbits: 100,
+      description: 'transaction-description',
+    });
+
+    inMemoryTransactionsRepository.updateStatus = jest
+      .fn()
+      .mockResolvedValue({});
+
+    await sut.execute(updateStatusData);
+
+    expect(sendGridMock.send).toHaveBeenCalled();
   });
 });
