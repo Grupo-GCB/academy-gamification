@@ -81,7 +81,7 @@ export class RegisterTransactionDTO {
   @IsString()
   @ApiProperty({
     example:
-      'Transação de 3000 Gcbits para gustavo.wuelta@gcbinvestimentos.com por Code Review',
+      'Transação de 1000 GCBits para gustavo.wuelta@gcbinvestimentos.com por Code Review',
     description: 'Descrição da transação',
     type: 'number',
     required: true,
