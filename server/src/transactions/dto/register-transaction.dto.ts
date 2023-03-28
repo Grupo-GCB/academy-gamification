@@ -21,7 +21,7 @@ export class RegisterTransactionDTO {
   @IsEmail()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
-    description: 'Email do colaborador que está envolvido na transação',
+    description: 'E-mail do colaborador que está envolvido na transação',
     type: 'string',
     required: true,
   })
@@ -31,7 +31,7 @@ export class RegisterTransactionDTO {
   @IsEmail()
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
-    description: 'Email do usuário que está registrando a transação',
+    description: 'E-mail do usuário que está registrando a transação',
     type: 'string',
     required: true,
   })
