@@ -192,8 +192,7 @@ export class RegisterTransaction {
       });
     }
 
-    data.user = user.id;
-    data.responsible = responsible.id;
+    Object.assign(data, { user: user.id, responsible: responsible.id });
 
     return this.transactionsRepository.register(data);
   }
