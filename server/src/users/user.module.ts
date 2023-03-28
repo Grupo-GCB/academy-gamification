@@ -8,6 +8,7 @@ import { UsersRepository } from '@users/infra/repositories/users.repository';
 import { IUsersRepository } from './interfaces';
 import {
   DeleteUser,
+  FilterUsersByRole,
   FindByEmail,
   FindById,
   GetGCBitsBalance,
@@ -32,6 +33,7 @@ import {
     FindByEmail,
     UpdatePassword,
     GetGCBitsBalance,
+    FilterUsersByRole,
     {
       provide: IUsersRepository,
       useClass: UsersRepository,
