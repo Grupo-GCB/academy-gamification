@@ -17,7 +17,7 @@ export class RefreshTokenGuard implements CanActivate {
     const refreshToken = req.body.refreshToken;
 
     if (!refreshToken) {
-      throw new UnauthorizedException('Refresh token not provided');
+      throw new UnauthorizedException('Token de Atualização Não Foi Passado!');
     }
 
     try {
@@ -27,7 +27,7 @@ export class RefreshTokenGuard implements CanActivate {
       req.user = decodedPayload;
       return true;
     } catch (error) {
-      throw new UnauthorizedException('Invalid refresh token');
+      throw new UnauthorizedException('Token de Atualização Inválido!');
     }
   }
 }

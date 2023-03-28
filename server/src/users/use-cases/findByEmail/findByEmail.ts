@@ -10,7 +10,7 @@ export class FindByEmail {
   async execute(email: string): Promise<User> {
     const user: User = await this.userRepository.findByEmail(email);
 
-    if (!user) throw new NotFoundException('User does not exist');
+    if (!user) throw new NotFoundException('Usuário Não Existe!');
 
     return user;
   }

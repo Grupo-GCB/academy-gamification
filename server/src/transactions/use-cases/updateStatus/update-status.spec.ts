@@ -101,7 +101,7 @@ describe('Update a transaction status', () => {
         new_status: undefined,
         admin: Admins.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('New status is required'));
+    ).rejects.toThrow(new BadRequestException('Novo Status é Exigido'));
   });
 
   it('should throw error if id are not passed', async () => {

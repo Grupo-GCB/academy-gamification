@@ -41,7 +41,7 @@ export class RegisterTransaction {
     ]);
 
     if (!responsible || !user)
-      throw new BadRequestException('User or responsible does not exist');
+      throw new BadRequestException('Usuário ou Responsável Não Existe!');
 
     const transactionPermissions: PermissionMap = {
       [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
@@ -59,7 +59,7 @@ export class RegisterTransaction {
       user.role === Roles.ADMIN
     ) {
       throw new UnauthorizedException(
-        'Collaborators or Academies cannot define an ADMIN as the user for a transaction',
+        'Collaborador ou Academy Não Podem Definir um Administrados Como Usuário!',
       );
     }
 
@@ -69,7 +69,7 @@ export class RegisterTransaction {
       data.sub_type !== undefined
     ) {
       throw new BadRequestException(
-        `Subtype should not be defined for ${data.type} transactions`,
+        `Subtipo Não Deve Ser Definido Para Transações do Tipo ${data.type}!`,
       );
     }
 
@@ -78,7 +78,7 @@ export class RegisterTransaction {
       !data.sub_type
     ) {
       throw new BadRequestException(
-        `Subtype is required for ${data.type} transactions`,
+        `Subtipo é Exigido Para Transações do Tipo ${data.type}!`,
       );
     }
 
@@ -94,7 +94,7 @@ export class RegisterTransaction {
 
     if (!isValidSubtype) {
       throw new BadRequestException(
-        `Invalid subtype for type ${data.type} transaction.`,
+        `Subtipo Inválido Para o Tipo ${data.type} de Transação!`,
       );
     }
 
@@ -104,7 +104,7 @@ export class RegisterTransaction {
       user.role === Roles.ACADEMY
     ) {
       throw new UnauthorizedException(
-        'You cannot pass yourself or another Academy as the user for a collaboration transaction.',
+        'Você Não Pode Passar a Si Mesmo ou Outro Academy Como o Usuário Para Uma Transação de Colaboração!',
       );
     }
 
@@ -115,7 +115,7 @@ export class RegisterTransaction {
       user.id !== responsible.id
     ) {
       throw new UnauthorizedException(
-        'Collaborators cannot define the user for another collaborator',
+        'Colaboradores Não Podem Definir Outros Colaboradores Como Usuários!',
       );
     }
 
@@ -130,7 +130,7 @@ export class RegisterTransaction {
 
     if (!hasStatusPermission) {
       throw new UnauthorizedException(
-        'You can not register a transaction with this status',
+        'Você Não Pode Registrar Uma Transação Com Esse Valor!',
       );
     }
 
@@ -199,7 +199,7 @@ export class RegisterTransaction {
     role,
     type,
     permissionMap,
-    message = 'You do not have permission',
+    message = 'Você Não Tem Permissão!',
   }: CheckPermissionProps): void {
     const permissions = permissionMap[role] ?? [];
     const isAdmin = role === Roles.ADMIN;
@@ -212,6 +212,8 @@ export class RegisterTransaction {
 
   private checkGCBitsValue(gcbits: number): void {
     if (gcbits === 0)
-      throw new BadRequestException('You cannot pass GCBits with value zero');
+      throw new BadRequestException(
+        'Você Não Pode Passar GCBits Com o Valor Zero!',
+      );
   }
 }
