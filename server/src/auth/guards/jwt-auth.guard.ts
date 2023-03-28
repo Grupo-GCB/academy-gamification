@@ -24,14 +24,14 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     const canActivate = super.canActivate(context);
 
-    try {
-      return typeof canActivate === 'boolean' && canActivate;
-    } catch (err) {
-      if (err instanceof UnauthorizedException) {
+    if (typeof canActivate === 'boolean') return canActivate;
+
+    const canActicatePromise = canActivate as Promise<boolean>;
+
+    return canActicatePromise.catch((error) => {
+      if (error instanceof UnauthorizedException)
         throw new UnauthorizedException('Sem autorização!');
-      } else {
-        throw err;
-      }
-    }
+      throw new UnauthorizedException();
+    });
   }
 }
