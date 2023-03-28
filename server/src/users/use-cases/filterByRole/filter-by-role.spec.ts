@@ -1,4 +1,3 @@
-import { BadRequestException } from '@nestjs/common';
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { FilterUsersByRole } from './filter-by-role';
@@ -13,12 +12,9 @@ describe('Filter users by role', () => {
   });
 
   it('should throw error if no role is passed', async () => {
-    try {
+    await expect(async () => {
       await sut.execute({ role: undefined });
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-      expect(err.message).toBe('Role is required');
-    }
+    }).rejects.toThrow('Cargo é exigido!');
   });
 
   it('should return all users that matches the passed role', async () => {
