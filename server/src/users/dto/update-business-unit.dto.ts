@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BusinessUnits } from '@shared/constants';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateBusinessUnitDTO {
   @IsNotEmpty()
-  @IsString()
+  @IsEmail()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
     description: 'Email do usuário que terá seu dado atualizado',

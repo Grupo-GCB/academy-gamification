@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -17,7 +18,7 @@ import {
 
 export class RegisterTransactionDTO {
   @IsNotEmpty()
-  @IsString()
+  @IsEmail()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
     description: 'Email do colaborador que está envolvido na transação',
