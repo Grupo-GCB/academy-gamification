@@ -152,14 +152,14 @@ export class UsersController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Não foi possível retornar o saldo do colaborador',
   })
-  getGcbitBalance(@Param('user') user: string) {
+  getGCBitBalance(@Param('user') user: string) {
     return this.getGCBitsBalance.execute({ user });
   }
 
   @ApiOkResponse({
     status: HttpStatus.OK,
   })
-  @Get('/filter/usersByRole')
+  @Get('/filter/users-by-role')
   async filterByRole(
     @Query() filterUserByRoleDTO: FilterUserByRoleDTO,
   ): Promise<User[]> {

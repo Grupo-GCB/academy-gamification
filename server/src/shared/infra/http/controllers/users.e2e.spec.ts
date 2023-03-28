@@ -56,7 +56,7 @@ describe('Users Controller', () => {
 
   const deleteUser = { execute: () => 200 };
 
-  const filterUserByRole = {
+  const filterUsersByRole = {
     execute: () => [
       {
         name: 'Kayke',
@@ -89,7 +89,7 @@ describe('Users Controller', () => {
       .overrideProvider(UpdatePassword)
       .useValue(updatePassword)
       .overrideProvider(FilterUsersByRole)
-      .useValue(filterUserByRole)
+      .useValue(filterUsersByRole)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -154,12 +154,12 @@ describe('Users Controller', () => {
     });
   });
 
-  describe('Filter an user by role', () => {
+  describe('Filter users by role', () => {
     it('should return an array of users', () => {
       return request(app.getHttpServer())
-        .get('/users/filter/usersByRole/?role=ADMIN')
+        .get('/users/filter/users-by-role/?role=ADMIN')
         .expect(200)
-        .expect(filterUserByRole.execute());
+        .expect(filterUsersByRole.execute());
     });
   });
 });
