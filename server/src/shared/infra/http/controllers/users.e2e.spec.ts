@@ -3,16 +3,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
+import { JwtAuthGuard } from '@auth/guards';
 import { BusinessUnits, Roles } from '@shared/constants';
 import {
+  DeleteUser,
   FindByEmail,
   FindById,
-  DeleteUser,
   RegisterUser,
   UpdateBusinessUnit,
   UpdatePassword,
 } from '@users/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
 
 describe('Users Controller', () => {
   const registerUser = {

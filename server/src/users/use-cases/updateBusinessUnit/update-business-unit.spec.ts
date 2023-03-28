@@ -1,6 +1,6 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { UpdateBusinessUnit } from './update-business-unit';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { UpdateBusinessUnit } from '@users/use-cases';
 
 describe('Update a transaction status', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;

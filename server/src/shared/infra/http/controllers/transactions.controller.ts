@@ -16,12 +16,13 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 
+import { JwtAuthGuard } from '@auth/guards';
 import {
   FilterTransactionsByStatusDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import {
   FilterTransactionsByStatus,
   FindAllTransactions,
@@ -29,7 +30,6 @@ import {
   RegisterTransaction,
   UpdateStatus,
 } from '@transactions/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
 
 @Controller('transactions')
 @UseGuards(JwtAuthGuard)

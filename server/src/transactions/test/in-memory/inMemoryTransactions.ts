@@ -4,7 +4,7 @@ import {
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 
 export class InMemoryTransactionsRepository implements ITransactionsRepository {

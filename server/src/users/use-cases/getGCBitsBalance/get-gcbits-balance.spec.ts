@@ -5,9 +5,9 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { GetGCBitsBalance } from './get-gcbits-balance';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { GetGCBitsBalance } from '@users/use-cases';
 
 describe('Get an user balance', () => {
   let inMemoryUsers: InMemoryUsersRepository;

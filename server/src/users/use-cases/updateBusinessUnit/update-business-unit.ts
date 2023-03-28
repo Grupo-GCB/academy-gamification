@@ -7,7 +7,7 @@ import {
 
 import { Roles } from '@shared/constants';
 import { UpdateBusinessUnitDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
