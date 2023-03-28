@@ -8,7 +8,7 @@ export class FilterUsersByRole {
   constructor(private usersRepository: IUsersRepository) {}
 
   async execute({ role }: FilterUserByRoleDTO): Promise<User[]> {
-    if (!role) throw new BadRequestException('Role is required');
+    if (!role) throw new BadRequestException('Cargo é exigido!');
 
     const users: User[] = await this.usersRepository.filterByRole({ role });
 
