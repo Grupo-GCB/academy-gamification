@@ -17,26 +17,25 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 
+import { IsPublic } from '@auth/decorators';
+import { JwtAuthGuard } from '@auth/guards';
 import {
   FindUserByIdDTO,
   RegisterUserDTO,
   UpdateBusinessUnitDTO,
   UpdatePasswordDTO,
 } from '@users/dto';
-
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import {
   DeleteUser,
-  FindById,
   FindByEmail,
+  FindById,
+  GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
   UpdateBusinessUnit,
-  GetGCBitsBalance,
   UpdatePassword,
 } from '@users/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
-import { IsPublic } from '@auth/decorators';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)

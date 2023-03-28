@@ -5,10 +5,10 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Roles, Status } from '@shared/constants';
 
+import { Roles, Status } from '@shared/constants';
 import { UpdateStatusDTO } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IUsersRepository } from '@users/interfaces';
 

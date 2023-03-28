@@ -2,10 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
-import { RefreshTokenRepository } from '@auth/infra/typeorm/repositories/refresh-token.repository';
-import { RevokedTokenRepository } from '@auth/infra/typeorm/repositories/revoked-token.repository';
+import {
+  RefreshTokenRepository,
+  RevokedTokenRepository,
+} from '@auth/infra/typeorm/repositories';
 import { IJwtPayload, IUserToken } from '@auth/interfaces';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import { FindByEmail, FindById } from '@users/use-cases';
 
 @Injectable()
