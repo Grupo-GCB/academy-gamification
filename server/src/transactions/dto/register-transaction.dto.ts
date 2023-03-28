@@ -21,7 +21,7 @@ export class RegisterTransactionDTO {
   @IsUUID()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
-    description: 'Email do colaborador que está envolvido na transação',
+    description: 'Email do usuário envolvido na transação',
     type: 'string',
     required: true,
   })
@@ -31,7 +31,7 @@ export class RegisterTransactionDTO {
   @IsUUID()
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
-    description: 'Email do usuário que está registrando a transação',
+    description: 'Email do responsável pela transação',
     type: 'string',
     required: true,
   })
@@ -41,7 +41,7 @@ export class RegisterTransactionDTO {
   @IsEnum(Types)
   @ApiProperty({
     example: 'REDEEM',
-    description: 'Razão pela qual essa transação está acontecendo',
+    description: 'Tipo da transação',
     type: 'Types',
     required: true,
   })
@@ -51,7 +51,7 @@ export class RegisterTransactionDTO {
   @IsOptional()
   @ApiProperty({
     example: 'PAIR_PROGRAMMING',
-    description: 'Tipo da transação realizada',
+    description: 'Subtipo da transação',
     type: 'string',
     required: false,
   })
@@ -61,7 +61,7 @@ export class RegisterTransactionDTO {
   @IsEnum(Status)
   @ApiProperty({
     example: 'PENDING',
-    description: 'Status em que a transação está no momento',
+    description: 'Status da transação',
     type: 'Status',
     required: true,
   })
@@ -71,7 +71,7 @@ export class RegisterTransactionDTO {
   @IsNumber()
   @ApiProperty({
     example: 1000,
-    description: 'Quantidade de GCBits envolvidas na transação',
+    description: 'Quantidade de GCBits',
     type: 'number',
     required: true,
   })

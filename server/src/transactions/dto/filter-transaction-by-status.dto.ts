@@ -8,7 +8,7 @@ export class FilterTransactionsByStatusDTO {
   @IsEnum(Status)
   @ApiPropertyOptional({
     example: 'PENDING',
-    description: 'Status em que a transação está no momento',
+    description: 'Status da transação',
     type: 'Status',
   })
   status: Status;

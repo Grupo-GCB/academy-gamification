@@ -18,7 +18,7 @@ export class UpdateStatusDTO {
   @IsUUID()
   @ApiProperty({
     example: 'e88ed4fa-c89c-410e-b691-712fbfa6bf79',
-    description: 'ID de quem está atualizando o status da transação',
+    description: 'Id do adminstrador',
     type: 'string',
     required: true,
   })
@@ -28,7 +28,7 @@ export class UpdateStatusDTO {
   @IsEnum(Status)
   @ApiProperty({
     example: 'PENDING',
-    description: 'Status da transação que irá ser atualizado',
+    description: 'Novo status',
     type: 'CollaborationStatus',
     required: true,
   })
