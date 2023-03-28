@@ -23,7 +23,7 @@ describe('Filter transactions by status', () => {
       await sut.execute({ status: undefined });
     } catch (err) {
       expect(err).toBeInstanceOf(BadRequestException);
-      expect(err.message).toBe('Status is required');
+      expect(err.message).toBe('Status é exigido!');
     }
   });
 

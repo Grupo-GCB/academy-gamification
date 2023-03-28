@@ -12,7 +12,7 @@ export class LocalAuthGuard extends AuthGuard('local') {
   }
 
   handleRequest(err, user) {
-    if (err || !user) throw new UnauthorizedException(err?.message);
+    if (err || !user) throw new UnauthorizedException('Sem autorização!');
 
     return user;
   }

@@ -75,7 +75,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('You do not have permission');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to register a penalty if responsible is an academy', async () => {
@@ -94,7 +94,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('You do not have permission');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to register a redeem if responsible is an academy', async () => {
@@ -114,7 +114,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('You do not have permission');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to register a correction if responsible is an academy', async () => {
@@ -134,7 +134,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('You do not have permission');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to register a transfer if responsible is an academy', async () => {
@@ -154,7 +154,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('You do not have permission');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should be able to register a redeem if responsible is a collaborator', async () => {
@@ -234,7 +234,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('You do not have permission');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to register a correction if responsible is a collaborator', async () => {
@@ -254,7 +254,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('You do not have permission');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to register a transaction if user does not exist', async () => {

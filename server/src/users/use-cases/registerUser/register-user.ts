@@ -21,7 +21,7 @@ export class RegisterUser {
     const isValidEmail: boolean = emailFormat.test(email);
 
     if (!isValidEmail) {
-      throw new BadRequestException('Invalid email');
+      throw new BadRequestException('E-mail inválido!');
     }
 
     const splittedEmail = email.split('@');

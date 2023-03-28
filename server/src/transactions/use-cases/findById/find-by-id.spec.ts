@@ -48,6 +48,6 @@ describe('Find a transaction by id', () => {
   it('should not be able to find a nonexisent transaction', async () => {
     await expect(async () => {
       await sut.execute('793139f0-7dcd-470e-a868-88196d8ac20b');
-    }).rejects.toThrow('Transaction does not exist');
+    }).rejects.toThrow('Transação não existe!');
   });
 });

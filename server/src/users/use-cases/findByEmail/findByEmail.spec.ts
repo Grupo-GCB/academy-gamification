@@ -20,7 +20,7 @@ describe('Find an user by email', () => {
       role: Roles.ACADEMY,
     });
 
-    const userFound = await sut.execute({ email: user.email });
+    const userFound = await sut.execute(user.email);
 
     expect(userFound).toEqual(
       expect.objectContaining({
@@ -37,6 +37,6 @@ describe('Find an user by email', () => {
   it('should not be able to find a nonexistent user', async () => {
     await expect(async () => {
       await sut.execute('vitor.freitas@gcbinvestimentos.com');
-    }).rejects.toThrow('User does not exist');
+    }).rejects.toThrow('Usuário não existe!');
   });
 });

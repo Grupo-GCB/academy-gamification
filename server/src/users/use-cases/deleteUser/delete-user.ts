@@ -9,7 +9,7 @@ export class DeleteUser {
   async execute(id: string) {
     const user = await this.usersRepository.findById(id);
 
-    if (!user) throw new NotFoundException('User does not exist');
+    if (!user) throw new NotFoundException('Usuário não existe!');
 
     await this.usersRepository.delete(id);
   }

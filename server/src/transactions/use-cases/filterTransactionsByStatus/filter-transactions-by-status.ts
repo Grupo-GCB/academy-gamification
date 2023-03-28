@@ -11,7 +11,7 @@ export class FilterTransactionsByStatus {
   async execute({
     status,
   }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
-    if (!status) throw new BadRequestException('Status is required');
+    if (!status) throw new BadRequestException('Status é exigido!');
 
     const transactions: Transaction[] =
       await this.transactionsRepository.filterByStatus({ status });

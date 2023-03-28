@@ -28,7 +28,7 @@ export class AuthService {
       if (isPasswordValid) return { ...user, password: undefined };
     }
 
-    throw new Error('Email address or password provided is incorrect.');
+    throw new Error('Endereço de e-mail ou senha incorretos!');
   }
 
   async login(user: User): Promise<IUserToken> {
@@ -62,16 +62,16 @@ export class AuthService {
     );
 
     if (!refreshToken) {
-      throw new UnauthorizedException('Refresh token inválido');
+      throw new UnauthorizedException('Token de atualização inválido!');
     }
 
     if (new Date() > refreshToken.expiresAt) {
-      throw new UnauthorizedException('Refresh token expirado');
+      throw new UnauthorizedException('Token de atualização expirado!');
     }
 
     const user = await this.findById.execute(refreshToken.user);
 
-    if (!user) throw new UnauthorizedException('Sem autorização');
+    if (!user) throw new UnauthorizedException('Sem autorização!');
 
     const payload: IJwtPayload = {
       sub: user.id,
@@ -94,7 +94,7 @@ export class AuthService {
       this.jwtService.verify(token);
       await this.revokedTokenRepository.revokeToken(token);
     } catch (error) {
-      throw new UnauthorizedException('Token inválido');
+      throw new UnauthorizedException('Token inválido!');
     }
   }
 
