@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -18,25 +19,27 @@ import {
 } from '@nestjs/swagger';
 
 import {
+  FilterUserByRoleDTO,
   FindUserByIdDTO,
   RegisterUserDTO,
   UpdateBusinessUnitDTO,
   UpdatePasswordDTO,
 } from '@users/dto';
 
+import { IsPublic } from '@auth/decorators';
+import { JwtAuthGuard } from '@auth/guards';
 import { User } from '@users/infra/entities/user.entity';
 import {
   DeleteUser,
-  FindById,
+  FilterUsersByRole,
   FindByEmail,
+  FindById,
+  GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
   UpdateBusinessUnit,
-  GetGCBitsBalance,
   UpdatePassword,
 } from '@users/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
-import { IsPublic } from '@auth/decorators';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -50,6 +53,7 @@ export class UsersController {
     private deleteUser: DeleteUser,
     private updatePassword: UpdatePassword,
     private getGCBitsBalance: GetGCBitsBalance,
+    private filterUserByRole: FilterUsersByRole,
   ) {}
 
   @ApiCreatedResponse({
@@ -150,5 +154,15 @@ export class UsersController {
   })
   getGcbitBalance(@Param('user') user: string) {
     return this.getGCBitsBalance.execute({ user });
+  }
+
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+  })
+  @Get('/filter/usersByRole')
+  async filterByRole(
+    @Query() filterUserByRoleDTO: FilterUserByRoleDTO,
+  ): Promise<User[]> {
+    return this.filterUserByRole.execute(filterUserByRoleDTO);
   }
 }
