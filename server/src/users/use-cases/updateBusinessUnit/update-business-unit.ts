@@ -7,7 +7,7 @@ import {
 
 import { Roles } from '@shared/constants';
 import { UpdateBusinessUnitDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class UpdateBusinessUnit {
   }: UpdateBusinessUnitDTO): Promise<User> {
     if (!new_bu || !email || !responsible) {
       throw new BadRequestException(
-        'User email, Responsible email and Business unit are required',
+        'Email do usuário, Email do responsável e a unidade de negócio são exigidos!',
       );
     }
 
@@ -34,7 +34,7 @@ export class UpdateBusinessUnit {
     );
 
     if (!user || !updateResponsible) {
-      throw new BadRequestException('User or responsible does not exist');
+      throw new BadRequestException('Usuário ou responsável não existem!');
     }
 
     if (
@@ -42,17 +42,17 @@ export class UpdateBusinessUnit {
       user != updateResponsible
     ) {
       throw new UnauthorizedException(
-        'Collaborators can only update their own business unit',
+        'Colaboradores podem editar somente sua própria unidade de negócio!',
       );
     }
 
     if (updateResponsible.role == Roles.ACADEMY) {
-      throw new UnauthorizedException('Academys cannot perform this action');
+      throw new UnauthorizedException('Sem autorização!');
     }
 
     if (user.business_unit === new_bu) {
       throw new BadRequestException(
-        'User already belongs to this business unit',
+        'Usuário já pertence a essa unidade de negócio!',
       );
     }
 

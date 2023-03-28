@@ -6,7 +6,7 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
 import { FilterTransactionsByStatus } from '@transactions/use-cases';
 
 describe('Filter transactions by status', () => {
@@ -23,7 +23,7 @@ describe('Filter transactions by status', () => {
       await sut.execute({ status: undefined });
     } catch (err) {
       expect(err).toBeInstanceOf(BadRequestException);
-      expect(err.message).toBe('Status is required');
+      expect(err.message).toBe('Status é exigido!');
     }
   });
 

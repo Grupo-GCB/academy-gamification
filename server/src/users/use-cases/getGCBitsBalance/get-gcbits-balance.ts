@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+
 import { Status } from '@shared/constants';
-import { FilterTransactionsByUserDTO } from '@transactions/dto/filter-transactions-by-user.dto';
+import { FilterTransactionsByUserDTO } from '@transactions/dto';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IGCBitsBalance, IUsersRepository } from '@users/interfaces';
 
@@ -17,7 +18,7 @@ export class GetGCBitsBalance {
     const userFound = await this.usersRepository.findById(user);
 
     if (!userFound) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Usuário não encontrado!');
     }
 
     const transactions = await this.transactionsRepository.filterByUser({

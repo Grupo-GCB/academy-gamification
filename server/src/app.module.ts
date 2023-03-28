@@ -1,11 +1,12 @@
+import { SendGridModule } from '@anchan828/nest-sendgrid';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { SendGridModule } from '@anchan828/nest-sendgrid';
+import { ormconfig } from './ormconfig';
+
+import { AuthModule } from '@auth/auth.module';
 import { TransactionsModule } from '@transactions/transactions.module';
 import { UsersModule } from '@users/user.module';
-import { AuthModule } from '@auth/auth.module';
-import { ormconfig } from './ormconfig';
 
 @Module({
   imports: [

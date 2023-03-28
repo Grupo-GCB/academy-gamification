@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class FindById {
       id,
     );
 
-    if (!transaction) throw new NotFoundException('Transaction does not exist');
+    if (!transaction) throw new NotFoundException('Transação não existe!');
 
     return transaction;
   }

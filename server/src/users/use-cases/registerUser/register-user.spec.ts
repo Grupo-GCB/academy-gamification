@@ -1,6 +1,6 @@
 import { BusinessUnits } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { RegisterUser } from './register-user';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { RegisterUser } from '@users/use-cases';
 
 describe('Register user', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
@@ -34,6 +34,6 @@ describe('Register user', () => {
         email: 'gustavo.wuelta@gmail.com',
         business_unit: BusinessUnits.ADIANTE,
       }),
-    ).rejects.toThrow('Invalid email');
+    ).rejects.toThrow('E-mail inválido!');
   });
 });

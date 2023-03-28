@@ -1,19 +1,18 @@
 import {
+  Body,
   Controller,
   HttpCode,
   HttpStatus,
   Post,
-  UseGuards,
   Request,
-  Body,
+  UseGuards,
 } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 
 import { AuthService } from '@auth/auth.service';
-import { LocalAuthGuard } from '@auth/guards';
-import { IAuthRequest } from '@auth/interfaces';
 import { IsPublic } from '@auth/decorators';
-import { RefreshTokenGuard } from '@auth/guards';
-import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
+import { IAuthRequest } from '@auth/interfaces';
 
 @Controller()
 export class AuthController {

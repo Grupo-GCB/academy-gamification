@@ -1,7 +1,6 @@
 import { UpdateBusinessUnitDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
-import { IRegisterUser } from './IRegisterUser';
-import { IUpdatePassword } from './IUpdatePassword';
+import { User } from '@users/infra/entities';
+import { IRegisterUser, IUpdatePassword } from '@users/interfaces';
 
 export abstract class IUsersRepository {
   abstract create(data: IRegisterUser): Promise<User>;

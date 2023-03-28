@@ -5,9 +5,9 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { GetGCBitsBalance } from './get-gcbits-balance';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { GetGCBitsBalance } from '@users/use-cases';
 
 describe('Get an user balance', () => {
   let inMemoryUsers: InMemoryUsersRepository;
@@ -58,6 +58,6 @@ describe('Get an user balance', () => {
       sut.execute({
         user: '0d2be89e-ca47-4f6f-b5bb-83d8fa4a41b5',
       }),
-    ).rejects.toThrow('User not found');
+    ).rejects.toThrow('Usuário não encontrado!');
   });
 });

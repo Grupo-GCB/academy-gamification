@@ -5,10 +5,10 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Roles, Status } from '@shared/constants';
 
+import { Roles, Status } from '@shared/constants';
 import { UpdateStatusDTO } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IUsersRepository } from '@users/interfaces';
 
@@ -25,15 +25,16 @@ export class UpdateStatus {
     new_status,
     admin,
   }: UpdateStatusDTO): Promise<Transaction> {
-    if (!new_status) throw new BadRequestException('New status is required');
-    if (!id) throw new BadRequestException('Id is required');
+    if (!new_status) throw new BadRequestException('Novo status é exigido!');
+    if (!id) throw new BadRequestException('Id é exigido!');
 
     const responsible = await this.usersRepository.findByEmail(admin);
 
-    if (!responsible) throw new BadRequestException('Administrator not found');
+    if (!responsible)
+      throw new BadRequestException('Administrador não encontrado!');
 
     if (responsible.role != Roles.ADMIN) {
-      throw new UnauthorizedException('You must be a administrator');
+      throw new UnauthorizedException('Sem autorização!');
     }
 
     const transaction: Transaction = await this.transactionsRepository.findById(
@@ -41,11 +42,11 @@ export class UpdateStatus {
     );
 
     if (!transaction) {
-      throw new NotFoundException('Transaction not found');
+      throw new NotFoundException('Transação não encontrada!');
     }
 
     if (transaction.status === new_status) {
-      throw new NotFoundException('The transaction already has this status');
+      throw new NotFoundException('A Transação já tem esse status!');
     }
 
     const user = await this.usersRepository.findById(transaction.user);

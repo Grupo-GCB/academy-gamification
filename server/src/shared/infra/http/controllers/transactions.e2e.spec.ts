@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
+import { JwtAuthGuard } from '@auth/guards';
 import {
   Admins,
   CollaborationsSubType,
@@ -12,12 +13,11 @@ import {
 } from '@shared/constants';
 import {
   FilterTransactionsByStatus,
+  FindAllTransactions,
   FindById,
   RegisterTransaction,
-  FindAllTransactions,
   UpdateStatus,
 } from '@transactions/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
 
 describe('Transaction Controller', () => {
   const registerTransaction = {

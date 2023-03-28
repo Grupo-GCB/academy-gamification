@@ -1,6 +1,6 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { UpdateBusinessUnit } from './update-business-unit';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { UpdateBusinessUnit } from '@users/use-cases';
 
 describe('Update a transaction status', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
@@ -82,7 +82,7 @@ describe('Update a transaction status', () => {
         responsible: admin.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('User or responsible does not exist');
+    ).rejects.toThrow('Usuário ou responsável não existem!');
   });
 
   it('should not be able to update an user business unit if responsible does not exist', async () => {
@@ -100,7 +100,7 @@ describe('Update a transaction status', () => {
         responsible: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('User or responsible does not exist');
+    ).rejects.toThrow('Usuário ou responsável não existem!');
   });
 
   it('should not be able to update an user business unit if responsible is an academy', async () => {
@@ -118,7 +118,7 @@ describe('Update a transaction status', () => {
         responsible: academy.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('Academys cannot perform this action');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to update an user business unit to which it already belongs', async () => {
@@ -136,7 +136,7 @@ describe('Update a transaction status', () => {
         responsible: collaborator.email,
         new_bu: BusinessUnits.ADIANTE,
       }),
-    ).rejects.toThrow('User already belongs to this business unit');
+    ).rejects.toThrow('Usuário já pertence a essa unidade de negócio!');
   });
 
   it('should not be able to update an user bussines unit if collaborator try update other user business unit', async () => {
@@ -162,6 +162,8 @@ describe('Update a transaction status', () => {
         responsible: collaborator.email,
         new_bu: BusinessUnits.ADIANTE,
       }),
-    ).rejects.toThrow('Collaborators can only update their own business unit');
+    ).rejects.toThrow(
+      'Colaboradores somente podem editar sua própria unidade de negócio!',
+    );
   });
 });

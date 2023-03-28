@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,26 +17,26 @@ import {
   ApiOkResponse,
 } from '@nestjs/swagger';
 
+import { IsPublic } from '@auth/decorators';
+import { JwtAuthGuard } from '@auth/guards';
 import {
   FindUserByIdDTO,
   RegisterUserDTO,
   UpdateBusinessUnitDTO,
-  UpdatePasswordDTO,
+  UpdatePasswordDTO
 } from '@users/dto';
-
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import {
   DeleteUser,
-  FindById,
   GetGCBitsBalance,
   FindByEmail,
+  FindById,
+  GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
   UpdateBusinessUnit,
   UpdatePassword,
 } from '@users/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
-import { IsPublic } from '@auth/decorators';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)

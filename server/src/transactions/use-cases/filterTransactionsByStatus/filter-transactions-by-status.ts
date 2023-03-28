@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { FilterTransactionsByStatusDTO } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class FilterTransactionsByStatus {
   async execute({
     status,
   }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
-    if (!status) throw new BadRequestException('Status is required');
+    if (!status) throw new BadRequestException('Status é exigido!');
 
     const transactions: Transaction[] =
       await this.transactionsRepository.filterByStatus({ status });

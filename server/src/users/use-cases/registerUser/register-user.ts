@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 
 import { Academys, Admins, Roles } from '@shared/constants';
 import { RegisterUserDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class RegisterUser {
     const isValidEmail: boolean = emailFormat.test(email);
 
     if (!isValidEmail) {
-      throw new BadRequestException('Invalid email');
+      throw new BadRequestException('E-mail inválido!');
     }
 
     const splittedEmail = email.split('@');
