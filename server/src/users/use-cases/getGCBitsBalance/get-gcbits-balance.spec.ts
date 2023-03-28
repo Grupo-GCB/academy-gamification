@@ -58,6 +58,6 @@ describe('Get an user balance', () => {
       sut.execute({
         user: '0d2be89e-ca47-4f6f-b5bb-83d8fa4a41b5',
       }),
-    ).rejects.toThrow('User not found');
+    ).rejects.toThrow('Usuário não encontrado!');
   });
 });

@@ -37,6 +37,6 @@ describe('Find an user by email', () => {
   it('should not be able to find a nonexistent user', async () => {
     await expect(async () => {
       await sut.execute('a627d758-8d8d-4e75-9937-835a1f02b43e');
-    }).rejects.toThrow('User does not exist');
+    }).rejects.toThrow('Usuário não existe!');
   });
 });

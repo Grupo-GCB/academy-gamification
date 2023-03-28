@@ -17,7 +17,7 @@ export class GetGCBitsBalance {
     const userFound = await this.usersRepository.findById(user);
 
     if (!userFound) {
-      throw new BadRequestException('User not found');
+      throw new BadRequestException('Usuário não encontrado!');
     }
 
     const transactions = await this.transactionsRepository.filterByUser({
