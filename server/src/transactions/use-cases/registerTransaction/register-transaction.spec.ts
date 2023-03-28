@@ -54,8 +54,16 @@ describe('Register a transaction', () => {
       role: Roles.ACADEMY,
     });
 
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
     const transaction = await sut.execute({
-      user: academy.id,
+      user: collaborator.id,
       responsible: academy.id,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
@@ -189,9 +197,9 @@ describe('Register a transaction', () => {
       user: collaborator.id,
       responsible: collaborator.id,
       type: Types.REDEEM,
-      sub_type: RedeemSubType.ACADEMY,
+      sub_type: RedeemSubType.PEERCREDIT,
       status: Status.PENDING,
-      gcbits: 50000,
+      gcbits: 10000,
     });
 
     expect(transaction).toEqual(
@@ -506,7 +514,6 @@ describe('Register a transaction', () => {
   });
 
   it('should call sendGrid.send with correct arguments when responsible role is ADMIN', async () => {
-    // Criar usuários responsável (ADMIN) e usuário de transação
     const responsible = await inMemoryUsersRepository.create({
       name: 'Kayke',
       email: 'kayke.fujinaka@gcbinvestimentos.com',
