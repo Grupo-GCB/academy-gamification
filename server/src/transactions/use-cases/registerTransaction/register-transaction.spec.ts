@@ -1,3 +1,6 @@
+import { SendGridService } from '@anchan828/nest-sendgrid';
+import { MailService } from '@sendgrid/mail';
+
 import {
   BusinessUnits,
   CollaborationsSubType,
@@ -10,19 +13,35 @@ import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inM
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { RegisterTransaction } from './register-transaction';
 
+jest.mock('@anchan828/nest-sendgrid', () => {
+  return {
+    SendGridService: jest.fn().mockImplementation(() => {
+      return {
+        send: jest.fn().mockImplementation(() => Promise.resolve()),
+        mailService: new MailService(),
+      };
+    }),
+  };
+});
+
 describe('Register a transaction', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
   let inMemoryUsersRepository: InMemoryUsersRepository;
-
+  let sendGridMock: SendGridService;
   let sut: RegisterTransaction;
 
   beforeEach(() => {
     inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
     inMemoryUsersRepository = new InMemoryUsersRepository();
+    sendGridMock = new SendGridService(
+      { apikey: 'fake-api-key' },
+      new MailService(),
+    );
 
     sut = new RegisterTransaction(
       inMemoryTransactionsRepository,
       inMemoryUsersRepository,
+      sendGridMock,
     );
   });
 
@@ -484,5 +503,36 @@ describe('Register a transaction', () => {
         gcbits: transaction.gcbits,
       }),
     );
+  });
+
+  it('should call sendGrid.send with correct arguments when responsible role is ADMIN', async () => {
+    // Criar usuários responsável (ADMIN) e usuário de transação
+    const responsible = await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.ADMIN,
+    });
+    const user = await inMemoryUsersRepository.create({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    const transactionData = {
+      responsible: responsible.id,
+      user: user.id,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.FEEDBACK,
+      gcbits: 10,
+      status: Status.APPROVED,
+    };
+
+    await sut.execute(transactionData);
+
+    expect(sendGridMock.send).toHaveBeenCalled();
   });
 });
