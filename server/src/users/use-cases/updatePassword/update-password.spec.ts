@@ -23,7 +23,7 @@ describe('Update user password', () => {
     });
 
     await sut.execute({
-      id: collaborator.id,
+      email: collaborator.email,
       password: 'gcb123',
       new_password: 'pa876ssword',
       confirm_new_password: 'pa876ssword',
@@ -39,12 +39,12 @@ describe('Update user password', () => {
   it('should not be able to update a non-existing user password', async () => {
     await expect(
       sut.execute({
-        id: '908c3c38-f3ce-4380-8e80-2b8708a2dd2e',
+        email: 'kayke.fujinaka@gcbinvestimentos.com',
         password: 'password123',
         new_password: 'pa91489ssword',
         confirm_new_password: 'pa91489ssword',
       }),
-    ).rejects.toThrow('User does not exist');
+    ).rejects.toThrow('Usuário não existe!');
   });
 
   it('should not be able to update an user password if actually password passed is incorrect', async () => {
@@ -58,12 +58,12 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'pa91489ssword',
         confirm_new_password: 'pa91489ssword',
       }),
-    ).rejects.toThrow('Incorrect current password');
+    ).rejects.toThrow('Senha atual inválida!');
   });
 
   it('should not be able to update an user password if password passed is too weak', async () => {
@@ -77,12 +77,12 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'easy-password',
         confirm_new_password: 'easy-password',
       }),
-    ).rejects.toThrow('Too weak password');
+    ).rejects.toThrow('Muito fraca!');
   });
 
   it('should not be able to update an user password if confirm password passed is different to new password', async () => {
@@ -96,12 +96,14 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'pa91489ssword',
         confirm_new_password: 'not_pa91489ssword',
       }),
-    ).rejects.toThrow('Confirm password must be same as new password');
+    ).rejects.toThrow(
+      'A confirmação da nova senha deve ser a mesma da nova senha!',
+    );
   });
 
   it('should not be able to update an user password if new password is equal to current password', async () => {
@@ -115,11 +117,11 @@ describe('Update user password', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         password: 'password123',
         new_password: 'password123',
         confirm_new_password: 'password123',
       }),
-    ).rejects.toThrow('Unable to change password to current password');
+    ).rejects.toThrow('Incapaz de alterar a senha atual!');
   });
 });

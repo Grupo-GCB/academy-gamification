@@ -1,4 +1,4 @@
 export interface IUpdatePassword {
-  id: string;
+  email: string;
   new_password: string;
 }

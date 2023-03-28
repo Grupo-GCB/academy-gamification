@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 
 import { BusinessUnits } from '@shared/constants';
 
 export class RegisterUserDTO {
-  @IsString()
+  @IsEmail()
   @IsNotEmpty()
   @ApiProperty({
     example: 'john.doe@gmail.com',

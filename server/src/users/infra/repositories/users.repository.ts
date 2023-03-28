@@ -48,20 +48,23 @@ export class UsersRepository {
   }
 
   async updateBusinessUnit({
-    id,
+    email,
     new_bu,
   }: UpdateBusinessUnitDTO): Promise<User> {
-    await this.usersRepository.update({ id }, { business_unit: new_bu });
+    await this.usersRepository.update({ email }, { business_unit: new_bu });
 
-    return this.findById(id);
+    return this.findByEmail(email);
   }
 
   async delete(id: string): Promise<void> {
     await this.usersRepository.softDelete({ id });
   }
 
-  async updatePassword({ id, new_password }: IUpdatePassword): Promise<void> {
-    await this.usersRepository.update({ id }, { password: new_password });
+  async updatePassword({
+    email,
+    new_password,
+  }: IUpdatePassword): Promise<void> {
+    await this.usersRepository.update({ email }, { password: new_password });
   }
 
   async filterByRole({ role }: FilterUserByRoleDTO): Promise<User[]> {

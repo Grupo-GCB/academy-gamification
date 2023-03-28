@@ -23,14 +23,14 @@ describe('Update a transaction status', () => {
     });
 
     const updatedUser = await sut.execute({
-      id: collaborator.id,
-      responsible: collaborator.id,
+      email: collaborator.email,
+      responsible: collaborator.email,
       new_bu: BusinessUnits.PEERBR,
     });
     expect(updatedUser.business_unit).toEqual(BusinessUnits.PEERBR);
 
     await expect(
-      inMemoryUsersRepository.findById(collaborator.id),
+      inMemoryUsersRepository.findByEmail(collaborator.email),
     ).resolves.toEqual(
       expect.objectContaining({ business_unit: BusinessUnits.PEERBR }),
     );
@@ -54,13 +54,15 @@ describe('Update a transaction status', () => {
     });
 
     const updatedUser = await sut.execute({
-      id: academy.id,
-      responsible: admin.id,
+      email: academy.email,
+      responsible: admin.email,
       new_bu: BusinessUnits.GRUPOGCB,
     });
     expect(updatedUser.business_unit).toEqual(BusinessUnits.GRUPOGCB);
 
-    await expect(inMemoryUsersRepository.findById(academy.id)).resolves.toEqual(
+    await expect(
+      inMemoryUsersRepository.findByEmail(academy.email),
+    ).resolves.toEqual(
       expect.objectContaining({ business_unit: BusinessUnits.GRUPOGCB }),
     );
   });
@@ -76,11 +78,11 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: '19906417-70ea-4f6a-a158-c6c6043e7919',
-        responsible: admin.id,
+        email: 'gustavo.wuelta@gcbinvestimentos.com',
+        responsible: admin.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('User or responsible does not exist');
+    ).rejects.toThrow('Usuário ou responsável não existem!');
   });
 
   it('should not be able to update an user business unit if responsible does not exist', async () => {
@@ -94,11 +96,11 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         responsible: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('User or responsible does not exist');
+    ).rejects.toThrow('Usuário ou responsável não existem!');
   });
 
   it('should not be able to update an user business unit if responsible is an academy', async () => {
@@ -112,11 +114,11 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: academy.id,
-        responsible: academy.id,
+        email: academy.email,
+        responsible: academy.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('Academys cannot perform this action');
+    ).rejects.toThrow('Sem autorização!');
   });
 
   it('should not be able to update an user business unit to which it already belongs', async () => {
@@ -130,11 +132,11 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
-        responsible: collaborator.id,
+        email: collaborator.email,
+        responsible: collaborator.email,
         new_bu: BusinessUnits.ADIANTE,
       }),
-    ).rejects.toThrow('User already belongs to this business unit');
+    ).rejects.toThrow('Usuário já pertence a essa unidade de negócio!');
   });
 
   it('should not be able to update an user bussines unit if collaborator try update other user business unit', async () => {
@@ -156,10 +158,12 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: collaboratorTwo.id,
-        responsible: collaborator.id,
+        email: collaboratorTwo.email,
+        responsible: collaborator.email,
         new_bu: BusinessUnits.ADIANTE,
       }),
-    ).rejects.toThrow('Collaborators can only update their own business unit');
+    ).rejects.toThrow(
+      'Colaboradores somente podem editar sua própria unidade de negócio!',
+    );
   });
 });

@@ -34,6 +34,6 @@ describe('Register user', () => {
         email: 'gustavo.wuelta@gmail.com',
         business_unit: BusinessUnits.ADIANTE,
       }),
-    ).rejects.toThrow('Invalid email');
+    ).rejects.toThrow('E-mail inválido!');
   });
 });

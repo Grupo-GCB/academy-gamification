@@ -100,10 +100,10 @@ export class UsersController {
   })
   @Put('/change-bu')
   updateBU(
-    @Body() { id, responsible, new_bu }: UpdateBusinessUnitDTO,
+    @Body() { email, responsible, new_bu }: UpdateBusinessUnitDTO,
   ): Promise<User> {
     return this.updateBusinessUnit.execute({
-      id,
+      email,
       responsible,
       new_bu,
     });
@@ -133,10 +133,10 @@ export class UsersController {
   @Put('/change-password')
   changePassword(
     @Body()
-    { id, password, new_password, confirm_new_password }: UpdatePasswordDTO,
+    { email, password, new_password, confirm_new_password }: UpdatePasswordDTO,
   ): Promise<void> {
     return this.updatePassword.execute({
-      id,
+      email,
       password,
       new_password,
       confirm_new_password,

@@ -13,13 +13,16 @@ export abstract class IUsersRepository {
   abstract findAll(): Promise<User[]>;
 
   abstract updateBusinessUnit({
-    id,
+    email,
     new_bu,
   }: UpdateBusinessUnitDTO): Promise<User>;
 
   abstract delete(id: string): Promise<void>;
 
-  abstract updatePassword({ id, new_password }: IUpdatePassword): Promise<void>;
+  abstract updatePassword({
+    email,
+    new_password,
+  }: IUpdatePassword): Promise<void>;
 
   abstract filterByRole({ role }: FilterUserByRoleDTO): Promise<User[]>;
 }

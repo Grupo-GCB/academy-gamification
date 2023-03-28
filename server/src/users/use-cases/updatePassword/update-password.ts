@@ -13,30 +13,28 @@ export class UpdatePassword {
   ) {}
 
   async execute({
-    id,
+    email,
     password,
     new_password,
     confirm_new_password,
   }: UpdatePasswordDTO): Promise<void> {
-    const user = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findByEmail(email);
 
-    if (!user) throw new BadRequestException('User does not exist');
+    if (!user) throw new BadRequestException('Usuário não existe!');
 
     const arePasswordsEqual = await compare(password, user.password);
 
     if (!arePasswordsEqual)
-      throw new BadRequestException('Incorrect current password');
+      throw new BadRequestException('Senha atual inválida!');
 
     const isEqualCurrentPassword = await compare(new_password, user.password);
 
     if (isEqualCurrentPassword === true)
-      throw new BadRequestException(
-        'Unable to change password to current password',
-      );
+      throw new BadRequestException('Incapaz de alterar a senha atual!');
 
     if (confirm_new_password !== new_password)
       throw new BadRequestException(
-        'Confirm password must be same as new password',
+        'A confirmação da nova senha deve ser a mesma da nova senha!',
       );
 
     const passwordStrength = zxcvbn(new_password);
@@ -44,12 +42,12 @@ export class UpdatePassword {
     const PASSWORD_MIN_STRENGTH = 3;
 
     if (passwordRank < PASSWORD_MIN_STRENGTH)
-      throw new BadRequestException('Too weak password');
+      throw new BadRequestException('Senha muito fraca!');
 
     const hashedPassword = await hash(new_password, 8);
 
     return this.usersRepository.updatePassword({
-      id,
+      email,
       new_password: hashedPassword,
     });
   }

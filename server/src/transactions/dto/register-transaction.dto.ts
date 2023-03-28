@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID,
 } from 'class-validator';
 
 import {
@@ -18,20 +18,20 @@ import {
 
 export class RegisterTransactionDTO {
   @IsNotEmpty()
-  @IsUUID()
+  @IsEmail()
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
-    description: 'Email do colaborador que está envolvido na transação',
+    description: 'E-mail do colaborador que está envolvido na transação',
     type: 'string',
     required: true,
   })
   user: string;
 
   @IsNotEmpty()
-  @IsUUID()
+  @IsEmail()
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
-    description: 'Email do usuário que está registrando a transação',
+    description: 'E-mail do usuário que está registrando a transação',
     type: 'string',
     required: true,
   })
