@@ -25,16 +25,16 @@ export class UpdateStatus {
     new_status,
     admin,
   }: UpdateStatusDTO): Promise<Transaction> {
-    if (!new_status) throw new BadRequestException('Novo Status é Exigido!');
-    if (!id) throw new BadRequestException('Id é Exigido!');
+    if (!new_status) throw new BadRequestException('Novo status é exigido!');
+    if (!id) throw new BadRequestException('Id é exigido!');
 
     const responsible = await this.usersRepository.findById(admin);
 
     if (!responsible)
-      throw new BadRequestException('Administrador Não Encontrado!');
+      throw new BadRequestException('Administrador não encontrado!');
 
     if (responsible.role != Roles.ADMIN) {
-      throw new UnauthorizedException('Sem Permissão!');
+      throw new UnauthorizedException('Sem autorização!');
     }
 
     const transaction: Transaction = await this.transactionsRepository.findById(
@@ -42,11 +42,11 @@ export class UpdateStatus {
     );
 
     if (!transaction) {
-      throw new NotFoundException('Transação Não Encontrada!');
+      throw new NotFoundException('Transação não encontrada!');
     }
 
     if (transaction.status === new_status) {
-      throw new NotFoundException('A Transação Já Tem Esse Status!');
+      throw new NotFoundException('A Transação já tem esse status!');
     }
 
     const user = await this.usersRepository.findById(transaction.user);

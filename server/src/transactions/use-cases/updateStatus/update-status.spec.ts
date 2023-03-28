@@ -82,7 +82,7 @@ describe('Update a transaction status', () => {
         new_status: Status.PENDING,
         admin: admin.id,
       }),
-    ).rejects.toThrow('Transaction not found');
+    ).rejects.toThrow('Transação não encontrada!');
   });
 
   it('should throw error if new status are not passed', async () => {
@@ -101,7 +101,7 @@ describe('Update a transaction status', () => {
         new_status: undefined,
         admin: Admins.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('Novo Status é Exigido'));
+    ).rejects.toThrow(new BadRequestException('Novo status é exigido!'));
   });
 
   it('should throw error if id are not passed', async () => {
@@ -120,7 +120,7 @@ describe('Update a transaction status', () => {
         new_status: transaction.status,
         admin: Admins.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('Id is required'));
+    ).rejects.toThrow(new BadRequestException('Id é exigido!'));
   });
 
   it('should not be able to update a transaction if user is not an administrator', async () => {
@@ -155,7 +155,7 @@ describe('Update a transaction status', () => {
         new_status: Status.APPROVED,
         admin: collaborator.id,
       }),
-    ).rejects.toThrow(new BadRequestException('You must be a administrator'));
+    ).rejects.toThrow(new BadRequestException('Sem autorização!'));
   });
 
   it('should not be able to update a transaction status if admin passed does not exist', async () => {
@@ -182,6 +182,6 @@ describe('Update a transaction status', () => {
         new_status: Status.APPROVED,
         admin: '19906417-70ea-4f6a-a158-c6c6043e7919',
       }),
-    ).rejects.toThrow(new BadRequestException('Administrator not found'));
+    ).rejects.toThrow(new BadRequestException('Administrador não encontrado!'));
   });
 });

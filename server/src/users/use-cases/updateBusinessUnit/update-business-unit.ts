@@ -24,7 +24,7 @@ export class UpdateBusinessUnit {
   }: UpdateBusinessUnitDTO): Promise<User> {
     if (!new_bu || !id || !responsible) {
       throw new BadRequestException(
-        'Id do Usuário, Id do Responsável e a Unidade de Negócio São Exigidos!',
+        'Id do usuário, id do responsável e a unidade de negócio são exigidos!',
       );
     }
 
@@ -32,7 +32,7 @@ export class UpdateBusinessUnit {
     const updateResponsible = await this.usersRepository.findById(responsible);
 
     if (!user || !updateResponsible) {
-      throw new BadRequestException('Usuário ou Responsável Não Existem!');
+      throw new BadRequestException('Usuário ou responsável não existem!');
     }
 
     if (
@@ -40,17 +40,17 @@ export class UpdateBusinessUnit {
       user != updateResponsible
     ) {
       throw new UnauthorizedException(
-        'Colaboradores Somente Podem Editar Sua Própria Unidade de Negócio!',
+        'Colaboradores somente podem editar sua própria unidade de negócio!',
       );
     }
 
     if (updateResponsible.role == Roles.ACADEMY) {
-      throw new UnauthorizedException('Sem Autorização!');
+      throw new UnauthorizedException('Sem autorização!');
     }
 
     if (user.business_unit === new_bu) {
       throw new BadRequestException(
-        'Usuário Já Pertence a Essa Unidade de Negócio!',
+        'Usuário já pertence a essa unidade de negócio!',
       );
     }
 

@@ -30,9 +30,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     return canActicatePromise.catch((error) => {
       if (error instanceof UnauthorizedException)
-        throw new UnauthorizedException('Sem Autorização!');
+        throw new UnauthorizedException('Sem autorização!');
 
-      throw new UnauthorizedException('Sem Autorização!');
+      throw new UnauthorizedException('Sem autorização!');
     });
   }
 }

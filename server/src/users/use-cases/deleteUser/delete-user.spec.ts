@@ -35,6 +35,6 @@ describe('Delete an user', () => {
   it('should not be able to delete a non-existing user', async () => {
     await expect(
       async () => await sut.execute('d86438c9-ce7d-4fba-a9b5-b6f994960eb8'),
-    ).rejects.toEqual(new NotFoundException('User does not exist'));
+    ).rejects.toEqual(new NotFoundException('Usuário não existe!'));
   });
 });

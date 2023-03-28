@@ -20,21 +20,21 @@ export class UpdatePassword {
   }: UpdatePasswordDTO): Promise<void> {
     const user = await this.usersRepository.findById(id);
 
-    if (!user) throw new BadRequestException('Usuário Não Existe!');
+    if (!user) throw new BadRequestException('Usuário não existe!');
 
     const arePasswordsEqual = await compare(password, user.password);
 
     if (!arePasswordsEqual)
-      throw new BadRequestException('Senha Atual Inválida!');
+      throw new BadRequestException('Senha atual inválida!');
 
     const isEqualCurrentPassword = await compare(new_password, user.password);
 
     if (isEqualCurrentPassword === true)
-      throw new BadRequestException('Incapaz de Alterar a Senha Atual!');
+      throw new BadRequestException('Incapaz de alterar a senha atual!');
 
     if (confirm_new_password !== new_password)
       throw new BadRequestException(
-        'A Confirmação da Nova Senha Deve Ser a Mesma da Nova Senha!',
+        'A confirmação da nova senha deve ser a mesma da nova senha!',
       );
 
     const passwordStrength = zxcvbn(new_password);

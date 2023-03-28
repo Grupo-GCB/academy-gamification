@@ -12,7 +12,7 @@ export class FindById {
       id,
     );
 
-    if (!transaction) throw new NotFoundException('Transação Não Existe!');
+    if (!transaction) throw new NotFoundException('Transação não existe!');
 
     return transaction;
   }

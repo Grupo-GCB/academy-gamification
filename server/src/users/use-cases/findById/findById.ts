@@ -10,7 +10,7 @@ export class FindById {
   async execute(id: string): Promise<User> {
     const user: User = await this.usersRepository.findById(id);
 
-    if (!user) throw new NotFoundException('Usuário Não Existe!');
+    if (!user) throw new NotFoundException('Usuário não existe!');
 
     return user;
   }
