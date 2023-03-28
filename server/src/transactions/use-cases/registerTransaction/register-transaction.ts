@@ -36,8 +36,8 @@ export class RegisterTransaction {
 
   async execute(data: RegisterTransactionDTO): Promise<Transaction> {
     const [responsible, user] = await Promise.all([
-      this.usersRepository.findById(data.responsible),
-      this.usersRepository.findById(data.user),
+      this.usersRepository.findByEmail(data.responsible),
+      this.usersRepository.findByEmail(data.user),
     ]);
 
     if (!responsible || !user)
@@ -191,6 +191,9 @@ export class RegisterTransaction {
         `,
       });
     }
+
+    data.user = user.id;
+    data.responsible = responsible.id;
 
     return this.transactionsRepository.register(data);
   }

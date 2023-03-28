@@ -13,12 +13,12 @@ export class UpdatePassword {
   ) {}
 
   async execute({
-    id,
+    email,
     password,
     new_password,
     confirm_new_password,
   }: UpdatePasswordDTO): Promise<void> {
-    const user = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) throw new BadRequestException('Usuário não existe!');
 
@@ -47,7 +47,7 @@ export class UpdatePassword {
     const hashedPassword = await hash(new_password, 8);
 
     return this.usersRepository.updatePassword({
-      id,
+      email,
       new_password: hashedPassword,
     });
   }

@@ -4,7 +4,7 @@ import {
   RedeemSubType,
   Roles,
   Status,
-  Types,
+  Types
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
@@ -27,6 +27,7 @@ describe('Register a transaction', () => {
   });
 
   it('should be able to register a collaboration if responsible is an academy', async () => {
+    
     const academy = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',
@@ -36,8 +37,8 @@ describe('Register a transaction', () => {
     });
 
     const transaction = await sut.execute({
-      user: academy.id,
-      responsible: academy.id,
+      user: academy.email,
+      responsible: academy.email,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
@@ -88,8 +89,8 @@ describe('Register a transaction', () => {
     });
     await expect(
       sut.execute({
-        user: academy.id,
-        responsible: academy.id,
+        user: academy.email,
+        responsible: academy.email,
         type: Types.PENALTY,
         status: Status.PENDING,
         gcbits: 3000,
@@ -107,8 +108,8 @@ describe('Register a transaction', () => {
     });
     await expect(
       sut.execute({
-        user: academy.id,
-        responsible: academy.id,
+        user: academy.email,
+        responsible: academy.email,
         type: Types.REDEEM,
         sub_type: RedeemSubType.PEERCREDIT,
         status: Status.PENDING,
@@ -128,8 +129,8 @@ describe('Register a transaction', () => {
 
     await expect(
       sut.execute({
-        user: academy.id,
-        responsible: academy.id,
+        user: academy.email,
+        responsible: academy.email,
         type: Types.CORRECTION,
         status: Status.PENDING,
         gcbits: 3000,
@@ -148,8 +149,8 @@ describe('Register a transaction', () => {
 
     await expect(
       sut.execute({
-        user: academy.id,
-        responsible: academy.id,
+        user: academy.email,
+        responsible: academy.email,
         type: Types.TRANSFER,
         status: Status.PENDING,
         gcbits: 3000,

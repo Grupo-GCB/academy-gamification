@@ -18,18 +18,20 @@ export class UpdateBusinessUnit {
   ) {}
 
   async execute({
-    id,
+    email,
     responsible,
     new_bu,
   }: UpdateBusinessUnitDTO): Promise<User> {
-    if (!new_bu || !id || !responsible) {
+    if (!new_bu || !email || !responsible) {
       throw new BadRequestException(
-        'Id do usuário, id do responsável e a unidade de negócio são exigidos!',
+        'E-mail do usuário, e-mail do responsável e a unidade de negócio são exigidos!',
       );
     }
 
-    const user = await this.usersRepository.findById(id);
-    const updateResponsible = await this.usersRepository.findById(responsible);
+    const user = await this.usersRepository.findByEmail(email);
+    const updateResponsible = await this.usersRepository.findByEmail(
+      responsible,
+    );
 
     if (!user || !updateResponsible) {
       throw new BadRequestException('Usuário ou responsável não existem!');
@@ -55,7 +57,7 @@ export class UpdateBusinessUnit {
     }
 
     return this.usersRepository.updateBusinessUnit({
-      id,
+      email,
       responsible,
       new_bu,
     });

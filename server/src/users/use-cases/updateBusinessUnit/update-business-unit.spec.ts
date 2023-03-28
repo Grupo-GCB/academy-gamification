@@ -23,14 +23,14 @@ describe('Update a transaction status', () => {
     });
 
     const updatedUser = await sut.execute({
-      id: collaborator.id,
-      responsible: collaborator.id,
+      email: collaborator.email,
+      responsible: collaborator.email,
       new_bu: BusinessUnits.PEERBR,
     });
     expect(updatedUser.business_unit).toEqual(BusinessUnits.PEERBR);
 
     await expect(
-      inMemoryUsersRepository.findById(collaborator.id),
+      inMemoryUsersRepository.findByEmail(collaborator.email),
     ).resolves.toEqual(
       expect.objectContaining({ business_unit: BusinessUnits.PEERBR }),
     );
@@ -54,13 +54,15 @@ describe('Update a transaction status', () => {
     });
 
     const updatedUser = await sut.execute({
-      id: academy.id,
-      responsible: admin.id,
+      email: academy.email,
+      responsible: admin.email,
       new_bu: BusinessUnits.GRUPOGCB,
     });
     expect(updatedUser.business_unit).toEqual(BusinessUnits.GRUPOGCB);
 
-    await expect(inMemoryUsersRepository.findById(academy.id)).resolves.toEqual(
+    await expect(
+      inMemoryUsersRepository.findByEmail(academy.email),
+    ).resolves.toEqual(
       expect.objectContaining({ business_unit: BusinessUnits.GRUPOGCB }),
     );
   });
@@ -76,8 +78,8 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: '19906417-70ea-4f6a-a158-c6c6043e7919',
-        responsible: admin.id,
+        email: 'gustavo.wuelta@gcbinvestimentos.com',
+        responsible: admin.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
     ).rejects.toThrow('Usuário ou responsável não existem!');
@@ -94,7 +96,7 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
+        email: collaborator.email,
         responsible: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_bu: BusinessUnits.GRUPOGCB,
       }),
@@ -112,8 +114,8 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: academy.id,
-        responsible: academy.id,
+        email: academy.email,
+        responsible: academy.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
     ).rejects.toThrow('Sem autorização!');
@@ -130,8 +132,8 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: collaborator.id,
-        responsible: collaborator.id,
+        email: collaborator.email,
+        responsible: collaborator.email,
         new_bu: BusinessUnits.ADIANTE,
       }),
     ).rejects.toThrow('Usuário já pertence a essa unidade de negócio!');
@@ -156,8 +158,8 @@ describe('Update a transaction status', () => {
 
     await expect(
       sut.execute({
-        id: collaboratorTwo.id,
-        responsible: collaborator.id,
+        email: collaboratorTwo.email,
+        responsible: collaborator.email,
         new_bu: BusinessUnits.ADIANTE,
       }),
     ).rejects.toThrow(
