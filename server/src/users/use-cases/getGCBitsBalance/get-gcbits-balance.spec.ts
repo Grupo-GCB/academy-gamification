@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import {
   BusinessUnits,
   CollaborationsSubType,
@@ -51,6 +52,12 @@ describe('Get an user balance', () => {
     expect(userBalance).toEqual(
       expect.objectContaining({ balance: transaction.gcbits }),
     );
+  });
+
+  it('should not be able to return GCBits if id is invalid', async () => {
+    await expect(
+      async () => await sut.execute({ user: '1br35' }),
+    ).rejects.toEqual(new BadRequestException('Id inválido!'));
   });
 
   it('should not be able to return a non-existing user gcbits balance', async () => {
