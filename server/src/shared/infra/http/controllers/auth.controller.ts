@@ -58,7 +58,6 @@ export class AuthController {
             'ee4bbb7778beaf6934ae01ae6ca6db7a97b2cd56a16edd4089dfc110ce2b277b',
         },
       },
-      required: ['accessToken', 'refreshToken'],
     },
   })
   @ApiBadRequestResponse({
