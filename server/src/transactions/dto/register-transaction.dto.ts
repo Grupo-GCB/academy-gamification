@@ -83,7 +83,7 @@ export class RegisterTransactionDTO {
     example:
       'Transação de 3000 Gcbits para gustavo.wuelta@gcbinvestimentos.com por Code Review',
     description: 'Descrição da transação',
-    type: 'number',
+    type: 'string',
     required: true,
   })
   description?: string;

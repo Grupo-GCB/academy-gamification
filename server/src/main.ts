@@ -11,6 +11,7 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Academy-Gamification')
+    .addBearerAuth()
     .setDescription('Academy Gamification')
     .setVersion('1.0')
     .build();
