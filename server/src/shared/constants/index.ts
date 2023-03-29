@@ -76,4 +76,11 @@ export enum TransactionSubType {
   MEDIUMPROJECT = 'MEDIUM_PROJECT',
   COMPLEXPROJECT = 'COMPLEX_PROJECT',
   ACADEMY = 'ACADEMY',
+  ENTRY = 'ENTRY',
+  EXIT = 'EXIT',
+}
+
+export enum TransferSubTypes {
+  ENTRY = 'ENTRY',
+  EXIT = 'EXIT',
 }
