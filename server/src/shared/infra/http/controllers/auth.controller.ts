@@ -15,20 +15,22 @@ import { IAuthRequest } from '@auth/interfaces';
 import {
   ApiBadRequestResponse,
   ApiBody,
-  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 
 @Controller()
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @ApiCreatedResponse({
-    status: HttpStatus.CREATED,
-    description: 'Usuário logado com sucesso',
-  })
-  @ApiBadRequestResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Falha ao logar o usuário',
+  @ApiTags('Auth')
+  @ApiOperation({
+    summary: 'Autentica um usuário no sistema',
+    description:
+      'Esta rota permite autenticar um usuário no sistema a partir do seu email e senha. A API retorna um token de autenticação JWT que deve ser enviado no header "Authorization" em todas as requisições que necessitem autenticação.',
   })
   @ApiBody({
     schema: {
@@ -40,6 +42,32 @@ export class AuthController {
       required: ['email', 'password'],
     },
   })
+  @ApiResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        accessToken: {
+          type: 'string',
+          example:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZTY4OTFhMC1kMTk5LTQ4MGQtOGMyMC0zZjQyM2UwOGQ4MTAiLCJlbWFpbCI6ImtheWtlLmZ1amluYWthQGdjYmludmVzdGltZW50b3MuY29tIiwiYnUiOiJBQ0FERU1ZIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjgwMDQ4MjgzLCJleHAiOjE2ODAwNDgzNDN9.p7V-UKQ27JlSjjDfHgXJRYxw73WcCiFckALdT_S7UFg',
+        },
+        refreshToken: {
+          type: 'string',
+          example:
+            'ee4bbb7778beaf6934ae01ae6ca6db7a97b2cd56a16edd4089dfc110ce2b277b',
+        },
+      },
+      required: ['accessToken', 'refreshToken'],
+    },
+  })
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Usuário logado com sucesso',
+  })
+  @ApiBadRequestResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Falha ao logar o usuário',
+  })
   @IsPublic()
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -48,8 +76,32 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @ApiCreatedResponse({
-    status: HttpStatus.CREATED,
+  @ApiTags('Auth')
+  @ApiOperation({
+    summary: 'Renova um token de autenticação JWT',
+    description:
+      'Esta rota permite renovar um token de autenticação JWT expirado utilizando um refresh token válido.',
+  })
+  @ApiResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        accessToken: {
+          type: 'string',
+          example:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZTY4OTFhMC1kMTk5LTQ4MGQtOGMyMC0zZjQyM2UwOGQ4MTAiLCJlbWFpbCI6ImtheWtlLmZ1amluYWthQGdjYmludmVzdGltZW50b3MuY29tIiwiYnUiOiJBQ0FERU1ZIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjgwMDQ4MjgzLCJleHAiOjE2ODAwNDgzNDN9.p7V-UKQ27JlSjjDfHgXJRYxw73WcCiFckALdT_S7UFg',
+        },
+        refreshToken: {
+          type: 'string',
+          example:
+            'ee4bbb7778beaf6934ae01ae6ca6db7a97b2cd56a16edd4089dfc110ce2b277b',
+        },
+      },
+      required: ['accessToken', 'refreshToken'],
+    },
+  })
+  @ApiOkResponse({
+    status: HttpStatus.OK,
     description: 'Refresh token gerado com sucesso',
   })
   @ApiBadRequestResponse({
@@ -60,13 +112,13 @@ export class AuthController {
     schema: {
       type: 'object',
       properties: {
-        refreshToken: {
+        accessToken: {
           type: 'string',
           example:
-            'ee4bbb7778beaf6934ae01ae6ca6db7a97b2cd56a16edd4089dfc110ce2b27111',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZTY4OTFhMC1kMTk5LTQ4MGQtOGMyMC0zZjQyM2UwOGQ4MTAiLCJlbWFpbCI6ImtheWtlLmZ1amluYWthQGdjYmludmVzdGltZW50b3MuY29tIiwiYnUiOiJBQ0FERU1ZIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjgwMTA5OTQ3LCJleHAiOjE2ODAxOTYzNDd9.rKlufyEV0igD4jaIn2OQ473YeWvYDVElbHc0hDJnK68',
         },
       },
-      required: ['refreshToken'],
+      required: ['accessToken'],
     },
   })
   @Post('refresh')
@@ -76,8 +128,14 @@ export class AuthController {
     return this.authService.refresh(refreshToken);
   }
 
-  @ApiCreatedResponse({
-    status: HttpStatus.CREATED,
+  @ApiTags('Auth')
+  @ApiOperation({
+    summary: 'Faz o logout de um usuário autenticado',
+    description:
+      'Esta rota permite realizar o logout de um usuário autenticado, invalidando o seu token de autenticação JWT. O token deve ser enviado no corpo da requisição.',
+  })
+  @ApiNoContentResponse({
+    status: HttpStatus.NO_CONTENT,
     description: 'Usuário deslogado com sucesso',
   })
   @ApiBadRequestResponse({
@@ -88,13 +146,13 @@ export class AuthController {
     schema: {
       type: 'object',
       properties: {
-        token: {
+        refreshToken: {
           type: 'string',
           example:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZTY4OTFhMC1kMTk5LTQ4MGQtOGMyMC0zZjQyM2UwOGQ4MTAiLCJlbWFpbCI6ImtheWtlLmZ1amluYWthQGdjYmludmVzdGltZW50b3MuY29tIiwiYnUiOiJBQ0FERU1ZIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjgwMTA5OTQ3LCJleHAiOjE2ODAxOTYzNDd9.rKlufyEV0igD4jaIn2OQ473YeWvYDVElbHc0hDJnK68',
         },
       },
-      required: ['token'],
+      required: ['refreshToken'],
     },
   })
   @Post('logout')
