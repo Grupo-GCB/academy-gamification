@@ -13,6 +13,7 @@ import {
   CollaborationsSubType,
   RedeemSubType,
   Status,
+  TransferSubTypes,
   Types,
 } from '@shared/constants';
 import { User } from '@users/infra/entities/user.entity';
@@ -37,7 +38,7 @@ export class Transaction {
   type: Types;
 
   @Column()
-  sub_type?: CollaborationsSubType | RedeemSubType;
+  sub_type?: CollaborationsSubType | RedeemSubType | TransferSubTypes;
 
   @Column()
   status: Status;
