@@ -18,7 +18,6 @@ import {
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -42,7 +41,9 @@ export class AuthController {
       required: ['email', 'password'],
     },
   })
-  @ApiResponse({
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Usuário logado com sucesso!',
     schema: {
       type: 'object',
       properties: {
@@ -60,13 +61,9 @@ export class AuthController {
       required: ['accessToken', 'refreshToken'],
     },
   })
-  @ApiOkResponse({
-    status: HttpStatus.OK,
-    description: 'Usuário logado com sucesso',
-  })
   @ApiBadRequestResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Falha ao logar o usuário',
+    description: 'Falha ao logar o usuário!',
   })
   @IsPublic()
   @Post('login')
@@ -82,7 +79,9 @@ export class AuthController {
     description:
       'Esta rota permite renovar um token de autenticação JWT expirado utilizando um refresh token válido.',
   })
-  @ApiResponse({
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: 'Refresh token gerado com sucesso!',
     schema: {
       type: 'object',
       properties: {
@@ -100,13 +99,9 @@ export class AuthController {
       required: ['accessToken', 'refreshToken'],
     },
   })
-  @ApiOkResponse({
-    status: HttpStatus.OK,
-    description: 'Refresh token gerado com sucesso',
-  })
   @ApiBadRequestResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Falha ao gerar refresh token',
+    description: 'Falha ao gerar refresh token!',
   })
   @ApiBody({
     schema: {
@@ -136,11 +131,11 @@ export class AuthController {
   })
   @ApiNoContentResponse({
     status: HttpStatus.NO_CONTENT,
-    description: 'Usuário deslogado com sucesso',
+    description: 'Usuário deslogado com sucesso!',
   })
   @ApiBadRequestResponse({
     status: HttpStatus.BAD_REQUEST,
-    description: 'Falha ao deslogar usuário',
+    description: 'Falha ao deslogar usuário!',
   })
   @ApiBody({
     schema: {
