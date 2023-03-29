@@ -34,7 +34,7 @@ export class UpdateBusinessUnit {
     );
 
     if (!user || !updateResponsible) {
-      throw new BadRequestException('Usuário ou responsável não existem!');
+      throw new BadRequestException('Usuário ou responsável não existe!');
     }
 
     if (

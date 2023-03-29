@@ -82,7 +82,7 @@ describe('Update a transaction status', () => {
         responsible: admin.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('Usuário ou responsável não existem!');
+    ).rejects.toThrow('Usuário ou responsável não existe!');
   });
 
   it('should not be able to update an user business unit if responsible does not exist', async () => {
