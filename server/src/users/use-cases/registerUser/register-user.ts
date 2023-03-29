@@ -16,6 +16,14 @@ export class RegisterUser {
   ) {}
 
   async execute({ email, business_unit }: RegisterUserDTO): Promise<User> {
+    const userAlreadyExists = await this.userRepository.findByEmail(email);
+
+    console.log(userAlreadyExists);
+
+    // Testar
+    if (userAlreadyExists)
+      throw new BadRequestException('Usuário já registrado com esse e-mail!');
+
     const emailFormat = /^[a-z]+.[a-z]+@gcbinvestimentos.com$/;
 
     const isValidEmail: boolean = emailFormat.test(email);
