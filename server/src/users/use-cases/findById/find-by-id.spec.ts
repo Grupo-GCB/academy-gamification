@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { FindById } from './find-by-id';
@@ -31,6 +32,12 @@ describe('Find an user by id', () => {
         business_unit: user.business_unit,
         role: user.role,
       }),
+    );
+  });
+
+  it('should not be able to find if id is invalid', async () => {
+    await expect(async () => await sut.execute('1br35')).rejects.toEqual(
+      new BadRequestException('Id inválido!'),
     );
   });
 
