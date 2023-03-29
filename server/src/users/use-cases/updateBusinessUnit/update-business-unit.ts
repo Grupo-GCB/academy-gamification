@@ -22,25 +22,25 @@ export class UpdateBusinessUnit {
     responsible,
     new_bu,
   }: UpdateBusinessUnitDTO): Promise<User> {
-    if (!new_bu || !email || !responsible) {
+    if (!email || !responsible || !new_bu) {
       throw new BadRequestException(
         'E-mail do usuário, e-mail do responsável e a unidade de negócio são exigidos!',
       );
     }
 
-    const user = await this.usersRepository.findByEmail(email);
-    const updateResponsible = await this.usersRepository.findByEmail(
-      responsible,
-    );
+    const [user, updateResponsible] = await Promise.all([
+      this.usersRepository.findByEmail(email),
+      this.usersRepository.findByEmail(responsible),
+    ]);
 
     if (!user || !updateResponsible) {
-      throw new BadRequestException('Usuário ou responsável não existe!');
+      throw new BadRequestException('Usuário ou responsável não encontrado!');
     }
 
-    if (
-      updateResponsible.role == Roles.COLLABORATOR &&
-      user != updateResponsible
-    ) {
+    const isUnauthorizedCollaborator =
+      updateResponsible.role == Roles.COLLABORATOR && user != updateResponsible;
+
+    if (isUnauthorizedCollaborator) {
       throw new UnauthorizedException(
         'Colaboradores podem editar somente sua própria unidade de negócio!',
       );
