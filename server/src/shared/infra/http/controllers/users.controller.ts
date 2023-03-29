@@ -61,8 +61,6 @@ export class UsersController {
   ) {}
 
   @ApiTags('Users')
-  @ApiBearerAuth()
-  @ApiSecurity('Bearer')
   @ApiOperation({
     summary: 'Registra um novo usuário',
     description: 'Esta rota permite o registro de um novo usuário no sistema.',
