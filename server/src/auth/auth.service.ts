@@ -38,7 +38,7 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '1m',
+      expiresIn: '1d',
     });
 
     const refreshTokenExpiresIn = 2 * 24 * 60 * 60 * 1000;
@@ -79,7 +79,7 @@ export class AuthService {
     };
 
     const newAccessToken = this.jwtService.sign(payload, {
-      expiresIn: '10m',
+      expiresIn: '1d',
     });
 
     return {

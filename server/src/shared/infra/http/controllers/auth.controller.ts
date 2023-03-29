@@ -1,19 +1,22 @@
 import {
+  Body,
   Controller,
   HttpCode,
   HttpStatus,
   Post,
-  UseGuards,
   Request,
-  Body,
+  UseGuards,
 } from '@nestjs/common';
 
 import { AuthService } from '@auth/auth.service';
-import { LocalAuthGuard } from '@auth/guards';
-import { IAuthRequest } from '@auth/interfaces';
 import { IsPublic } from '@auth/decorators';
-import { RefreshTokenGuard } from '@auth/guards';
-import { ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
+import { IAuthRequest } from '@auth/interfaces';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiCreatedResponse,
+} from '@nestjs/swagger';
 
 @Controller()
 export class AuthController {
@@ -26,6 +29,16 @@ export class AuthController {
   @ApiBadRequestResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Falha ao logar o usuário',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', example: 'user@example.com' },
+        password: { type: 'string', example: 'gcb123' },
+      },
+      required: ['email', 'password'],
+    },
   })
   @IsPublic()
   @Post('login')
@@ -43,6 +56,19 @@ export class AuthController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Falha ao gerar refresh token',
   })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        refreshToken: {
+          type: 'string',
+          example:
+            'ee4bbb7778beaf6934ae01ae6ca6db7a97b2cd56a16edd4089dfc110ce2b27111',
+        },
+      },
+      required: ['refreshToken'],
+    },
+  })
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(RefreshTokenGuard)
@@ -57,6 +83,19 @@ export class AuthController {
   @ApiBadRequestResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Falha ao deslogar usuário',
+  })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        token: {
+          type: 'string',
+          example:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZTY4OTFhMC1kMTk5LTQ4MGQtOGMyMC0zZjQyM2UwOGQ4MTAiLCJlbWFpbCI6ImtheWtlLmZ1amluYWthQGdjYmludmVzdGltZW50b3MuY29tIiwiYnUiOiJBQ0FERU1ZIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjgwMTA5OTQ3LCJleHAiOjE2ODAxOTYzNDd9.rKlufyEV0igD4jaIn2OQ473YeWvYDVElbHc0hDJnK68',
+        },
+      },
+      required: ['token'],
+    },
   })
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
