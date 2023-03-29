@@ -13,6 +13,7 @@ import {
   RedeemSubType,
   Status,
   TransactionSubType,
+  TransferSubTypes,
   Types,
 } from '@shared/constants';
 
@@ -55,7 +56,7 @@ export class RegisterTransactionDTO {
     type: 'string',
     required: false,
   })
-  sub_type?: CollaborationsSubType | RedeemSubType;
+  sub_type?: CollaborationsSubType | RedeemSubType | TransferSubTypes;
 
   @IsNotEmpty()
   @IsEnum(Status)

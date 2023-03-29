@@ -10,12 +10,17 @@ import {
   RedeemSubType,
   Roles,
   Status,
+  TransferSubTypes,
   Types,
 } from '@shared/constants';
-import { RegisterTransactionDTO } from '@transactions/dto';
+import {
+  FilterTransactionsByUserDTO,
+  RegisterTransactionDTO,
+} from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IUsersRepository } from '@users/interfaces';
+import { GetGCBitsBalance } from '@users/use-cases';
 
 type PermissionMap = Record<string, string[]>;
 
@@ -66,6 +71,7 @@ export class RegisterTransaction {
     if (
       data.type !== Types.REDEEM &&
       data.type !== Types.COLLABORATION &&
+      data.type !== Types.TRANSFER &&
       data.sub_type !== undefined
     ) {
       throw new BadRequestException(
@@ -90,6 +96,10 @@ export class RegisterTransaction {
       (data.type === Types.COLLABORATION &&
         Object.values(CollaborationsSubType).includes(
           data.sub_type as CollaborationsSubType,
+        )) ||
+      (data.type === Types.TRANSFER &&
+        Object.values(TransferSubTypes).includes(
+          data.sub_type as TransferSubTypes,
         ));
 
     if (!isValidSubtype) {
@@ -130,7 +140,7 @@ export class RegisterTransaction {
 
     if (!hasStatusPermission) {
       throw new UnauthorizedException(
-        'Você não pode registrar uma transação com esse valor!',
+        'Você não pode registrar uma transação com esse status!',
       );
     }
 
@@ -140,6 +150,140 @@ export class RegisterTransaction {
       data.gcbits = -Math.abs(data.gcbits);
     } else if (data.type === Types.COLLABORATION) {
       data.gcbits = Math.abs(data.gcbits);
+    }
+
+    if (data.type === Types.TRANSFER) {
+      const sender = await this.usersRepository.findByEmail(data.responsible);
+      const receiver = await this.usersRepository.findByEmail(data.user);
+
+      const getGCBitsBalance = new GetGCBitsBalance(
+        this.transactionsRepository,
+        this.usersRepository,
+      );
+
+      const sender_balance = await getGCBitsBalance.execute(
+        sender.id as unknown as FilterTransactionsByUserDTO,
+      );
+
+      if (sender_balance.balance < data.gcbits) {
+        throw new UnauthorizedException('Saldo insufuciente de GCBits');
+      } else {
+        const user_email = data.user;
+        const responsible_email = data.responsible;
+
+        data.user = receiver.id;
+        data.responsible = sender.id;
+
+        const transfer1 = this.transactionsRepository.register(data);
+
+        await this.sendGrid.send({
+          to: user_email,
+          from: process.env.FROM_EMAIL,
+          subject: 'Registro de Transação',
+          html: `
+            <div
+              style="
+                background-color: #ffffff;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+              "
+            >
+              <img
+                src="https://gcbinvestimentos.com/_next/image?url=%2Fassets%2Fillustrations%2Flogo_gcb_color.svg&w=256&q=75"
+                alt="Logo"
+                style="display: block; margin: auto; width: 200px"
+              />  
+              <br />
+              <h3 style="text-align: center">Registro de Transação</h3>
+              <p>Olá <strong>${
+                sender.name
+              }</strong>, uma transação na qual você está envolvido foi registrada!</p>
+    
+              <div>
+                <h4>Dados da transação</h4>
+                <p>Tipo da Transação: ${data.type}</p>
+                <p>Subtipo: ${data.sub_type}</p>
+                <p>GCBits: ${data.gcbits}</p>
+                <p>Descrição: ${
+                  !data.description
+                    ? 'Esta transação não possui descrição'
+                    : data.description
+                }</p>
+              </div>
+    
+              <p>
+                Caso tenha alguma dúvida ou problema, não hesite em entrar em contato com o
+                nosso suporte no email: kayke.fujinaka@gcbinvestimentos.com
+              </p>
+              <div style="text-align: center; margin-top: 30px; background: #ff6f61; padding: 10px 20px; cursor: pointer;" >
+                <a style="text-decoration: none; color: #ffffff" href="https://gcbinvestimentos.com/">
+                    Acessar AcadeMe
+                </a>
+              </div>
+            </div>  
+          `,
+        });
+
+        data.user = sender.id;
+        data.responsible = receiver.id;
+
+        data.gcbits = -data.gcbits;
+        data.sub_type == TransferSubTypes.ENTRY
+          ? (data.sub_type = TransferSubTypes.EXIT)
+          : (data.sub_type = TransferSubTypes.ENTRY);
+
+        this.transactionsRepository.register(data);
+
+        await this.sendGrid.send({
+          to: responsible_email,
+          from: process.env.FROM_EMAIL,
+          subject: 'Registro de Transação',
+          html: `
+            <div
+              style="
+                background-color: #ffffff;
+                padding: 20px;
+                font-family: Arial, sans-serif;
+              "
+            >
+              <img
+                src="https://gcbinvestimentos.com/_next/image?url=%2Fassets%2Fillustrations%2Flogo_gcb_color.svg&w=256&q=75"
+                alt="Logo"
+                style="display: block; margin: auto; width: 200px"
+              />  
+              <br />
+              <h3 style="text-align: center">Registro de Transação</h3>
+              <p>Olá <strong>${
+                receiver.name
+              }</strong>, uma transação na qual você está envolvido foi registrada!</p>
+    
+              <div>
+                <h4>Dados da transação</h4>
+                <p>Tipo da Transação: ${data.type}</p>
+                <p>Subtipo: ${data.sub_type}</p>
+                <p>GCBits: ${data.gcbits}</p>
+                <p>Descrição: ${
+                  !data.description
+                    ? 'Esta transação não possui descrição'
+                    : data.description
+                }</p>
+              </div>
+    
+              <p>
+                Caso tenha alguma dúvida ou problema, não hesite em entrar em contato com o
+                nosso suporte no email: kayke.fujinaka@gcbinvestimentos.com
+              </p>
+              <div style="text-align: center; margin-top: 30px; background: #ff6f61; padding: 10px 20px; cursor: pointer;" >
+                <a style="text-decoration: none; color: #ffffff" href="https://gcbinvestimentos.com/">
+                    Acessar AcadeMe
+                </a>
+              </div>
+            </div>  
+          `,
+        });
+
+        return transfer1;
+      }
     }
 
     if (responsible.role === Roles.ADMIN) {
