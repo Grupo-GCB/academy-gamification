@@ -6,7 +6,7 @@ export class FindByEmailDTO {
   @IsNotEmpty()
   @ApiProperty({
     example: 'john.doe@gmail.com',
-    description: 'Email do usuário',
+    description: 'E-mail do usuário',
     type: 'string',
     required: true,
   })
