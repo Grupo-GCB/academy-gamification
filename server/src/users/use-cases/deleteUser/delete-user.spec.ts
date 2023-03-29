@@ -32,6 +32,12 @@ describe('Delete an user', () => {
     );
   });
 
+  it('should not be able to delete if Id is invalid', async () => {
+    await expect(async () => await sut.execute('1br35')).rejects.toEqual(
+      new NotFoundException('Id inválido!'),
+    );
+  });
+
   it('should not be able to delete a non-existing user', async () => {
     await expect(
       async () => await sut.execute('d86438c9-ce7d-4fba-a9b5-b6f994960eb8'),

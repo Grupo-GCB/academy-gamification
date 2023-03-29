@@ -11,7 +11,7 @@ export class DeleteUser {
   constructor(private usersRepository: IUsersRepository) {}
 
   async execute(id: string) {
-    if (!isUuidValid(id)) throw new BadRequestException('ID inválido!');
+    if (!isUuidValid(id)) throw new BadRequestException('Id inválido!');
 
     const user = await this.usersRepository.findById(id);
 
