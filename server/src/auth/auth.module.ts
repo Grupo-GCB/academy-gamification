@@ -1,3 +1,7 @@
+import {
+  IRefreshTokenRepository,
+  IRevokedTokenRepository,
+} from '@auth/interfaces';
 import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -44,6 +48,14 @@ import {
     FindById,
     RefreshTokenRepository,
     RevokedTokenRepository,
+    {
+      provide: IRefreshTokenRepository,
+      useClass: RefreshTokenRepository,
+    },
+    {
+      provide: IRevokedTokenRepository,
+      useClass: RevokedTokenRepository,
+    },
   ],
   exports: [RevokedTokenRepository],
 })
