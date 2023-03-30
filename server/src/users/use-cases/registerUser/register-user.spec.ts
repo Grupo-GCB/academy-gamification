@@ -1,5 +1,6 @@
 import { SendGridService } from '@anchan828/nest-sendgrid';
 import { MailService } from '@sendgrid/mail';
+
 import { BusinessUnits } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory';
 import { RegisterUser } from '@users/use-cases';
@@ -53,5 +54,19 @@ describe('Register user', () => {
         business_unit: BusinessUnits.ADIANTE,
       }),
     ).rejects.toThrow('E-mail inválido!');
+  });
+
+  it('should not be able to register an user with e-mail already registered', async () => {
+    await sut.execute({
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      business_unit: BusinessUnits.ADIANTE,
+    });
+
+    await expect(
+      sut.execute({
+        email: 'gustavo.wuelta@gcbinvestimentos.com',
+        business_unit: BusinessUnits.ADIANTE,
+      }),
+    ).rejects.toThrow('Usuário já registrado com esse e-mail!');
   });
 });
