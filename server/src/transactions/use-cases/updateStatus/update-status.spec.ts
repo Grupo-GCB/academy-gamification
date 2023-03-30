@@ -1,4 +1,6 @@
+import { SendGridService } from '@anchan828/nest-sendgrid';
 import { BadRequestException } from '@nestjs/common';
+import { MailService } from '@sendgrid/mail';
 
 import {
   Academys,
@@ -13,19 +15,38 @@ import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
 import { UpdateStatus } from '@transactions/use-cases';
 import { InMemoryUsersRepository } from '@users/test/in-memory';
 
+jest.mock('@anchan828/nest-sendgrid', () => {
+  return {
+    SendGridService: jest.fn().mockImplementation(() => {
+      return {
+        send: jest.fn().mockImplementation(() => Promise.resolve()),
+        mailService: new MailService(),
+      };
+    }),
+  };
+});
+
 describe('Update a transaction status', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
   let inMemoryUsersRepository: InMemoryUsersRepository;
 
   let sut: UpdateStatus;
 
+  let sendGridMock: SendGridService;
+
   beforeEach(() => {
     inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
     inMemoryUsersRepository = new InMemoryUsersRepository();
 
+    sendGridMock = new SendGridService(
+      { apikey: 'fake-api-key' },
+      new MailService(),
+    );
+
     sut = new UpdateStatus(
       inMemoryTransactionsRepository,
       inMemoryUsersRepository,
+      sendGridMock,
     );
   });
 
@@ -47,8 +68,8 @@ describe('Update a transaction status', () => {
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      user: collaborator.id,
-      responsible: admin.id,
+      user: collaborator.email,
+      responsible: admin.email,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.LOGICEXERCISE,
       status: Status.PENDING,
@@ -58,7 +79,7 @@ describe('Update a transaction status', () => {
     const updatedTransaction = await sut.execute({
       id: transaction.id,
       new_status: Status.APPROVED,
-      admin: admin.id,
+      admin: admin.email,
     });
     expect(updatedTransaction.status).toEqual(Status.APPROVED);
 
@@ -80,7 +101,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_status: Status.PENDING,
-        admin: admin.id,
+        admin: admin.email,
       }),
     ).rejects.toThrow('Transação não encontrada!');
   });
@@ -101,7 +122,11 @@ describe('Update a transaction status', () => {
         new_status: undefined,
         admin: Admins.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('Novo status é exigido!'));
+    ).rejects.toThrow(
+      new BadRequestException(
+        'Id da transação, e-mail do administrador e novo status são exigido!',
+      ),
+    );
   });
 
   it('should throw error if id are not passed', async () => {
@@ -120,7 +145,11 @@ describe('Update a transaction status', () => {
         new_status: transaction.status,
         admin: Admins.ADMIN,
       }),
-    ).rejects.toThrow(new BadRequestException('Id é exigido!'));
+    ).rejects.toThrow(
+      new BadRequestException(
+        'Id da transação, e-mail do administrador e novo status são exigido!',
+      ),
+    );
   });
 
   it('should not be able to update a transaction if user is not an administrator', async () => {
@@ -141,8 +170,8 @@ describe('Update a transaction status', () => {
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      user: collaborator.id,
-      responsible: admin.id,
+      user: collaborator.email,
+      responsible: admin.email,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
@@ -153,7 +182,7 @@ describe('Update a transaction status', () => {
       sut.execute({
         id: transaction.id,
         new_status: Status.APPROVED,
-        admin: collaborator.id,
+        admin: collaborator.email,
       }),
     ).rejects.toThrow(new BadRequestException('Sem autorização!'));
   });
@@ -168,8 +197,8 @@ describe('Update a transaction status', () => {
     });
 
     const transaction = await inMemoryTransactionsRepository.register({
-      user: collaborator.id,
-      responsible: collaborator.id,
+      user: collaborator.email,
+      responsible: collaborator.email,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.PENDING,
@@ -183,5 +212,42 @@ describe('Update a transaction status', () => {
         admin: '19906417-70ea-4f6a-a158-c6c6043e7919',
       }),
     ).rejects.toThrow(new BadRequestException('Administrador não encontrado!'));
+  });
+
+  it('should not be able to update a transaction status to current status', async () => {
+    const admin = await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ADMIN,
+    });
+
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    const transaction = await inMemoryTransactionsRepository.register({
+      user: collaborator.email,
+      responsible: admin.email,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.CODEREVIEW,
+      status: Status.APPROVED,
+      gcbits: 5000,
+    });
+
+    await expect(
+      sut.execute({
+        id: transaction.id,
+        new_status: Status.APPROVED,
+        admin: admin.email,
+      }),
+    ).rejects.toThrow(
+      new BadRequestException('A Transação já tem esse status!'),
+    );
   });
 });

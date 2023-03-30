@@ -56,7 +56,7 @@ export class UpdateStatus {
       throw new BadRequestException('Status inválido!');
     }
 
-    const user: User = await this.usersRepository.findById(transaction.user);
+    const user = await this.usersRepository.findByEmail(transaction.user);
 
     if (new_status === Status.APPROVED) {
       await this.sendGrid.send({
