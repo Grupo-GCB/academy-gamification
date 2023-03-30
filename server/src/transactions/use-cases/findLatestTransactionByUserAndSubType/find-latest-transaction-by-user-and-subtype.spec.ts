@@ -42,14 +42,15 @@ describe('FindLatestTransactionByUserAndSubType', () => {
     });
 
     const foundTransaction = await sut.execute({
-      user: 'vitor.freitas@gcbinvestimentos.com',
+      user: 'levi.ciarrochi@gcbinvestimentos.com',
       subType: CollaborationsSubType.LOGICEXERCISE,
     });
 
     expect(foundTransaction).toEqual(
       expect.objectContaining({
         id: latestTransaction.id,
-        user: latestTransaction.user,
+        user: 'levi.ciarrochi@gcbinvestimentos.com',
+        responsible: 'vitor.freitas@gcbinvestimentos.com',
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.LOGICEXERCISE,
         status: Status.PENDING,
