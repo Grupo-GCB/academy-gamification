@@ -4,7 +4,7 @@ import { User } from '@users/infra/entities/user.entity';
 import {
   IGCBitsBalance,
   IRegisterUser,
-  IUpdatePassword,
+  IUpdateUserPassword,
   IUsersRepository,
 } from '@users/interfaces';
 import { hash } from 'bcrypt';
@@ -51,10 +51,10 @@ export class InMemoryUsersRepository implements IUsersRepository {
     user.deleted_at = new Date();
   }
 
-  async updatePassword({
+  async updateUserPassword({
     email,
     new_password,
-  }: IUpdatePassword): Promise<void> {
+  }: IUpdateUserPassword): Promise<void> {
     const user = await this.findByEmail(email);
 
     user.password = new_password;

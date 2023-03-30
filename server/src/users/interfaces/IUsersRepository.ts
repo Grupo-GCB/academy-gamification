@@ -1,7 +1,7 @@
 import { FilterUserByRoleDTO, UpdateUserBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IRegisterUser } from './IRegisterUser';
-import { IUpdatePassword } from './IUpdatePassword';
+import { IUpdateUserPassword } from './IUpdateUserPassword';
 
 export abstract class IUsersRepository {
   abstract create(data: IRegisterUser): Promise<User>;
@@ -19,10 +19,10 @@ export abstract class IUsersRepository {
 
   abstract delete(id: string): Promise<void>;
 
-  abstract updatePassword({
+  abstract updateUserPassword({
     email,
     new_password,
-  }: IUpdatePassword): Promise<void>;
+  }: IUpdateUserPassword): Promise<void>;
 
   abstract filterByRole({ role }: FilterUserByRoleDTO): Promise<User[]>;
 }

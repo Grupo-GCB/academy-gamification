@@ -2,11 +2,11 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { compare, hash } from 'bcrypt';
 import zxcvbn from 'zxcvbn';
 
-import { UpdatePasswordDTO } from '@users/dto';
+import { UpdateUserPasswordDTO } from '@users/dto';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
-export class UpdatePassword {
+export class UpdateUserPassword {
   constructor(
     @Inject(IUsersRepository)
     private readonly usersRepository: IUsersRepository,
@@ -17,7 +17,7 @@ export class UpdatePassword {
     password,
     new_password,
     confirm_new_password,
-  }: UpdatePasswordDTO): Promise<void> {
+  }: UpdateUserPasswordDTO): Promise<void> {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) throw new BadRequestException('Usuário não existe!');
@@ -27,9 +27,9 @@ export class UpdatePassword {
     if (!arePasswordsEqual)
       throw new BadRequestException('Senha atual inválida!');
 
-    const isEqualCurrentPassword = await compare(new_password, user.password);
+    const isSameAsCurrentPassword = await compare(new_password, user.password);
 
-    if (isEqualCurrentPassword === true)
+    if (isSameAsCurrentPassword)
       throw new BadRequestException('Incapaz de alterar a senha atual!');
 
     if (confirm_new_password !== new_password)
@@ -38,15 +38,15 @@ export class UpdatePassword {
       );
 
     const passwordStrength = zxcvbn(new_password);
-    const passwordRank = passwordStrength.score;
-    const PASSWORD_MIN_STRENGTH = 3;
+    const passwordScore = passwordStrength.score;
+    const PASSWORD_STRENGTH_THRESHOLD = 3;
 
-    if (passwordRank < PASSWORD_MIN_STRENGTH)
+    if (passwordScore < PASSWORD_STRENGTH_THRESHOLD)
       throw new BadRequestException('Senha muito fraca!');
 
     const hashedPassword = await hash(new_password, 8);
 
-    return this.usersRepository.updatePassword({
+    return this.usersRepository.updateUserPassword({
       email,
       new_password: hashedPassword,
     });

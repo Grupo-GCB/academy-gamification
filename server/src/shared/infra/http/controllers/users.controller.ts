@@ -26,8 +26,8 @@ import {
   FilterUserByRoleDTO,
   FindUserByIdDTO,
   RegisterUserDTO,
-  UpdatePasswordDTO,
   UpdateUserBusinessUnitDTO,
+  UpdateUserPasswordDTO,
 } from '@users/dto';
 
 import { IsPublic } from '@auth/decorators';
@@ -41,8 +41,8 @@ import {
   GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
-  UpdatePassword,
   UpdateUserBusinessUnit,
+  UpdateUserPassword,
 } from '@users/use-cases';
 
 @Controller('users')
@@ -55,7 +55,7 @@ export class UsersController {
     private listAllUsers: ListAllUsers,
     private updateUserBusinessUnit: UpdateUserBusinessUnit,
     private deleteUser: DeleteUser,
-    private updatePassword: UpdatePassword,
+    private updateUserPassword: UpdateUserPassword,
     private getGCBitsBalance: GetGCBitsBalance,
     private filterUserByRole: FilterByRole,
   ) {}
@@ -398,9 +398,14 @@ export class UsersController {
   @Put('/change-password')
   changePassword(
     @Body()
-    { email, password, new_password, confirm_new_password }: UpdatePasswordDTO,
+    {
+      email,
+      password,
+      new_password,
+      confirm_new_password,
+    }: UpdateUserPasswordDTO,
   ): Promise<void> {
-    return this.updatePassword.execute({
+    return this.updateUserPassword.execute({
       email,
       password,
       new_password,

@@ -1,4 +1,4 @@
 export * from './IGCBitsBalance';
 export * from './IRegisterUser';
-export * from './IUpdatePassword';
+export * from './IUpdateUserPassword';
 export * from './IUsersRepository';

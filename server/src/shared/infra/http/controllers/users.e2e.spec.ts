@@ -11,8 +11,8 @@ import {
   FindByEmail,
   FindById,
   RegisterUser,
-  UpdatePassword,
   UpdateUserBusinessUnit,
+  UpdateUserPassword,
 } from '@users/use-cases';
 
 describe('Users Controller', () => {
@@ -45,7 +45,7 @@ describe('Users Controller', () => {
     }),
   };
 
-  const updatePassword = {
+  const updateUserPassword = {
     execute: () => ({
       id: '093efa1e-8506-43a9-b2c0-c6b713591bb3',
       password: 'current_password',
@@ -86,8 +86,8 @@ describe('Users Controller', () => {
       .useValue(updateUserBusinessUnit)
       .overrideProvider(DeleteUser)
       .useValue(deleteUser)
-      .overrideProvider(UpdatePassword)
-      .useValue(updatePassword)
+      .overrideProvider(UpdateUserPassword)
+      .useValue(updateUserPassword)
       .overrideProvider(FilterByRole)
       .useValue(filterByRole)
       .compile();
@@ -150,7 +150,7 @@ describe('Users Controller', () => {
       return request(app.getHttpServer())
         .put('/users/change-password')
         .expect(200)
-        .expect(updatePassword.execute());
+        .expect(updateUserPassword.execute());
     });
   });
 

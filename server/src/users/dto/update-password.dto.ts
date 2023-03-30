@@ -7,7 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class UpdatePasswordDTO {
+export class UpdateUserPasswordDTO {
   @IsNotEmpty()
   @IsEmail()
   @ApiProperty({
