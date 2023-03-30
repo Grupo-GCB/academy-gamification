@@ -2,7 +2,7 @@ import { CollaborationsSubType, Status, Types } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FindLatestTransactionByUserAndSubType } from '@transactions/use-cases';
 
-describe('FindLatestTransactionByUserAndSubType', () => {
+describe('Find latest transaction by user and subtype', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
   let sut: FindLatestTransactionByUserAndSubType;
 
@@ -13,7 +13,7 @@ describe('FindLatestTransactionByUserAndSubType', () => {
     );
   });
 
-  it('should be able to find the latest transaction by user and subType', async () => {
+  it('should be able to find the latest transaction by user and subtype', async () => {
     const transaction1 = await inMemoryTransactionsRepository.register({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       responsible: 'vitor.freitas@gcbinvestimentos.com',

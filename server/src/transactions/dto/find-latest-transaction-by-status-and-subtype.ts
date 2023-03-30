@@ -1,11 +1,16 @@
+import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
+
 import { CollaborationsSubType } from '@shared/constants';
-import { IsNotEmpty, IsEnum, IsUUID } from 'class-validator';
+
 export class FindLatestTransactionByUserAndSubTypeDTO {
-  @IsNotEmpty()
-  @IsUUID()
+  @IsNotEmpty({ message: 'Insira o e-mail do colaborador!' })
+  @IsUUID(undefined, { message: 'Id inválido!' })
   user: string;
 
-  @IsNotEmpty()
-  @IsEnum(CollaborationsSubType)
+  @IsNotEmpty({ message: 'Insira um subtipo!' })
+  @IsEnum(CollaborationsSubType, {
+    message:
+      'O subtipo deve ser um dos seguintes valores: LOGIC_EXERCISE, CODE_REVIEW, COMMITTEE, DOUBTS, PAIR_PROGRAMMING, FEEDBACK, TEAM_CEREMONY!',
+  })
   subType: CollaborationsSubType;
 }
