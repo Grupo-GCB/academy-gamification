@@ -7,12 +7,12 @@ import { JwtAuthGuard } from '@auth/guards';
 import { BusinessUnits, Roles } from '@shared/constants';
 import {
   DeleteUser,
-  FilterUsersByRole,
+  FilterByRole,
   FindByEmail,
   FindById,
   RegisterUser,
-  UpdateBusinessUnit,
-  UpdatePassword,
+  UpdateUserBusinessUnit,
+  UpdateUserPassword,
 } from '@users/use-cases';
 
 describe('Users Controller', () => {
@@ -38,14 +38,14 @@ describe('Users Controller', () => {
     canActivate: () => true,
   };
 
-  const updateBusinessUnit = {
+  const updateUserBusinessUnit = {
     execute: () => ({
       id: '10f47e61-65c0-48a3-9554-23f022750a66',
       new_bu: BusinessUnits.ADIANTE,
     }),
   };
 
-  const updatePassword = {
+  const updateUserPassword = {
     execute: () => ({
       id: '093efa1e-8506-43a9-b2c0-c6b713591bb3',
       password: 'current_password',
@@ -56,7 +56,7 @@ describe('Users Controller', () => {
 
   const deleteUser = { execute: () => 200 };
 
-  const filterUsersByRole = {
+  const filterByRole = {
     execute: () => [
       {
         name: 'Kayke',
@@ -82,14 +82,14 @@ describe('Users Controller', () => {
       .useValue(findByEmail)
       .overrideGuard(JwtAuthGuard)
       .useValue(jwtAuthGuard)
-      .overrideProvider(UpdateBusinessUnit)
-      .useValue(updateBusinessUnit)
+      .overrideProvider(UpdateUserBusinessUnit)
+      .useValue(updateUserBusinessUnit)
       .overrideProvider(DeleteUser)
       .useValue(deleteUser)
-      .overrideProvider(UpdatePassword)
-      .useValue(updatePassword)
-      .overrideProvider(FilterUsersByRole)
-      .useValue(filterUsersByRole)
+      .overrideProvider(UpdateUserPassword)
+      .useValue(updateUserPassword)
+      .overrideProvider(FilterByRole)
+      .useValue(filterByRole)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -132,7 +132,7 @@ describe('Users Controller', () => {
       return request(app.getHttpServer())
         .put('/users/change-bu')
         .expect(200)
-        .expect(updateBusinessUnit.execute());
+        .expect(updateUserBusinessUnit.execute());
     });
   });
 
@@ -150,7 +150,7 @@ describe('Users Controller', () => {
       return request(app.getHttpServer())
         .put('/users/change-password')
         .expect(200)
-        .expect(updatePassword.execute());
+        .expect(updateUserPassword.execute());
     });
   });
 
@@ -159,7 +159,7 @@ describe('Users Controller', () => {
       return request(app.getHttpServer())
         .get('/users/filter/users-by-role/?role=ADMIN')
         .expect(200)
-        .expect(filterUsersByRole.execute());
+        .expect(filterByRole.execute());
     });
   });
 });

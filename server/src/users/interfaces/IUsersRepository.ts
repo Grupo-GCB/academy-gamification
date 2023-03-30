@@ -1,7 +1,6 @@
-import { FilterUserByRoleDTO, UpdateBusinessUnitDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
-import { IRegisterUser } from './IRegisterUser';
-import { IUpdatePassword } from './IUpdatePassword';
+import { FilterUserByRoleDTO, UpdateUserBusinessUnitDTO } from '@users/dto';
+import { User } from '@users/infra/entities';
+import { IRegisterUser, IUpdateUserPassword } from '@users/interfaces';
 
 export abstract class IUsersRepository {
   abstract create(data: IRegisterUser): Promise<User>;
@@ -12,17 +11,17 @@ export abstract class IUsersRepository {
 
   abstract findAll(): Promise<User[]>;
 
-  abstract updateBusinessUnit({
+  abstract updateUserBusinessUnit({
     email,
     new_bu,
-  }: UpdateBusinessUnitDTO): Promise<User>;
+  }: UpdateUserBusinessUnitDTO): Promise<User>;
 
   abstract delete(id: string): Promise<void>;
 
-  abstract updatePassword({
+  abstract updateUserPassword({
     email,
     new_password,
-  }: IUpdatePassword): Promise<void>;
+  }: IUpdateUserPassword): Promise<void>;
 
   abstract filterByRole({ role }: FilterUserByRoleDTO): Promise<User[]>;
 }

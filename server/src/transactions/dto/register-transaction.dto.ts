@@ -13,12 +13,18 @@ import {
   RedeemSubType,
   Status,
   TransactionSubType,
+  TransferSubTypes,
   Types,
 } from '@shared/constants';
 
 export class RegisterTransactionDTO {
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({
+    message: 'Insira um e-mail de um colaborador envolvido na transação!',
+  })
+  @IsEmail(
+    {},
+    { message: 'Endereço de e-mail de um colaborador informado é inválido!' },
+  )
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
     description: 'E-mail do colaborador que está envolvido na transação',
@@ -27,8 +33,13 @@ export class RegisterTransactionDTO {
   })
   user: string;
 
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({
+    message: 'Insira um e-mail de um responsável envolvido na transação!',
+  })
+  @IsEmail(
+    {},
+    { message: 'Endereço de e-mail de um responsável informado é inválido!' },
+  )
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'E-mail do usuário que está registrando a transação',
@@ -37,8 +48,11 @@ export class RegisterTransactionDTO {
   })
   responsible: string;
 
-  @IsNotEmpty()
-  @IsEnum(Types)
+  @IsNotEmpty({ message: 'Insira um tipo!' })
+  @IsEnum(Types, {
+    message:
+      'O tipo deve ser um dos seguintes valores: COLLABORATION, REDEEM, PENALTY, TRANSFER ou CORRECTION!',
+  })
   @ApiProperty({
     example: 'REDEEM',
     description: 'Razão pela qual essa transação está acontecendo',
@@ -47,18 +61,24 @@ export class RegisterTransactionDTO {
   })
   type: Types;
 
-  @IsEnum(TransactionSubType)
   @IsOptional()
+  @IsEnum(TransactionSubType, {
+    message:
+      'O subtipo deve ser um dos seguintes valores: LOGIC_EXERCISE, CODE_REVIEW, COMMITTEE, DOUBTS, PAIR_PROGRAMMING, FEEDBACK, TEAM_CEREMONY, PEER_CREDIT, SIMPLE_PROJECT, MEDIUM_PROJECT, COMPLEX_PROJECT, ACADEMY, ENTRY, EXIT!',
+  })
   @ApiProperty({
     example: 'PAIR_PROGRAMMING',
     description: 'Tipo da transação realizada',
     type: 'string',
     required: false,
   })
-  sub_type?: CollaborationsSubType | RedeemSubType;
+  sub_type?: CollaborationsSubType | RedeemSubType | TransferSubTypes;
 
-  @IsNotEmpty()
-  @IsEnum(Status)
+  @IsNotEmpty({ message: 'Insira um status!' })
+  @IsEnum(Status, {
+    message:
+      'O status deve ser um dos seguintes valores: PENDING, APPROVED ou REJECTED!',
+  })
   @ApiProperty({
     example: 'PENDING',
     description: 'Status em que a transação está no momento',
@@ -67,8 +87,8 @@ export class RegisterTransactionDTO {
   })
   status: Status;
 
-  @IsNotEmpty()
-  @IsNumber()
+  @IsNotEmpty({ message: 'Insira as GCBits!' })
+  @IsNumber({}, { message: 'As GCBits devem ser um número!' })
   @ApiProperty({
     example: 1000,
     description: 'Quantidade de GCBits envolvidas na transação',
@@ -78,12 +98,12 @@ export class RegisterTransactionDTO {
   gcbits: number;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'A descrição deve ser uma string!' })
   @ApiProperty({
     example:
       'Transação de 3000 Gcbits para gustavo.wuelta@gcbinvestimentos.com por Code Review',
     description: 'Descrição da transação',
-    type: 'number',
+    type: 'string',
     required: true,
   })
   description?: string;

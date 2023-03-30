@@ -1,13 +1,14 @@
+import { hash } from 'bcrypt';
+
 import { FilterTransactionsByUserDTO } from '@transactions/dto';
-import { FilterUserByRoleDTO, UpdateBusinessUnitDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
+import { FilterUserByRoleDTO, UpdateUserBusinessUnitDTO } from '@users/dto';
+import { User } from '@users/infra/entities';
 import {
   IGCBitsBalance,
   IRegisterUser,
-  IUpdatePassword,
+  IUpdateUserPassword,
   IUsersRepository,
 } from '@users/interfaces';
-import { hash } from 'bcrypt';
 
 export class InMemoryUsersRepository implements IUsersRepository {
   users: User[] = [];
@@ -34,11 +35,11 @@ export class InMemoryUsersRepository implements IUsersRepository {
     return this.users;
   }
 
-  async updateBusinessUnit({
+  async updateUserBusinessUnit({
     email,
     new_bu,
-  }: UpdateBusinessUnitDTO): Promise<User> {
-    const user = await this.findByEmail(email);
+  }: UpdateUserBusinessUnitDTO): Promise<User> {
+    const user: User = await this.findByEmail(email);
 
     user.business_unit = new_bu;
 
@@ -46,16 +47,16 @@ export class InMemoryUsersRepository implements IUsersRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const user = await this.findById(id);
+    const user: User = await this.findById(id);
 
     user.deleted_at = new Date();
   }
 
-  async updatePassword({
+  async updateUserPassword({
     email,
     new_password,
-  }: IUpdatePassword): Promise<void> {
-    const user = await this.findByEmail(email);
+  }: IUpdateUserPassword): Promise<void> {
+    const user: User = await this.findByEmail(email);
 
     user.password = new_password;
   }

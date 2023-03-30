@@ -4,16 +4,16 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { FilterTransactionsByStatus } from '@transactions/use-cases';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { FilterByStatus } from '@transactions/use-cases';
 
 describe('Filter transactions by status', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
-  let sut: FilterTransactionsByStatus;
+  let sut: FilterByStatus;
 
   beforeEach(async () => {
     inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
-    sut = new FilterTransactionsByStatus(inMemoryTransactionsRepository);
+    sut = new FilterByStatus(inMemoryTransactionsRepository);
   });
 
   it('should throw error if no status is passed', async () => {

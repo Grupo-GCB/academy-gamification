@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 
 import { Roles } from '@shared/constants';
-import { UpdateBusinessUnitDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
+import { UpdateUserBusinessUnitDTO } from '@users/dto';
+import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
-export class UpdateBusinessUnit {
+export class UpdateUserBusinessUnit {
   constructor(
     @Inject(IUsersRepository)
     private readonly usersRepository: IUsersRepository,
@@ -21,32 +21,33 @@ export class UpdateBusinessUnit {
     email,
     responsible,
     new_bu,
-  }: UpdateBusinessUnitDTO): Promise<User> {
+  }: UpdateUserBusinessUnitDTO): Promise<User> {
     if (!new_bu || !email || !responsible) {
       throw new BadRequestException(
         'E-mail do usuário, e-mail do responsável e a unidade de negócio são exigidos!',
       );
     }
 
-    const user = await this.usersRepository.findByEmail(email);
-    const updateResponsible = await this.usersRepository.findByEmail(
-      responsible,
-    );
+    const [user, updateResponsible] = await Promise.all([
+      this.usersRepository.findByEmail(email),
+      this.usersRepository.findByEmail(responsible),
+    ]);
 
     if (!user || !updateResponsible) {
-      throw new BadRequestException('Usuário ou responsável não existem!');
+      throw new BadRequestException('Usuário ou responsável não encontrado!');
     }
 
-    if (
-      updateResponsible.role == Roles.COLLABORATOR &&
-      user != updateResponsible
-    ) {
+    const isUnauthorizedCollaborator: boolean =
+      updateResponsible.role === Roles.COLLABORATOR &&
+      user != updateResponsible;
+
+    if (isUnauthorizedCollaborator) {
       throw new UnauthorizedException(
         'Colaboradores podem editar somente sua própria unidade de negócio!',
       );
     }
 
-    if (updateResponsible.role == Roles.ACADEMY) {
+    if (updateResponsible.role === Roles.ACADEMY) {
       throw new UnauthorizedException('Sem autorização!');
     }
 
@@ -56,7 +57,7 @@ export class UpdateBusinessUnit {
       );
     }
 
-    return this.usersRepository.updateBusinessUnit({
+    return this.usersRepository.updateUserBusinessUnit({
       email,
       responsible,
       new_bu,

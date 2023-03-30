@@ -1,12 +1,12 @@
 import { CollaborationsSubType } from '@shared/constants';
 import {
-  FilterTransactionsByStatusDTO,
+  FilterByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
   FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 
 export abstract class ITransactionsRepository {
   abstract register(data: RegisterTransactionDTO): Promise<Transaction>;
@@ -20,7 +20,7 @@ export abstract class ITransactionsRepository {
 
   abstract filterByStatus({
     status,
-  }: FilterTransactionsByStatusDTO): Promise<Transaction[]>;
+  }: FilterByStatusDTO): Promise<Transaction[]>;
 
   abstract findAll(): Promise<Transaction[]>;
 

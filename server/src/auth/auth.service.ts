@@ -2,10 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
-import { RefreshTokenRepository } from '@auth/infra/typeorm/repositories/refresh-token.repository';
-import { RevokedTokenRepository } from '@auth/infra/typeorm/repositories/revoked-token.repository';
+import {
+  RefreshTokenRepository,
+  RevokedTokenRepository,
+} from '@auth/infra/typeorm/repositories';
 import { IJwtPayload, IUserToken } from '@auth/interfaces';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import { FindByEmail, FindById } from '@users/use-cases';
 
 @Injectable()
@@ -19,10 +21,13 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.findByEmail.execute(email);
+    const user: User = await this.findByEmail.execute(email);
 
     if (user) {
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid: boolean = await bcrypt.compare(
+        password,
+        user.password,
+      );
       if (isPasswordValid) return { ...user, password: undefined };
     }
 
@@ -37,11 +42,11 @@ export class AuthService {
       role: user.role,
     };
 
-    const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '1m',
+    const accessToken: string = this.jwtService.sign(payload, {
+      expiresIn: '10m',
     });
 
-    const refreshTokenExpiresIn = 2 * 24 * 60 * 60 * 1000;
+    const refreshTokenExpiresIn: number = 2 * 24 * 60 * 60 * 1000;
 
     const refreshToken = await this.refreshTokenRepository.createRefreshToken({
       user: user.id,
@@ -67,7 +72,7 @@ export class AuthService {
       throw new UnauthorizedException('Token de atualização expirado!');
     }
 
-    const user = await this.findById.execute(refreshToken.user);
+    const user: User = await this.findById.execute(refreshToken.user);
 
     if (!user) throw new UnauthorizedException('Sem autorização!');
 
@@ -78,7 +83,7 @@ export class AuthService {
       role: user.role,
     };
 
-    const newAccessToken = this.jwtService.sign(payload, {
+    const newAccessToken: string = this.jwtService.sign(payload, {
       expiresIn: '10m',
     });
 

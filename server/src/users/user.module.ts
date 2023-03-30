@@ -3,22 +3,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersController } from '@shared/infra/http/controllers/users.controller';
 import { TransactionsModule } from '@transactions/transactions.module';
-import { User } from '@users/infra/entities/user.entity';
-import { UsersRepository } from '@users/infra/repositories/users.repository';
-import { IUsersRepository } from './interfaces';
+import { User } from '@users/infra/entities';
+import { UsersRepository } from '@users/infra/repositories';
+import { IUsersRepository } from '@users/interfaces';
 import { AuthModule } from '@auth/auth.module';
 
 import {
   DeleteUser,
-  FilterUsersByRole,
+  FilterByRole,
   FindByEmail,
   FindById,
   GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
-  UpdateBusinessUnit,
-  UpdatePassword,
-} from './use-cases';
+  UpdateUserBusinessUnit,
+  UpdateUserPassword,
+} from '@users/use-cases';
 
 @Module({
   imports: [
@@ -31,12 +31,12 @@ import {
     RegisterUser,
     FindById,
     ListAllUsers,
-    UpdateBusinessUnit,
+    UpdateUserBusinessUnit,
     DeleteUser,
     FindByEmail,
-    UpdatePassword,
+    UpdateUserPassword,
     GetGCBitsBalance,
-    FilterUsersByRole,
+    FilterByRole,
     {
       provide: IUsersRepository,
       useClass: UsersRepository,

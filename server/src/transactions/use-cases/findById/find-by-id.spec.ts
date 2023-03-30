@@ -1,6 +1,8 @@
+import { BadRequestException } from '@nestjs/common';
+
 import { Academys, RedeemSubType, Status, Types } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { FindById } from './find-by-id';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { FindById } from '@transactions/use-cases';
 
 describe('Find a transaction by id', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
@@ -42,6 +44,12 @@ describe('Find a transaction by id', () => {
         status: transaction.status,
         gcbits: transaction.gcbits,
       }),
+    );
+  });
+
+  it('should not be able to find if id is invalid', async () => {
+    await expect(async () => await sut.execute('1br35')).rejects.toEqual(
+      new BadRequestException('Id inválido!'),
     );
   });
 

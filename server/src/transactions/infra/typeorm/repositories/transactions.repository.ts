@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import {
-  FilterTransactionsByStatusDTO,
+  FilterByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
   FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import {
   CollaborationsCooldown,
   CollaborationsSubType,
@@ -59,9 +59,7 @@ export class TransactionsRepository {
     return this.findById(id);
   }
 
-  async filterByStatus({
-    status,
-  }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
+  async filterByStatus({ status }: FilterByStatusDTO): Promise<Transaction[]> {
     return this.transactionsRepository.find({
       where: { status },
     });

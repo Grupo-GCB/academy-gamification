@@ -1,16 +1,16 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { UpdateBusinessUnit } from './update-business-unit';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { UpdateUserBusinessUnit } from '@users/use-cases';
 
 describe('Update a transaction status', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
 
-  let sut: UpdateBusinessUnit;
+  let sut: UpdateUserBusinessUnit;
 
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
 
-    sut = new UpdateBusinessUnit(inMemoryUsersRepository);
+    sut = new UpdateUserBusinessUnit(inMemoryUsersRepository);
   });
 
   it('should be able to update a collaborator business unit', async () => {
@@ -82,7 +82,7 @@ describe('Update a transaction status', () => {
         responsible: admin.email,
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('Usuário ou responsável não existem!');
+    ).rejects.toThrow('Usuário ou responsável não encontrado!');
   });
 
   it('should not be able to update an user business unit if responsible does not exist', async () => {
@@ -100,7 +100,7 @@ describe('Update a transaction status', () => {
         responsible: '19906417-70ea-4f6a-a158-c6c6043e7919',
         new_bu: BusinessUnits.GRUPOGCB,
       }),
-    ).rejects.toThrow('Usuário ou responsável não existem!');
+    ).rejects.toThrow('Usuário ou responsável não encontrado!');
   });
 
   it('should not be able to update an user business unit if responsible is an academy', async () => {
@@ -163,7 +163,7 @@ describe('Update a transaction status', () => {
         new_bu: BusinessUnits.ADIANTE,
       }),
     ).rejects.toThrow(
-      'Colaboradores somente podem editar sua própria unidade de negócio!',
+      'Colaboradores podem editar somente sua própria unidade de negócio!',
     );
   });
 });

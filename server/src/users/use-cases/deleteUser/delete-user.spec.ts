@@ -1,7 +1,8 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
+
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { DeleteUser } from './delete-user';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { DeleteUser } from '@users/use-cases';
 
 describe('Delete an user', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
@@ -29,6 +30,12 @@ describe('Delete an user', () => {
       expect.objectContaining({
         deleted_at: expect.any(Date),
       }),
+    );
+  });
+
+  it('should not be able to delete if id is invalid', async () => {
+    await expect(async () => await sut.execute('1br35')).rejects.toEqual(
+      new BadRequestException('Id inválido!'),
     );
   });
 

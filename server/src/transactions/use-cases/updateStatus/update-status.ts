@@ -5,11 +5,12 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Roles, Status } from '@shared/constants';
 
+import { Roles, Status } from '@shared/constants';
 import { UpdateStatusDTO } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
+import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
@@ -25,10 +26,12 @@ export class UpdateStatus {
     new_status,
     admin,
   }: UpdateStatusDTO): Promise<Transaction> {
-    if (!new_status) throw new BadRequestException('Novo status é exigido!');
-    if (!id) throw new BadRequestException('Id é exigido!');
+    if (!id || !admin || !new_status)
+      throw new BadRequestException(
+        'Id da transação, e-mail do administrador e novo status são exigido!',
+      );
 
-    const responsible = await this.usersRepository.findByEmail(admin);
+    const responsible: User = await this.usersRepository.findByEmail(admin);
 
     if (!responsible)
       throw new BadRequestException('Administrador não encontrado!');
@@ -49,7 +52,11 @@ export class UpdateStatus {
       throw new NotFoundException('A Transação já tem esse status!');
     }
 
-    const user = await this.usersRepository.findById(transaction.user);
+    if (!Object.values(Status).includes(new_status)) {
+      throw new BadRequestException('Status inválido!');
+    }
+
+    const user: User = await this.usersRepository.findById(transaction.user);
 
     if (new_status === Status.APPROVED) {
       await this.sendGrid.send({

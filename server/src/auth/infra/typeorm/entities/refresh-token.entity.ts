@@ -8,7 +8,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 
 @Entity('refresh_tokens')
 export class RefreshToken {

@@ -1,16 +1,16 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { UpdatePassword } from './update-password';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { UpdateUserPassword } from '@users/use-cases';
 
 describe('Update user password', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
 
-  let sut: UpdatePassword;
+  let sut: UpdateUserPassword;
 
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
 
-    sut = new UpdatePassword(inMemoryUsersRepository);
+    sut = new UpdateUserPassword(inMemoryUsersRepository);
   });
 
   it('should be able to update an user password', async () => {
@@ -82,7 +82,7 @@ describe('Update user password', () => {
         new_password: 'easy-password',
         confirm_new_password: 'easy-password',
       }),
-    ).rejects.toThrow('Muito fraca!');
+    ).rejects.toThrow('Senha muito fraca!');
   });
 
   it('should not be able to update an user password if confirm password passed is different to new password', async () => {

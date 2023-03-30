@@ -1,20 +1,20 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { FilterUsersByRole } from './filter-by-role';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { FilterByRole } from '@users/use-cases';
 
 describe('Filter users by role', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
-  let sut: FilterUsersByRole;
+  let sut: FilterByRole;
 
   beforeEach(async () => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
-    sut = new FilterUsersByRole(inMemoryUsersRepository);
+    sut = new FilterByRole(inMemoryUsersRepository);
   });
 
   it('should throw error if no role is passed', async () => {
     await expect(async () => {
       await sut.execute({ role: undefined });
-    }).rejects.toThrow('Cargo é exigido!');
+    }).rejects.toThrow('Insira um cargo!');
   });
 
   it('should return all users that matches the passed role', async () => {

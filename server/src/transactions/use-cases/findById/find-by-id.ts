@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { isUuidValid } from '@shared/utils';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 
 @Injectable()
@@ -8,11 +13,13 @@ export class FindById {
   constructor(private transactionsRepository: ITransactionsRepository) {}
 
   async execute(id: string): Promise<Transaction> {
+    if (!isUuidValid(id)) throw new BadRequestException('Id inválido!');
+
     const transaction: Transaction = await this.transactionsRepository.findById(
       id,
     );
 
-    if (!transaction) throw new NotFoundException('Transação não existe!');
+    if (!transaction) throw new NotFoundException('Transação não encontrada!');
 
     return transaction;
   }

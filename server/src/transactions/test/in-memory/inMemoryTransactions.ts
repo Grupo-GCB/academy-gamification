@@ -1,11 +1,11 @@
 import {
-  FilterTransactionsByStatusDTO,
+  FilterByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
   FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 
 export class InMemoryTransactionsRepository implements ITransactionsRepository {
@@ -36,9 +36,7 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     return transaction;
   }
 
-  async filterByStatus({
-    status,
-  }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
+  async filterByStatus({ status }: FilterByStatusDTO): Promise<Transaction[]> {
     const transactions: Transaction[] = this.transactions.filter(
       (transaction) => transaction.status === status,
     );

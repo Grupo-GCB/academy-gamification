@@ -5,7 +5,7 @@ export class CreateTransactionsTable1678833178779
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TYPE public.TransactionSubType AS ENUM ('LOGIC_EXERCISE','CODE_REVIEW','COMMITTEE', 'DOUBTS', 'PAIR_PROGRAMMING', 'FEEDBACK', 'TEAM_CEREMONY', 'PEER_CREDIT', 'SIMPLE_PROJECT', 'MEDIUM_PROJECT', 'COMPLEX_PROJECT', 'ACADEMY')`,
+      `CREATE TYPE public.TransactionSubType AS ENUM ('LOGIC_EXERCISE','CODE_REVIEW','COMMITTEE', 'DOUBTS', 'PAIR_PROGRAMMING', 'FEEDBACK', 'TEAM_CEREMONY', 'PEER_CREDIT', 'SIMPLE_PROJECT', 'MEDIUM_PROJECT', 'COMPLEX_PROJECT', 'ACADEMY', 'ENTRY', 'EXIT')`,
     );
 
     await queryRunner.query(
