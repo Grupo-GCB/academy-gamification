@@ -21,10 +21,13 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<User> {
-    const user = await this.findByEmail.execute(email);
+    const user: User = await this.findByEmail.execute(email);
 
     if (user) {
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid: boolean = await bcrypt.compare(
+        password,
+        user.password,
+      );
       if (isPasswordValid) return { ...user, password: undefined };
     }
 
@@ -39,11 +42,11 @@ export class AuthService {
       role: user.role,
     };
 
-    const accessToken = this.jwtService.sign(payload, {
+    const accessToken: string = this.jwtService.sign(payload, {
       expiresIn: '10m',
     });
 
-    const refreshTokenExpiresIn = 2 * 24 * 60 * 60 * 1000;
+    const refreshTokenExpiresIn: number = 2 * 24 * 60 * 60 * 1000;
 
     const refreshToken = await this.refreshTokenRepository.createRefreshToken({
       user: user.id,
@@ -69,7 +72,7 @@ export class AuthService {
       throw new UnauthorizedException('Token de atualização expirado!');
     }
 
-    const user = await this.findById.execute(refreshToken.user);
+    const user: User = await this.findById.execute(refreshToken.user);
 
     if (!user) throw new UnauthorizedException('Sem autorização!');
 
@@ -80,7 +83,7 @@ export class AuthService {
       role: user.role,
     };
 
-    const newAccessToken = this.jwtService.sign(payload, {
+    const newAccessToken: string = this.jwtService.sign(payload, {
       expiresIn: '10m',
     });
 

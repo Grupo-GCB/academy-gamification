@@ -37,7 +37,7 @@ export class UpdateUserBusinessUnit {
       throw new BadRequestException('Usuário ou responsável não encontrado!');
     }
 
-    const isUnauthorizedCollaborator =
+    const isUnauthorizedCollaborator: boolean =
       updateResponsible.role === Roles.COLLABORATOR &&
       user != updateResponsible;
 

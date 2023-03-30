@@ -16,7 +16,9 @@ export class RegisterUser {
   ) {}
 
   async execute({ email, business_unit }: RegisterUserDTO): Promise<User> {
-    const userAlreadyExists = await this.userRepository.findByEmail(email);
+    const userAlreadyExists: User = await this.userRepository.findByEmail(
+      email,
+    );
 
     if (userAlreadyExists)
       throw new BadRequestException('Usuário já registrado com esse e-mail!');
@@ -29,22 +31,25 @@ export class RegisterUser {
       throw new BadRequestException('E-mail inválido!');
     }
 
-    const splittedEmail = email.split('@');
+    const splittedEmail: string[] = email.split('@');
 
-    const splittedName = splittedEmail[0].split('.');
+    const splittedName: string[] = splittedEmail[0].split('.');
 
-    const firstName =
+    const firstName: string =
       splittedName[0].charAt(0).toUpperCase() + splittedName[0].slice(1);
-    const lastName =
+
+    const lastName: string =
       splittedName[1].charAt(0).toUpperCase() + splittedName[1].slice(1);
 
     const name = `${firstName} ${lastName}`;
 
-    const buffer = crypto.randomBytes(8);
-    const passwordAsRandomString = buffer.toString('hex');
-    const hashedPassword = await hash(passwordAsRandomString, 8);
+    const buffer: Buffer = crypto.randomBytes(8);
 
-    const roleByEmail = {
+    const passwordAsRandomString: string = buffer.toString('hex');
+
+    const hashedPassword: string = await hash(passwordAsRandomString, 8);
+
+    const roleByEmail: Record<string, Roles> = {
       [Admins.ADMIN]: Roles.ADMIN,
       [Academys.ACADEMY1]: Roles.ACADEMY,
       [Academys.ACADEMY2]: Roles.ACADEMY,
@@ -52,9 +57,9 @@ export class RegisterUser {
       [Academys.ACADEMY4]: Roles.ACADEMY,
     };
 
-    const role = roleByEmail[email] ?? Roles.COLLABORATOR;
+    const role: Roles = roleByEmail[email] ?? Roles.COLLABORATOR;
 
-    const user = await this.userRepository.create({
+    const user: User = await this.userRepository.create({
       name,
       email,
       password: hashedPassword,
