@@ -1,8 +1,8 @@
 import { CollaborationsSubType } from '@shared/constants';
-import { IsNotEmpty, IsString, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsEnum, IsUUID } from 'class-validator';
 export class FindLatestTransactionByUserAndSubTypeDTO {
   @IsNotEmpty()
-  @IsString()
+  @IsUUID()
   user: string;
 
   @IsNotEmpty()
