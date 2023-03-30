@@ -5,7 +5,7 @@ import zxcvbn from 'zxcvbn';
 import { UpdatePasswordDTO } from '@users/dto';
 import { IUsersRepository } from '@users/interfaces';
 
-Injectable();
+@Injectable()
 export class UpdatePassword {
   constructor(
     @Inject(IUsersRepository)
