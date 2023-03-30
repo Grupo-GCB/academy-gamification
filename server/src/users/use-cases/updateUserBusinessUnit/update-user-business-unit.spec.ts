@@ -1,16 +1,16 @@
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { UpdateBusinessUnit } from './update-business-unit';
+import { UpdateUserBusinessUnit } from './update-user-business-unit';
 
 describe('Update a transaction status', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;
 
-  let sut: UpdateBusinessUnit;
+  let sut: UpdateUserBusinessUnit;
 
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
 
-    sut = new UpdateBusinessUnit(inMemoryUsersRepository);
+    sut = new UpdateUserBusinessUnit(inMemoryUsersRepository);
   });
 
   it('should be able to update a collaborator business unit', async () => {

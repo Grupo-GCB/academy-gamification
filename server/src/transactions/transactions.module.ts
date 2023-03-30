@@ -6,7 +6,7 @@ import { TransactionsController } from '@shared/infra/http/controllers/transacti
 import { TransactionsRepository } from '@transactions/infra/typeorm/repositories/transactions.repository';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import {
-  FilterTransactionsByStatus,
+  FilterByStatus,
   FindAllTransactions,
   FindById,
   RegisterTransaction,
@@ -21,7 +21,7 @@ import { UsersModule } from '@users/user.module';
     RegisterTransaction,
     UpdateStatus,
     FindById,
-    FilterTransactionsByStatus,
+    FilterByStatus,
     FindAllTransactions,
     {
       provide: ITransactionsRepository,

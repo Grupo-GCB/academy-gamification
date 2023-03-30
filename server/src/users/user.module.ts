@@ -8,14 +8,14 @@ import { UsersRepository } from '@users/infra/repositories/users.repository';
 import { IUsersRepository } from './interfaces';
 import {
   DeleteUser,
-  FilterUsersByRole,
+  FilterByRole,
   FindByEmail,
   FindById,
   GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
-  UpdateBusinessUnit,
-  UpdatePassword,
+  UpdateUserBusinessUnit,
+  UpdateUserPassword,
 } from './use-cases';
 
 @Module({
@@ -28,12 +28,12 @@ import {
     RegisterUser,
     FindById,
     ListAllUsers,
-    UpdateBusinessUnit,
+    UpdateUserBusinessUnit,
     DeleteUser,
     FindByEmail,
-    UpdatePassword,
+    UpdateUserPassword,
     GetGCBitsBalance,
-    FilterUsersByRole,
+    FilterByRole,
     {
       provide: IUsersRepository,
       useClass: UsersRepository,

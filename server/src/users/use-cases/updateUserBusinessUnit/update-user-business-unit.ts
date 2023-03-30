@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 
 import { Roles } from '@shared/constants';
-import { UpdateBusinessUnitDTO } from '@users/dto';
+import { UpdateUserBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
-export class UpdateBusinessUnit {
+export class UpdateUserBusinessUnit {
   constructor(
     @Inject(IUsersRepository)
     private readonly usersRepository: IUsersRepository,
@@ -21,8 +21,8 @@ export class UpdateBusinessUnit {
     email,
     responsible,
     new_bu,
-  }: UpdateBusinessUnitDTO): Promise<User> {
-    if (!email || !responsible || !new_bu) {
+  }: UpdateUserBusinessUnitDTO): Promise<User> {
+    if (!new_bu || !email || !responsible) {
       throw new BadRequestException(
         'E-mail do usuário, e-mail do responsável e a unidade de negócio são exigidos!',
       );
@@ -38,7 +38,8 @@ export class UpdateBusinessUnit {
     }
 
     const isUnauthorizedCollaborator =
-      updateResponsible.role == Roles.COLLABORATOR && user != updateResponsible;
+      updateResponsible.role === Roles.COLLABORATOR &&
+      user != updateResponsible;
 
     if (isUnauthorizedCollaborator) {
       throw new UnauthorizedException(
@@ -46,7 +47,7 @@ export class UpdateBusinessUnit {
       );
     }
 
-    if (updateResponsible.role == Roles.ACADEMY) {
+    if (updateResponsible.role === Roles.ACADEMY) {
       throw new UnauthorizedException('Sem autorização!');
     }
 
@@ -56,7 +57,7 @@ export class UpdateBusinessUnit {
       );
     }
 
-    return this.usersRepository.updateBusinessUnit({
+    return this.usersRepository.updateUserBusinessUnit({
       email,
       responsible,
       new_bu,

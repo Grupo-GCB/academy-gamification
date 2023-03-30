@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BusinessUnits } from '@shared/constants';
 import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 
-export class UpdateBusinessUnitDTO {
+export class UpdateUserBusinessUnitDTO {
   @IsEmail(
     {},
     { message: 'O endereço de e-mail informado do usuário é inválido!' },

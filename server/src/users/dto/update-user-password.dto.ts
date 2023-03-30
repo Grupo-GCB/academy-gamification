@@ -7,7 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class UpdatePasswordDTO {
+export class UpdateUserPasswordDTO {
   @IsEmail({}, { message: 'O endereço de e-mail informado é inválido!' })
   @IsNotEmpty({ message: 'Insira um endereço de e-mail!' })
   @ApiProperty({

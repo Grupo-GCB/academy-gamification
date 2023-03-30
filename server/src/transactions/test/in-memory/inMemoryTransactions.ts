@@ -1,5 +1,5 @@
 import {
-  FilterTransactionsByStatusDTO,
+  FilterByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
@@ -33,9 +33,7 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     return transaction;
   }
 
-  async filterByStatus({
-    status,
-  }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
+  async filterByStatus({ status }: FilterByStatusDTO): Promise<Transaction[]> {
     const transactions: Transaction[] = this.transactions.filter(
       (transaction) => transaction.status === status,
     );

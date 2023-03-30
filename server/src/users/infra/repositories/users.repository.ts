@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { FilterUserByRoleDTO, UpdateBusinessUnitDTO } from '@users/dto';
+import { FilterUserByRoleDTO, UpdateUserBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
-import { IRegisterUser, IUpdatePassword } from '@users/interfaces';
+import { IRegisterUser, IUpdateUserPassword } from '@users/interfaces';
 
 @Injectable()
 export class UsersRepository {
@@ -47,10 +47,10 @@ export class UsersRepository {
     return this.usersRepository.find();
   }
 
-  async updateBusinessUnit({
+  async updateUserBusinessUnit({
     email,
     new_bu,
-  }: UpdateBusinessUnitDTO): Promise<User> {
+  }: UpdateUserBusinessUnitDTO): Promise<User> {
     await this.usersRepository.update({ email }, { business_unit: new_bu });
 
     return this.findByEmail(email);
@@ -60,10 +60,10 @@ export class UsersRepository {
     await this.usersRepository.softDelete({ id });
   }
 
-  async updatePassword({
+  async updateUserPassword({
     email,
     new_password,
-  }: IUpdatePassword): Promise<void> {
+  }: IUpdateUserPassword): Promise<void> {
     await this.usersRepository.update({ email }, { password: new_password });
   }
 

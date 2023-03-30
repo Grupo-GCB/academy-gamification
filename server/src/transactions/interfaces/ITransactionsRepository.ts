@@ -1,5 +1,5 @@
 import {
-  FilterTransactionsByStatusDTO,
+  FilterByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
@@ -18,7 +18,7 @@ export abstract class ITransactionsRepository {
 
   abstract filterByStatus({
     status,
-  }: FilterTransactionsByStatusDTO): Promise<Transaction[]>;
+  }: FilterByStatusDTO): Promise<Transaction[]>;
 
   abstract findAll(): Promise<Transaction[]>;
 

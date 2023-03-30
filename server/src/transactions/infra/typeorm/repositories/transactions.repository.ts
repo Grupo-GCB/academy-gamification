@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import {
-  FilterTransactionsByStatusDTO,
+  FilterByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
@@ -54,9 +54,7 @@ export class TransactionsRepository {
     return this.findById(id);
   }
 
-  async filterByStatus({
-    status,
-  }: FilterTransactionsByStatusDTO): Promise<Transaction[]> {
+  async filterByStatus({ status }: FilterByStatusDTO): Promise<Transaction[]> {
     return this.transactionsRepository.find({
       where: { status },
     });

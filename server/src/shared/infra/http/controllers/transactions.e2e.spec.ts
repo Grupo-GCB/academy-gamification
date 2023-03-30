@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from '@/app.module';
+import { JwtAuthGuard } from '@auth/guards';
 import {
   Admins,
   CollaborationsSubType,
@@ -11,13 +12,12 @@ import {
   Types,
 } from '@shared/constants';
 import {
-  FilterTransactionsByStatus,
+  FilterByStatus,
+  FindAllTransactions,
   FindById,
   RegisterTransaction,
-  FindAllTransactions,
   UpdateStatus,
 } from '@transactions/use-cases';
-import { JwtAuthGuard } from '@auth/guards';
 
 describe('Transaction Controller', () => {
   const registerTransaction = {
@@ -63,7 +63,7 @@ describe('Transaction Controller', () => {
     }),
   };
 
-  const filterTransactionsByStatus = {
+  const filterByStatus = {
     execute: () => [
       {
         user: 'levi.ciarrochi@gcbinvestimentos.com',
@@ -100,8 +100,8 @@ describe('Transaction Controller', () => {
       .useValue(findById)
       .overrideProvider(UpdateStatus)
       .useValue(updateStatus)
-      .overrideProvider(FilterTransactionsByStatus)
-      .useValue(filterTransactionsByStatus)
+      .overrideProvider(FilterByStatus)
+      .useValue(filterByStatus)
       .overrideProvider(FindAllTransactions)
       .useValue(findAllTransactions)
       .overrideGuard(JwtAuthGuard)
@@ -157,7 +157,7 @@ describe('Transaction Controller', () => {
       return request(app.getHttpServer())
         .get('/transactions/?status=pending')
         .expect(200)
-        .expect(filterTransactionsByStatus.execute());
+        .expect(filterByStatus.execute());
     });
   });
 });

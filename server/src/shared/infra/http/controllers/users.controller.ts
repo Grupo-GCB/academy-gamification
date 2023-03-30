@@ -27,8 +27,8 @@ import {
   FindByEmailDTO,
   FindUserByIdDTO,
   RegisterUserDTO,
-  UpdateBusinessUnitDTO,
-  UpdatePasswordDTO,
+  UpdateUserBusinessUnitDTO,
+  UpdateUserPasswordDTO,
 } from '@users/dto';
 
 import { IsPublic } from '@auth/decorators';
@@ -36,14 +36,14 @@ import { JwtAuthGuard } from '@auth/guards';
 import { User } from '@users/infra/entities/user.entity';
 import {
   DeleteUser,
-  FilterUsersByRole,
+  FilterByRole,
   FindByEmail,
   FindById,
   GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
-  UpdateBusinessUnit,
-  UpdatePassword,
+  UpdateUserBusinessUnit,
+  UpdateUserPassword,
 } from '@users/use-cases';
 
 @Controller('users')
@@ -54,11 +54,11 @@ export class UsersController {
     private findUserById: FindById,
     private findUserByEmail: FindByEmail,
     private listAllUsers: ListAllUsers,
-    private updateBusinessUnit: UpdateBusinessUnit,
+    private updateUserBusinessUnit: UpdateUserBusinessUnit,
     private deleteUser: DeleteUser,
-    private updatePassword: UpdatePassword,
+    private updateUserPassword: UpdateUserPassword,
     private getGCBitsBalance: GetGCBitsBalance,
-    private filterUserByRole: FilterUsersByRole,
+    private filterUserByRole: FilterByRole,
   ) {}
 
   @ApiTags('Users')
@@ -370,9 +370,9 @@ export class UsersController {
   })
   @Put('/change-bu')
   updateBU(
-    @Body() { email, responsible, new_bu }: UpdateBusinessUnitDTO,
+    @Body() { email, responsible, new_bu }: UpdateUserBusinessUnitDTO,
   ): Promise<User> {
-    return this.updateBusinessUnit.execute({
+    return this.updateUserBusinessUnit.execute({
       email,
       responsible,
       new_bu,
@@ -461,9 +461,14 @@ export class UsersController {
   @Put('/change-password')
   changePassword(
     @Body()
-    { email, password, new_password, confirm_new_password }: UpdatePasswordDTO,
+    {
+      email,
+      password,
+      new_password,
+      confirm_new_password,
+    }: UpdateUserPasswordDTO,
   ): Promise<void> {
-    return this.updatePassword.execute({
+    return this.updateUserPassword.execute({
       email,
       password,
       new_password,
