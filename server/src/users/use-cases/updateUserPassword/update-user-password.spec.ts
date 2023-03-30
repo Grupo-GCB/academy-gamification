@@ -1,6 +1,6 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { UpdateUserPassword } from './update-user-password';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { UpdateUserPassword } from '@users/use-cases';
 
 describe('Update user password', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;

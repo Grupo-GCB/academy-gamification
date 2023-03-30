@@ -32,7 +32,7 @@ import {
   UpdateUserBusinessUnitDTO,
   UpdateUserPasswordDTO,
 } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import {
   DeleteUser,
   FilterByRole,

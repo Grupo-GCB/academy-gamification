@@ -1,8 +1,8 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { DeleteUser } from './delete-user';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { DeleteUser } from '@users/use-cases';
 
 describe('Delete an user', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;

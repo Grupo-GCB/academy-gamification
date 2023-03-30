@@ -1,6 +1,6 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { FilterByRole } from './filter-by-role';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { FilterByRole } from '@users/use-cases';
 
 describe('Filter users by role', () => {
   let inMemoryUsersRepository: InMemoryUsersRepository;

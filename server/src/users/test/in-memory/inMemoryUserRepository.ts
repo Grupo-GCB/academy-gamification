@@ -2,7 +2,7 @@ import { hash } from 'bcrypt';
 
 import { FilterTransactionsByUserDTO } from '@transactions/dto';
 import { FilterUserByRoleDTO, UpdateUserBusinessUnitDTO } from '@users/dto';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import {
   IGCBitsBalance,
   IRegisterUser,

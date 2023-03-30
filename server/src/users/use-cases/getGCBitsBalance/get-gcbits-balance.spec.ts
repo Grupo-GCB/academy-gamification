@@ -7,8 +7,8 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
 import { GetGCBitsBalance } from './get-gcbits-balance';
 
 describe('Get an user balance', () => {

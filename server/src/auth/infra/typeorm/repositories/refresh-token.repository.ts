@@ -4,7 +4,7 @@ import * as crypto from 'node:crypto';
 import { Repository } from 'typeorm';
 
 import { RefreshTokenDTO } from '@auth/dto';
-import { RefreshToken } from '@auth/infra/typeorm/entities/refresh-token.entity';
+import { RefreshToken } from '@auth/infra/typeorm/entities';
 
 @Injectable()
 export class RefreshTokenRepository {

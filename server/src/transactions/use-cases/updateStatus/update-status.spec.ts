@@ -9,9 +9,9 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { UpdateStatus } from './update-status';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { UpdateStatus } from '@transactions/use-cases';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
 
 describe('Update a transaction status', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
