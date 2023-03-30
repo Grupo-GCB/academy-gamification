@@ -3,9 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { isUuidValid } from '@shared/utils';
 
-import { User } from '@users/infra/entities/user.entity';
+import { isUuidValid } from '@shared/utils';
+import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()

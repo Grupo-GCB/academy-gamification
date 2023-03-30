@@ -7,11 +7,6 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-
-import { AuthService } from '@auth/auth.service';
-import { IsPublic } from '@auth/decorators';
-import { LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
-import { IAuthRequest } from '@auth/interfaces';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -20,6 +15,11 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { AuthService } from '@auth/auth.service';
+import { IsPublic } from '@auth/decorators';
+import { LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
+import { IAuthRequest } from '@auth/interfaces';
 
 @Controller()
 export class AuthController {

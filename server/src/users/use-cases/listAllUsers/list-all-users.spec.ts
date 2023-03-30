@@ -1,6 +1,6 @@
 import { BusinessUnits, Roles } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { ListAllUsers } from './list-all-users';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { ListAllUsers } from '@users/use-cases';
 
 describe('Find all users', () => {
   let inMemoryUsers: InMemoryUsersRepository;

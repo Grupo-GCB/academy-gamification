@@ -1,8 +1,8 @@
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { RevokedToken } from '@auth/infra/typeorm/entities/revoked-token.entity';
+import { RevokedToken } from '@auth/infra/typeorm/entities';
 
 @Injectable()
 export class RevokedTokenRepository {

@@ -1,8 +1,8 @@
 import { SendGridService } from '@anchan828/nest-sendgrid';
 import { MailService } from '@sendgrid/mail';
 import { BusinessUnits } from '@shared/constants';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { RegisterUser } from './register-user';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
+import { RegisterUser } from '@users/use-cases';
 
 jest.mock('@anchan828/nest-sendgrid', () => {
   return {

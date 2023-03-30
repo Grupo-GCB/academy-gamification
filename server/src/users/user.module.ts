@@ -3,9 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersController } from '@shared/infra/http/controllers/users.controller';
 import { TransactionsModule } from '@transactions/transactions.module';
-import { User } from '@users/infra/entities/user.entity';
-import { UsersRepository } from '@users/infra/repositories/users.repository';
-import { IUsersRepository } from './interfaces';
+import { User } from '@users/infra/entities';
+import { UsersRepository } from '@users/infra/repositories';
+import { IUsersRepository } from '@users/interfaces';
 import {
   DeleteUser,
   FilterByRole,
@@ -16,7 +16,7 @@ import {
   RegisterUser,
   UpdateUserBusinessUnit,
   UpdateUserPassword,
-} from './use-cases';
+} from '@users/use-cases';
 
 @Module({
   imports: [

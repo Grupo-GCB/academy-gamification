@@ -22,6 +22,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
+import { IsPublic } from '@auth/decorators';
+import { JwtAuthGuard } from '@auth/guards';
 import {
   FilterUserByRoleDTO,
   FindByEmailDTO,
@@ -30,10 +32,7 @@ import {
   UpdateUserBusinessUnitDTO,
   UpdateUserPasswordDTO,
 } from '@users/dto';
-
-import { IsPublic } from '@auth/decorators';
-import { JwtAuthGuard } from '@auth/guards';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 import {
   DeleteUser,
   FilterByRole,

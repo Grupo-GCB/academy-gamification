@@ -5,8 +5,8 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { FindAllTransactions } from './find-all-transactions';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { FindAllTransactions } from '@transactions/use-cases';
 
 describe('Find all transactions', () => {
   let inMemoryTransactions: InMemoryTransactionsRepository;
