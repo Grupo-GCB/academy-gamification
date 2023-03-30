@@ -36,6 +36,12 @@ export class RegisterTransaction {
   ) {}
 
   async execute(data: RegisterTransactionDTO): Promise<Transaction> {
+    const userData = await this.usersRepository.findByEmail(data.user);
+
+    const responsibleData = await this.usersRepository.findByEmail(
+      data.responsible,
+    );
+
     if (data.type === Types.COLLABORATION) {
       const subType = data.sub_type as CollaborationsSubType;
       const cooldownDuration = CollaborationsCooldown[subType];
@@ -43,7 +49,7 @@ export class RegisterTransaction {
       const latestTransaction =
         await this.transactionsRepository.findLatestTransactionByUserAndSubType(
           {
-            user: data.user,
+            user: userData.id,
             subType,
           },
         );
@@ -60,8 +66,8 @@ export class RegisterTransaction {
       }
     }
     const [responsible, user] = await Promise.all([
-      this.usersRepository.findById(data.responsible),
-      this.usersRepository.findById(data.user),
+      this.usersRepository.findById(responsibleData.id),
+      this.usersRepository.findById(userData.id),
     ]);
 
     if (!responsible || !user)
