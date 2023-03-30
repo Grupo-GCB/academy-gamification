@@ -5,11 +5,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { AuthService } from '@auth/auth.service';
+import { VerifyRefreshToken } from '@auth/use-cases';
 
 @Injectable()
 export class RefreshTokenGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+  constructor(private verifyRefreshToken: VerifyRefreshToken) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
@@ -21,7 +21,7 @@ export class RefreshTokenGuard implements CanActivate {
     }
 
     try {
-      const decodedPayload = await this.authService.verifyRefreshToken(
+      const decodedPayload = await this.verifyRefreshToken.execute(
         refreshToken,
       );
       req.user = decodedPayload;
