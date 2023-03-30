@@ -11,6 +11,7 @@ import {
   Roles,
   Status,
   Types,
+  CollaborationsCooldown,
 } from '@shared/constants';
 import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
@@ -35,9 +36,30 @@ export class RegisterTransaction {
   ) {}
 
   async execute(data: RegisterTransactionDTO): Promise<Transaction> {
+    if (data.type === Types.COLLABORATION) {
+      const subType = data.sub_type as CollaborationsSubType;
+      const cooldownDuration = CollaborationsCooldown[subType];
+
+      const latestTransaction =
+        await this.transactionsRepository.findLatestTransactionByUserAndSubType(
+          data.user,
+          subType,
+        );
+
+      if (latestTransaction) {
+        const currentTime = new Date().getTime();
+        const createdAtTime = latestTransaction.created_at.getTime();
+        const timeDifference = currentTime - createdAtTime;
+
+        if (timeDifference < cooldownDuration)
+          throw new BadRequestException(
+            `Tem de espera para cadastrar ${subType} ainda não terminou`,
+          );
+      }
+    }
     const [responsible, user] = await Promise.all([
-      this.usersRepository.findByEmail(data.responsible),
-      this.usersRepository.findByEmail(data.user),
+      this.usersRepository.findById(data.responsible),
+      this.usersRepository.findById(data.user),
     ]);
 
     if (!responsible || !user)
