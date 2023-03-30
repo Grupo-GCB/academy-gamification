@@ -1,6 +1,7 @@
-import { FindLatestTransactionByUserAndSubTypeDTO } from '@transactions/dto';
 import { Injectable } from '@nestjs/common';
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+
+import { FindLatestTransactionByUserAndSubTypeDTO } from '@transactions/dto';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 
 @Injectable()
