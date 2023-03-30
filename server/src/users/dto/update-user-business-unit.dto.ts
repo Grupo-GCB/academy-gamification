@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BusinessUnits } from '@shared/constants';
 import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
+
+import { BusinessUnits } from '@shared/constants';
 
 export class UpdateUserBusinessUnitDTO {
   @IsEmail(

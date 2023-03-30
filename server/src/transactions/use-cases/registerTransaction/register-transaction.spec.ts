@@ -4,11 +4,11 @@ import {
   RedeemSubType,
   Roles,
   Status,
-  Types
+  Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
-import { RegisterTransaction } from './register-transaction';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { RegisterTransaction } from '@transactions/use-cases';
+import { InMemoryUsersRepository } from '@users/test/in-memory';
 
 describe('Register a transaction', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
@@ -16,18 +16,17 @@ describe('Register a transaction', () => {
 
   let sut: RegisterTransaction;
 
-  beforeEach(() => {
-    inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
-    inMemoryUsersRepository = new InMemoryUsersRepository();
+  // beforeEach(() => {
+  //   inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
+  //   inMemoryUsersRepository = new InMemoryUsersRepository();
 
-    sut = new RegisterTransaction(
-      inMemoryTransactionsRepository,
-      inMemoryUsersRepository,
-    );
-  });
+  //   sut = new RegisterTransaction(
+  //     inMemoryTransactionsRepository,
+  //     inMemoryUsersRepository,
+  //   );
+  // });
 
   it('should be able to register a collaboration if responsible is an academy', async () => {
-    
     const academy = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',

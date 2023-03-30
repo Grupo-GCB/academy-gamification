@@ -3,9 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { isUuidValid } from '@shared/utils';
 
-import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
+import { isUuidValid } from '@shared/utils';
+import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 
 @Injectable()

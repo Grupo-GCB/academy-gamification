@@ -4,7 +4,7 @@ import {
   Status,
   Types,
 } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
 import { FilterByStatus } from '@transactions/use-cases';
 
 describe('Filter transactions by status', () => {

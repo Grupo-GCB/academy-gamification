@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+
 export class RefreshTokenDTO {
   @IsNotEmpty({ message: 'Insira o token de atualização!' })
   @IsString({ message: 'O token de atualização deve ser uma string!' })

@@ -1,7 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
+
 import { Academys, RedeemSubType, Status, Types } from '@shared/constants';
-import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
-import { FindById } from './find-by-id';
+import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
+import { FindById } from '@transactions/use-cases';
 
 describe('Find a transaction by id', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;

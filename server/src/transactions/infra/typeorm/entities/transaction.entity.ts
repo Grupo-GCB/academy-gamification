@@ -16,7 +16,7 @@ import {
   TransferSubTypes,
   Types,
 } from '@shared/constants';
-import { User } from '@users/infra/entities/user.entity';
+import { User } from '@users/infra/entities';
 
 @Entity('transactions')
 export class Transaction {

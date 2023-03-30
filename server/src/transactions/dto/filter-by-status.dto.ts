@@ -1,6 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty } from 'class-validator';
 
-import { ApiProperty } from '@nestjs/swagger';
 import { Status } from '@shared/constants';
 
 export class FilterByStatusDTO {

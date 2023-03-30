@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+
 import { isUuidValid } from '@shared/utils';
 import { IUsersRepository } from '@users/interfaces';
 
