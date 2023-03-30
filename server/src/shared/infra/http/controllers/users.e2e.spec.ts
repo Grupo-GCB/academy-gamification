@@ -11,8 +11,8 @@ import {
   FindByEmail,
   FindById,
   RegisterUser,
-  UpdateBusinessUnit,
   UpdatePassword,
+  UpdateUserBusinessUnit,
 } from '@users/use-cases';
 
 describe('Users Controller', () => {
@@ -38,7 +38,7 @@ describe('Users Controller', () => {
     canActivate: () => true,
   };
 
-  const updateBusinessUnit = {
+  const updateUserBusinessUnit = {
     execute: () => ({
       id: '10f47e61-65c0-48a3-9554-23f022750a66',
       new_bu: BusinessUnits.ADIANTE,
@@ -82,8 +82,8 @@ describe('Users Controller', () => {
       .useValue(findByEmail)
       .overrideGuard(JwtAuthGuard)
       .useValue(jwtAuthGuard)
-      .overrideProvider(UpdateBusinessUnit)
-      .useValue(updateBusinessUnit)
+      .overrideProvider(UpdateUserBusinessUnit)
+      .useValue(updateUserBusinessUnit)
       .overrideProvider(DeleteUser)
       .useValue(deleteUser)
       .overrideProvider(UpdatePassword)
@@ -132,7 +132,7 @@ describe('Users Controller', () => {
       return request(app.getHttpServer())
         .put('/users/change-bu')
         .expect(200)
-        .expect(updateBusinessUnit.execute());
+        .expect(updateUserBusinessUnit.execute());
     });
   });
 

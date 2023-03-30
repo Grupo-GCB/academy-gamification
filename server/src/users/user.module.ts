@@ -14,8 +14,8 @@ import {
   GetGCBitsBalance,
   ListAllUsers,
   RegisterUser,
-  UpdateBusinessUnit,
   UpdatePassword,
+  UpdateUserBusinessUnit,
 } from './use-cases';
 
 @Module({
@@ -28,7 +28,7 @@ import {
     RegisterUser,
     FindById,
     ListAllUsers,
-    UpdateBusinessUnit,
+    UpdateUserBusinessUnit,
     DeleteUser,
     FindByEmail,
     UpdatePassword,

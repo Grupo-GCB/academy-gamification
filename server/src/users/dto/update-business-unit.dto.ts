@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BusinessUnits } from '@shared/constants';
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
-export class UpdateBusinessUnitDTO {
+export class UpdateUserBusinessUnitDTO {
   @IsNotEmpty()
   @IsEmail()
   @ApiProperty({

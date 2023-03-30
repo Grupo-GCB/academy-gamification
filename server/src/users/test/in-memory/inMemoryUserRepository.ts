@@ -1,5 +1,5 @@
 import { FilterTransactionsByUserDTO } from '@transactions/dto';
-import { FilterUserByRoleDTO, UpdateBusinessUnitDTO } from '@users/dto';
+import { FilterUserByRoleDTO, UpdateUserBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import {
   IGCBitsBalance,
@@ -34,10 +34,10 @@ export class InMemoryUsersRepository implements IUsersRepository {
     return this.users;
   }
 
-  async updateBusinessUnit({
+  async updateUserBusinessUnit({
     email,
     new_bu,
-  }: UpdateBusinessUnitDTO): Promise<User> {
+  }: UpdateUserBusinessUnitDTO): Promise<User> {
     const user = await this.findByEmail(email);
 
     user.business_unit = new_bu;
