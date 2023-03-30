@@ -233,7 +233,7 @@ describe('Update a transaction status', () => {
 
     const transaction = await inMemoryTransactionsRepository.register({
       user: collaborator.email,
-      responsible: collaborator.email,
+      responsible: admin.email,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.APPROVED,
