@@ -38,7 +38,7 @@ export class UpdateBusinessUnit {
     }
 
     if (
-      updateResponsible.role == Roles.COLLABORATOR &&
+      updateResponsible.role === Roles.COLLABORATOR &&
       user != updateResponsible
     ) {
       throw new UnauthorizedException(
@@ -46,7 +46,7 @@ export class UpdateBusinessUnit {
       );
     }
 
-    if (updateResponsible.role == Roles.ACADEMY) {
+    if (updateResponsible.role === Roles.ACADEMY) {
       throw new UnauthorizedException('Sem autorização!');
     }
 
