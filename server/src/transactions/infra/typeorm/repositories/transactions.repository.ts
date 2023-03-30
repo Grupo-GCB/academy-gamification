@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThan, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import {
   FilterTransactionsByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
+  FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import {
@@ -78,13 +79,10 @@ export class TransactionsRepository {
     });
   }
 
-  async findLatestTransactionByUserAndSubType(
-    user: string,
-    subType: CollaborationsSubType,
-  ): Promise<Transaction> {
-    const now = Date.now();
-    const cooldownDuration = CollaborationsCooldown[subType];
-
+  async findLatestTransactionByUserAndSubType({
+    user,
+    subType,
+  }: FindLatestTransactionByUserAndSubTypeDTO): Promise<Transaction> {
     const latestTransaction = await this.transactionsRepository.findOne({
       where: {
         user: user,
