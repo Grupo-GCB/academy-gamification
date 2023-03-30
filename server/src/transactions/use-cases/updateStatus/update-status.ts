@@ -10,6 +10,7 @@ import { Roles, Status } from '@shared/constants';
 import { UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
+import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
@@ -30,7 +31,7 @@ export class UpdateStatus {
         'Id da transação, e-mail do administrador e novo status são exigido!',
       );
 
-    const responsible = await this.usersRepository.findByEmail(admin);
+    const responsible: User = await this.usersRepository.findByEmail(admin);
 
     if (!responsible)
       throw new BadRequestException('Administrador não encontrado!');

@@ -39,7 +39,7 @@ export class InMemoryUsersRepository implements IUsersRepository {
     email,
     new_bu,
   }: UpdateUserBusinessUnitDTO): Promise<User> {
-    const user = await this.findByEmail(email);
+    const user: User = await this.findByEmail(email);
 
     user.business_unit = new_bu;
 
@@ -47,7 +47,7 @@ export class InMemoryUsersRepository implements IUsersRepository {
   }
 
   async delete(id: string): Promise<void> {
-    const user = await this.findById(id);
+    const user: User = await this.findById(id);
 
     user.deleted_at = new Date();
   }
@@ -56,7 +56,7 @@ export class InMemoryUsersRepository implements IUsersRepository {
     email,
     new_password,
   }: IUpdateUserPassword): Promise<void> {
-    const user = await this.findByEmail(email);
+    const user: User = await this.findByEmail(email);
 
     user.password = new_password;
   }
