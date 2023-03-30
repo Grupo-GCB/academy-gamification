@@ -7,7 +7,7 @@ import { JwtAuthGuard } from '@auth/guards';
 import { BusinessUnits, Roles } from '@shared/constants';
 import {
   DeleteUser,
-  FilterUsersByRole,
+  FilterByRole,
   FindByEmail,
   FindById,
   RegisterUser,
@@ -56,7 +56,7 @@ describe('Users Controller', () => {
 
   const deleteUser = { execute: () => 200 };
 
-  const filterUsersByRole = {
+  const filterByRole = {
     execute: () => [
       {
         name: 'Kayke',
@@ -88,8 +88,8 @@ describe('Users Controller', () => {
       .useValue(deleteUser)
       .overrideProvider(UpdatePassword)
       .useValue(updatePassword)
-      .overrideProvider(FilterUsersByRole)
-      .useValue(filterUsersByRole)
+      .overrideProvider(FilterByRole)
+      .useValue(filterByRole)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -159,7 +159,7 @@ describe('Users Controller', () => {
       return request(app.getHttpServer())
         .get('/users/filter/users-by-role/?role=ADMIN')
         .expect(200)
-        .expect(filterUsersByRole.execute());
+        .expect(filterByRole.execute());
     });
   });
 });

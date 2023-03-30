@@ -4,7 +4,7 @@ import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
-export class FilterUsersByRole {
+export class FilterByRole {
   constructor(private usersRepository: IUsersRepository) {}
 
   async execute({ role }: FilterUserByRoleDTO): Promise<User[]> {

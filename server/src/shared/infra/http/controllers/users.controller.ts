@@ -35,7 +35,7 @@ import { JwtAuthGuard } from '@auth/guards';
 import { User } from '@users/infra/entities/user.entity';
 import {
   DeleteUser,
-  FilterUsersByRole,
+  FilterByRole,
   FindByEmail,
   FindById,
   GetGCBitsBalance,
@@ -57,7 +57,7 @@ export class UsersController {
     private deleteUser: DeleteUser,
     private updatePassword: UpdatePassword,
     private getGCBitsBalance: GetGCBitsBalance,
-    private filterUserByRole: FilterUsersByRole,
+    private filterUserByRole: FilterByRole,
   ) {}
 
   @ApiTags('Users')
