@@ -8,7 +8,7 @@ export class RegisterUserDTO {
   @IsNotEmpty({ message: 'Insira um endereço de e-mail!' })
   @ApiProperty({
     example: 'john.doe@gmail.com',
-    description: 'Email do usuário',
+    description: 'E-mail do usuário',
     type: 'string',
     required: true,
   })
