@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as crypto from 'node:crypto';
+import { Repository } from 'typeorm';
 
-import { RefreshToken } from '@auth/infra/typeorm/entities/refresh-token.entity';
 import { RefreshTokenDTO } from '@auth/dto';
+import { RefreshToken } from '@auth/infra/typeorm/entities/refresh-token.entity';
 
 @Injectable()
 export class RefreshTokenRepository {

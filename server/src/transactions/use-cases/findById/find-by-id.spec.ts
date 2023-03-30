@@ -1,4 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
+
 import { Academys, RedeemSubType, Status, Types } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { FindById } from './find-by-id';

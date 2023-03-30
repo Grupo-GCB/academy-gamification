@@ -1,4 +1,4 @@
-export * from './IJwtPayload';
 export * from './IAuthRequest';
-export * from './IUserToken';
+export * from './IJwtPayload';
 export * from './IUserFromJwt';
+export * from './IUserToken';

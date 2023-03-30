@@ -1,3 +1,5 @@
+import { hash } from 'bcrypt';
+
 import { FilterTransactionsByUserDTO } from '@transactions/dto';
 import { FilterUserByRoleDTO, UpdateUserBusinessUnitDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
@@ -7,7 +9,6 @@ import {
   IUpdateUserPassword,
   IUsersRepository,
 } from '@users/interfaces';
-import { hash } from 'bcrypt';
 
 export class InMemoryUsersRepository implements IUsersRepository {
   users: User[] = [];

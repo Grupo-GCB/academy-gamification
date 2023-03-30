@@ -1,4 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
+
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { FindById } from './find-by-id';

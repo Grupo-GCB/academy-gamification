@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+
 import { FilterUserByRoleDTO } from '@users/dto';
 import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces';

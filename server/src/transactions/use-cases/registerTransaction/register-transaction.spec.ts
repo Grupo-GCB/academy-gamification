@@ -4,7 +4,7 @@ import {
   RedeemSubType,
   Roles,
   Status,
-  Types
+  Types,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory/inMemoryTransactions';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
@@ -27,7 +27,6 @@ describe('Register a transaction', () => {
   });
 
   it('should be able to register a collaboration if responsible is an academy', async () => {
-    
     const academy = await inMemoryUsersRepository.create({
       name: 'Gustavo',
       email: 'gustavo.wuelta@gcbinvestimentos.com',

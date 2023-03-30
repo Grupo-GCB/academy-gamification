@@ -3,8 +3,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { isUuidValid } from '@shared/utils';
 
+import { isUuidValid } from '@shared/utils';
 import { User } from '@users/infra/entities/user.entity';
 import { IUsersRepository } from '@users/interfaces';
 
