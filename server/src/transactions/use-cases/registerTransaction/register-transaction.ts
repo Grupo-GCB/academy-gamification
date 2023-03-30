@@ -42,8 +42,10 @@ export class RegisterTransaction {
 
       const latestTransaction =
         await this.transactionsRepository.findLatestTransactionByUserAndSubType(
-          data.user,
-          subType,
+          {
+            user: data.user,
+            subType,
+          },
         );
 
       if (latestTransaction) {
