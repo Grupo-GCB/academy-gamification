@@ -32,15 +32,6 @@ describe('Find latest transaction by user and subtype', () => {
       gcbits: 1000,
     });
 
-    const latestTransaction = await inMemoryTransactionsRepository.register({
-      user: 'levi.ciarrochi@gcbinvestimentos.com',
-      responsible: 'vitor.freitas@gcbinvestimentos.com',
-      type: Types.COLLABORATION,
-      sub_type: CollaborationsSubType.LOGICEXERCISE,
-      status: Status.PENDING,
-      gcbits: 2000,
-    });
-
     const foundTransaction = await sut.execute({
       user: 'levi.ciarrochi@gcbinvestimentos.com',
       subType: CollaborationsSubType.LOGICEXERCISE,
@@ -48,13 +39,13 @@ describe('Find latest transaction by user and subtype', () => {
 
     expect(foundTransaction).toEqual(
       expect.objectContaining({
-        id: latestTransaction.id,
+        id: transaction1.id,
         user: 'levi.ciarrochi@gcbinvestimentos.com',
         responsible: 'vitor.freitas@gcbinvestimentos.com',
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.LOGICEXERCISE,
         status: Status.PENDING,
-        gcbits: 2000,
+        gcbits: 1000,
       }),
     );
   });
