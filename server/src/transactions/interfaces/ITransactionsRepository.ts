@@ -1,8 +1,10 @@
+import { CollaborationsSubType } from '@shared/constants';
 import {
   FilterTransactionsByStatusDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
+  FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 
@@ -25,4 +27,9 @@ export abstract class ITransactionsRepository {
   abstract filterByUser({
     user,
   }: FilterTransactionsByUserDTO): Promise<Transaction[]>;
+
+  abstract findLatestTransactionByUserAndSubType({
+    user,
+    subType,
+  }: FindLatestTransactionByUserAndSubTypeDTO): Promise<Transaction>;
 }
