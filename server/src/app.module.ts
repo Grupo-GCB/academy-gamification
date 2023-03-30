@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { SendGridModule } from '@anchan828/nest-sendgrid';
@@ -10,7 +10,7 @@ import { ormconfig } from './ormconfig';
 @Module({
   imports: [
     TypeOrmModule.forRoot(ormconfig),
-    TransactionsModule,
+    forwardRef(() => TransactionsModule),
     UsersModule,
     AuthModule,
     SendGridModule.forRoot({ apikey: process.env.SEND_GRID_ACESS_KEY }),

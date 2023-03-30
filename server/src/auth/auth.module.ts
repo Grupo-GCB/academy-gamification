@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import 'dotenv/config';
@@ -16,7 +16,7 @@ import { RefreshToken } from './infra/typeorm/entities/refresh-token.entity';
 
 @Module({
   imports: [
-    UsersModule,
+    forwardRef(() => UsersModule),
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -34,5 +34,6 @@ import { RefreshToken } from './infra/typeorm/entities/refresh-token.entity';
     RefreshTokenRepository,
     RevokedTokenRepository,
   ],
+  exports: [RevokedTokenRepository],
 })
 export class AuthModule {}
