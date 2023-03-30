@@ -8,8 +8,8 @@ import {
 } from 'class-validator';
 
 export class UpdatePasswordDTO {
-  @IsNotEmpty()
-  @IsEmail()
+  @IsEmail({}, { message: 'O endereço de e-mail informado é inválido!' })
+  @IsNotEmpty({ message: 'Insira um endereço de e-mail!' })
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'Email do usuário que terá sua senha atualizada',
@@ -18,8 +18,8 @@ export class UpdatePasswordDTO {
   })
   email: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'Insira a senha atual!' })
+  @IsString({ message: 'A senha deve ser uma string!' })
   @ApiProperty({
     example: 'gcb123',
     description: 'Senha atual do usuário',
@@ -28,10 +28,10 @@ export class UpdatePasswordDTO {
   })
   password: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(8)
-  @MaxLength(24)
+  @IsNotEmpty({ message: 'Insira a nova senha!' })
+  @IsString({ message: 'A nova senha deve ser uma string!' })
+  @MinLength(8, { message: 'A nova senha deve ter no mínimo 8 caracteres!' })
+  @MaxLength(24, { message: 'A nova senha deve ter no máximo 24 caracteres!' })
   @ApiProperty({
     example: '123gcb',
     description: 'Nova senha do usuário',
@@ -40,10 +40,14 @@ export class UpdatePasswordDTO {
   })
   new_password: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(8)
-  @MaxLength(24)
+  @IsNotEmpty({ message: 'Insira a confirmação da nova senha!' })
+  @IsString({ message: 'A confirmação da nova senha deve ser uma string!' })
+  @MinLength(8, {
+    message: 'A confirmação da nova senha deve ter no mínimo 8 caracteres!',
+  })
+  @MaxLength(24, {
+    message: 'A confirmação da nova senha deve ter no máximo 24 caracteres!',
+  })
   @ApiProperty({
     example: '123gcb',
     description: 'Confirmação da nova senha do usuário',

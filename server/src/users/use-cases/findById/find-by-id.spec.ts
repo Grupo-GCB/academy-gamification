@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { BusinessUnits, Roles } from '@shared/constants';
 import { InMemoryUsersRepository } from '@users/test/in-memory/inMemoryUserRepository';
 import { FindById } from './find-by-id';
@@ -34,9 +35,15 @@ describe('Find an user by id', () => {
     );
   });
 
+  it('should not be able to find if id is invalid', async () => {
+    await expect(async () => await sut.execute('1br35')).rejects.toEqual(
+      new BadRequestException('Id inválido!'),
+    );
+  });
+
   it('should not be able to find a nonexistent user', async () => {
     await expect(async () => {
-      await sut.execute('john.doe@gcbinvestimentos.com');
+      await sut.execute('e507fb2c-673a-400c-8a2e-b58e46a1111f');
     }).rejects.toThrow('Usuário não existe!');
   });
 });

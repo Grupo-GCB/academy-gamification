@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Status } from '@shared/constants';
+import { isUuidValid } from '@shared/utils';
 import { FilterTransactionsByUserDTO } from '@transactions/dto/filter-transactions-by-user.dto';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IGCBitsBalance, IUsersRepository } from '@users/interfaces';
@@ -14,6 +15,8 @@ export class GetGCBitsBalance {
   async execute({
     user,
   }: FilterTransactionsByUserDTO): Promise<IGCBitsBalance> {
+    if (!isUuidValid(user)) throw new BadRequestException('Id inválido!');
+
     const userFound = await this.usersRepository.findById(user);
 
     if (!userFound) {

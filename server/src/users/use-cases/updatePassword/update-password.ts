@@ -29,7 +29,7 @@ export class UpdatePassword {
 
     const isEqualCurrentPassword = await compare(new_password, user.password);
 
-    if (isEqualCurrentPassword === true)
+    if (isEqualCurrentPassword)
       throw new BadRequestException('Incapaz de alterar a senha atual!');
 
     if (confirm_new_password !== new_password)

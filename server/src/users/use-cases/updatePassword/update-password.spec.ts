@@ -82,7 +82,7 @@ describe('Update user password', () => {
         new_password: 'easy-password',
         confirm_new_password: 'easy-password',
       }),
-    ).rejects.toThrow('Muito fraca!');
+    ).rejects.toThrow('Senha muito fraca!');
   });
 
   it('should not be able to update an user password if confirm password passed is different to new password', async () => {

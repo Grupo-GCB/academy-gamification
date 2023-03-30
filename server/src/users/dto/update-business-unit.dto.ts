@@ -1,10 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BusinessUnits } from '@shared/constants';
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 
 export class UpdateBusinessUnitDTO {
-  @IsNotEmpty()
-  @IsEmail()
+  @IsEmail(
+    {},
+    { message: 'O endereço de e-mail informado do usuário é inválido!' },
+  )
+  @IsNotEmpty({ message: 'Insira um endereço de e-mail do usuário!' })
   @ApiProperty({
     example: 'gustavo.wuelta@gcbinvestimentos.com',
     description: 'Email do usuário que terá seu dado atualizado',
@@ -13,8 +16,11 @@ export class UpdateBusinessUnitDTO {
   })
   email: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsEmail(
+    {},
+    { message: 'O endereço de e-mail informado do responsável é inválido!' },
+  )
+  @IsNotEmpty({ message: 'Insira um endereço de e-mail do responsável!' })
   @ApiProperty({
     example: 'kayke.fujinaka@gcbinvestimentos.com',
     description: 'Email de quem está realizando a alteração',
@@ -23,8 +29,11 @@ export class UpdateBusinessUnitDTO {
   })
   responsible: string;
 
-  @IsNotEmpty()
-  @IsEnum(BusinessUnits)
+  @IsNotEmpty({ message: 'Insira um unidade de negócio!' })
+  @IsEnum(BusinessUnits, {
+    message:
+      'A unidade de negócio deve ser um dos seguintes valores: ADIANTE, PEERBR, FMI, GRUPOGCB ou ACADEMY!',
+  })
   @ApiProperty({
     example: 'ADIANTE',
     description: 'Novo dado que irá ser atualizado',
