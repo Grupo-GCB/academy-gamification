@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { RefreshTokenRepository } from '@auth/infra/typeorm/repositories';
+import { IRefreshTokenRepository } from '@auth/interfaces';
 import { FindById } from '@users/use-cases';
 import { User } from '@users/infra/entities';
 import { IJwtPayload } from '@auth/interfaces';
@@ -11,7 +11,7 @@ export class Refresh {
   constructor(
     private findById: FindById,
     private jwtService: JwtService,
-    private refreshTokenRepository: RefreshTokenRepository,
+    private refreshTokenRepository: IRefreshTokenRepository,
   ) {}
 
   async execute(token: string) {

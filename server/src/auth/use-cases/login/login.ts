@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { RefreshTokenRepository } from '@auth/infra/typeorm/repositories';
+import { IRefreshTokenRepository } from '@auth/interfaces';
 import { User } from '@users/infra/entities';
 import { IJwtPayload, IUserToken } from '@auth/interfaces';
 
@@ -9,7 +9,7 @@ import { IJwtPayload, IUserToken } from '@auth/interfaces';
 export class Login {
   constructor(
     private jwtService: JwtService,
-    private refreshTokenRepository: RefreshTokenRepository,
+    private refreshTokenRepository: IRefreshTokenRepository,
   ) {}
 
   async execute(user: User): Promise<IUserToken> {
