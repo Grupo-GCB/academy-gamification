@@ -1,9 +1,9 @@
 import {
   FilterByStatusDTO,
   FilterTransactionsByUserDTO,
+  FindLatestTransactionByUserAndSubTypeDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
-  FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
@@ -67,9 +67,7 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
         transaction.user === user && transaction.sub_type === subType,
     );
 
-    if (filteredTransactions.length === 0) {
-      return null;
-    }
+    if (filteredTransactions.length === 0) return null;
 
     filteredTransactions.sort(
       (a, b) => b.created_at.getTime() - a.created_at.getTime(),
