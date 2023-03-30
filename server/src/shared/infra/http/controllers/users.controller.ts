@@ -24,6 +24,7 @@ import {
 
 import {
   FilterUserByRoleDTO,
+  FindByEmailDTO,
   FindUserByIdDTO,
   RegisterUserDTO,
   UpdateUserBusinessUnitDTO,
@@ -184,6 +185,68 @@ export class UsersController {
   @Get('/:id')
   async findOne(@Param() { id }: FindUserByIdDTO): Promise<User> {
     return this.findUserById.execute(id);
+  }
+
+  @ApiTags('Users')
+  @ApiBearerAuth()
+  @ApiSecurity('Bearer')
+  @ApiOperation({
+    summary: 'Retorna um usuário pelo e-mail',
+    description:
+      'Esta rota permite recuperar informações de um usuário específico a partir de seu e-mail.',
+  })
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          example: 'ee6891a0-d199-480d-8c20-3f423e08d810',
+        },
+        name: {
+          type: 'string',
+          example: 'Kayke Fujinaka',
+        },
+        email: {
+          type: 'string',
+          example: 'kayke.fujinaka@gcbinvestimentos.com',
+        },
+        password: {
+          type: 'string',
+          example:
+            '$2b$08$rK8Z2P5nfhA25Z401CkmD.3/Yurd/qoVdBiAWXdWlmQJIHLf7D4Da',
+        },
+        business_unit: {
+          type: 'string',
+          example: 'ACADEMY',
+        },
+        role: {
+          type: 'string',
+          example: 'ADMIN',
+        },
+        updated_at: {
+          type: 'timestamp',
+          example: null,
+        },
+        deleted_at: {
+          type: 'timestamp',
+          example: null,
+        },
+        created_at: {
+          type: 'timestamp',
+          example: '2023-03-29T00:02:05.494Z',
+        },
+      },
+    },
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Não foi possível encontrar o usuário!',
+  })
+  @Post('/find-by-email')
+  async findByEmail(@Body() { email }: FindByEmailDTO): Promise<User> {
+    return this.findUserByEmail.execute(email);
   }
 
   @ApiTags('Users')

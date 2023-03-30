@@ -25,8 +25,10 @@ export class UpdateStatus {
     new_status,
     admin,
   }: UpdateStatusDTO): Promise<Transaction> {
-    if (!new_status) throw new BadRequestException('Novo status é exigido!');
-    if (!id) throw new BadRequestException('Id é exigido!');
+    if (!id || !admin || !new_status)
+      throw new BadRequestException(
+        'Id da transação, e-mail do administrador e novo status são exigido!',
+      );
 
     const responsible = await this.usersRepository.findByEmail(admin);
 
@@ -47,6 +49,10 @@ export class UpdateStatus {
 
     if (transaction.status === new_status) {
       throw new NotFoundException('A Transação já tem esse status!');
+    }
+
+    if (!Object.values(Status).includes(new_status)) {
+      throw new BadRequestException('Status inválido!');
     }
 
     const user = await this.usersRepository.findById(transaction.user);

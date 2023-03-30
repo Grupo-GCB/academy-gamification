@@ -14,7 +14,7 @@ describe('Filter users by role', () => {
   it('should throw error if no role is passed', async () => {
     await expect(async () => {
       await sut.execute({ role: undefined });
-    }).rejects.toThrow('Cargo é exigido!');
+    }).rejects.toThrow('Insira um cargo!');
   });
 
   it('should return all users that matches the passed role', async () => {

@@ -28,19 +28,20 @@ export class UpdateUserBusinessUnit {
       );
     }
 
-    const user = await this.usersRepository.findByEmail(email);
-    const updateResponsible = await this.usersRepository.findByEmail(
-      responsible,
-    );
+    const [user, updateResponsible] = await Promise.all([
+      this.usersRepository.findByEmail(email),
+      this.usersRepository.findByEmail(responsible),
+    ]);
 
     if (!user || !updateResponsible) {
-      throw new BadRequestException('Usuário ou responsável não existem!');
+      throw new BadRequestException('Usuário ou responsável não encontrado!');
     }
 
-    if (
+    const isUnauthorizedCollaborator =
       updateResponsible.role === Roles.COLLABORATOR &&
-      user != updateResponsible
-    ) {
+      user != updateResponsible;
+
+    if (isUnauthorizedCollaborator) {
       throw new UnauthorizedException(
         'Colaboradores podem editar somente sua própria unidade de negócio!',
       );
