@@ -1,4 +1,4 @@
-export * from './filterTransactionsByStatus/filter-transactions-by-status';
+export * from './filterByStatus/filter-by-status';
 export * from './findAllTransactions/find-all-transactions';
 export * from './findById/find-by-id';
 export * from './registerTransaction/register-transaction';

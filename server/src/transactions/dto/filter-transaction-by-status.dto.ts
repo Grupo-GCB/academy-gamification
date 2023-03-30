@@ -3,7 +3,7 @@ import { IsEnum, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Status } from '@shared/constants';
 
-export class FilterTransactionsByStatusDTO {
+export class FilterByStatusDTO {
   @IsNotEmpty()
   @IsEnum(Status)
   @ApiProperty({

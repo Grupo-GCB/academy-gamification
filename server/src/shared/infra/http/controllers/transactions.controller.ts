@@ -22,13 +22,13 @@ import {
 
 import { JwtAuthGuard } from '@auth/guards';
 import {
-  FilterTransactionsByStatusDTO,
+  FilterByStatusDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities/transaction.entity';
 import {
-  FilterTransactionsByStatus,
+  FilterByStatus,
   FindAllTransactions,
   FindById,
   RegisterTransaction,
@@ -43,7 +43,7 @@ export class TransactionsController {
     private findById: FindById,
     private findAllTransactions: FindAllTransactions,
     private updateTransactionStatus: UpdateStatus,
-    private filterTransactionsByStatus: FilterTransactionsByStatus,
+    private filterByStatus: FilterByStatus,
   ) {}
 
   @ApiTags('Transactions')
@@ -236,12 +236,10 @@ export class TransactionsController {
     },
   })
   @Get('/filter-by-status')
-  async filterByStatus(
-    @Query() filterTransactionsByStatusDTO: FilterTransactionsByStatusDTO,
+  async filterTransactionsByStatus(
+    @Query() filterByStatusDTO: FilterByStatusDTO,
   ): Promise<Transaction[]> {
-    return this.filterTransactionsByStatus.execute(
-      filterTransactionsByStatusDTO,
-    );
+    return this.filterByStatus.execute(filterByStatusDTO);
   }
 
   @ApiTags('Transactions')
