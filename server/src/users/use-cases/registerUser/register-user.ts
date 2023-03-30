@@ -16,9 +16,9 @@ export class RegisterUser {
   ) {}
 
   async execute({ email, business_unit }: RegisterUserDTO): Promise<User> {
-    const emailFormat = /^[a-z]+.[a-z]+@gcbinvestimentos.com$/;
+    const validEmailFormat = /^[a-z]+.[a-z]+@gcbinvestimentos.com$/;
 
-    const isValidEmail: boolean = emailFormat.test(email);
+    const isValidEmail: boolean = validEmailFormat.test(email);
 
     if (!isValidEmail) {
       throw new BadRequestException('E-mail inválido!');
