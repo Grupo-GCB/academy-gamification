@@ -10,7 +10,7 @@ import {
   FilterTransactionsByStatus,
   FindAllTransactions,
   FindById,
-  FindLastTransactionByUserAndSubType,
+  FindLatestTransactionByUserAndSubType,
   RegisterTransaction,
   UpdateStatus,
 } from '@transactions/use-cases';
@@ -29,7 +29,7 @@ import { UsersModule } from '@users/user.module';
     FindById,
     FilterTransactionsByStatus,
     FindAllTransactions,
-    FindLastTransactionByUserAndSubType,
+    FindLatestTransactionByUserAndSubType,
     {
       provide: ITransactionsRepository,
       useClass: TransactionsRepository,
