@@ -4,7 +4,6 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 
-import { AuthService } from '@auth/auth.service';
 import { RefreshToken, RevokedToken } from '@auth/infra/typeorm/entities';
 import {
   RefreshTokenRepository,
@@ -14,6 +13,13 @@ import { JwtStrategy, LocalStrategy } from '@auth/strategies';
 import { AuthController } from '@shared/infra/http/controllers/auth.controller';
 import { FindByEmail, FindById } from '@users/use-cases';
 import { UsersModule } from '@users/user.module';
+import {
+  Login,
+  Logout,
+  Refresh,
+  ValidateUser,
+  VerifyRefreshToken,
+} from '@auth/use-cases';
 
 @Module({
   imports: [
@@ -27,7 +33,11 @@ import { UsersModule } from '@users/user.module';
   ],
   controllers: [AuthController],
   providers: [
-    AuthService,
+    Login,
+    Logout,
+    Refresh,
+    ValidateUser,
+    VerifyRefreshToken,
     LocalStrategy,
     JwtStrategy,
     FindByEmail,
