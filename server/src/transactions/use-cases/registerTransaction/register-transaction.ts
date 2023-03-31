@@ -6,13 +6,13 @@ import {
 } from '@nestjs/common';
 
 import {
+  CollaborationsCooldown,
   CollaborationsSubType,
   RedeemSubType,
   Roles,
   Status,
   TransferSubTypes,
   Types,
-  CollaborationsCooldown,
 } from '@shared/constants';
 import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
@@ -44,6 +44,9 @@ export class RegisterTransaction {
       data.responsible,
     );
 
+    if (!responsibleData || !userData)
+      throw new BadRequestException('Usuário ou responsável não existe!');
+
     if (data.type === Types.COLLABORATION) {
       const subType = data.sub_type as CollaborationsSubType;
       const cooldownDuration = CollaborationsCooldown[subType];
@@ -71,9 +74,6 @@ export class RegisterTransaction {
       this.usersRepository.findById(responsibleData.id),
       this.usersRepository.findById(userData.id),
     ]);
-
-    if (!responsible || !user)
-      throw new BadRequestException('Usuário ou responsável não existe!');
 
     const transactionPermissions: PermissionMap = {
       [Roles.COLLABORATOR]: [Types.REDEEM, Types.TRANSFER],
@@ -186,6 +186,12 @@ export class RegisterTransaction {
     if (data.type === Types.TRANSFER) {
       const sender = await this.usersRepository.findByEmail(data.responsible);
       const receiver = await this.usersRepository.findByEmail(data.user);
+
+      if (data.user === data.responsible) {
+        throw new BadRequestException(
+          'Não é possível realizar uma transferência para si mesmo!',
+        );
+      }
 
       const getGCBitsBalance = new GetGCBitsBalance(
         this.transactionsRepository,
