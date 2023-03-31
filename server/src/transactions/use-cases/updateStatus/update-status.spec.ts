@@ -67,9 +67,17 @@ describe('Update a transaction status', () => {
       role: Roles.COLLABORATOR,
     });
 
+    const academy = await inMemoryUsersRepository.create({
+      name: 'Gustavo',
+      email: 'gustavo.wuelta@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ACADEMY,
+    });
+
     const transaction = await inMemoryTransactionsRepository.register({
-      user: collaborator.email,
-      responsible: admin.email,
+      user: collaborator.id,
+      responsible: academy.id,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.LOGICEXERCISE,
       status: Status.PENDING,
@@ -81,7 +89,9 @@ describe('Update a transaction status', () => {
       new_status: Status.APPROVED,
       admin: admin.email,
     });
-    expect(updatedTransaction.status).toEqual(Status.APPROVED);
+    expect(updatedTransaction).toEqual(
+      expect.objectContaining({ status: Status.APPROVED }),
+    );
 
     await expect(
       inMemoryTransactionsRepository.findById(transaction.id),
