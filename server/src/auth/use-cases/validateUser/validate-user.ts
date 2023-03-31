@@ -19,6 +19,6 @@ export class ValidateUser {
       if (isPasswordValid) return { ...user, password: undefined };
     }
 
-    throw new Error('Endereço de e-mail ou senha incorretos!');
+    throw new Error('Endereço de e-mail ou senha incorretos');
   }
 }
