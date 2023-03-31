@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { IRefreshTokenRepository, IJwtPayload } from '@auth/interfaces';
@@ -19,11 +23,11 @@ export class Refresh {
     );
 
     if (!refreshToken) {
-      throw new UnauthorizedException('Token de atualização inválido!');
+      throw new BadRequestException('Token de atualização inválido!');
     }
 
     if (new Date().getTime() > refreshToken.expiresAt.getTime()) {
-      throw new UnauthorizedException('Token de atualização expirado!');
+      throw new BadRequestException('Token de atualização expirado!');
     }
 
     const user: User = await this.usersRepository.findById(refreshToken.user);
