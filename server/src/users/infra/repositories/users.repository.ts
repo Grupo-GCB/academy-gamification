@@ -28,7 +28,11 @@ export class UsersRepository {
       role,
     });
 
-    return this.usersRepository.save(user);
+    const savedUser = await this.usersRepository.save(user);
+
+    delete savedUser.password;
+
+    return savedUser;
   }
 
   async findById(id: string): Promise<User> {
@@ -54,7 +58,18 @@ export class UsersRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        business_unit: true,
+        role: true,
+        created_at: true,
+        updated_at: true,
+        deleted_at: true,
+      },
+    });
   }
 
   async updateUserBusinessUnit({
@@ -80,6 +95,16 @@ export class UsersRepository {
   async filterByRole({ role }: FilterUserByRoleDTO): Promise<User[]> {
     return this.usersRepository.find({
       where: { role },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        business_unit: true,
+        role: true,
+        created_at: true,
+        updated_at: true,
+        deleted_at: true,
+      },
     });
   }
 }
