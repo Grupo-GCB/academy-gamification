@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { IRevokedTokenRepository } from '@auth/interfaces';
@@ -15,7 +15,7 @@ export class Logout {
       this.jwtService.verify(token);
       await this.revokedTokenRepository.revokeToken(token);
     } catch (error) {
-      throw new UnauthorizedException('Token inválido!');
+      throw new BadRequestException('Token inválido!');
     }
   }
 }
