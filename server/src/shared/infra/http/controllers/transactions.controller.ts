@@ -27,6 +27,7 @@ import {
   UpdateStatusDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
+import { IUpdateStatusResponse } from '@transactions/interfaces';
 import {
   FilterByStatus,
   FindAllTransactions,
@@ -371,7 +372,7 @@ export class TransactionsController {
   @Put()
   updateStatus(
     @Body() { id, new_status, admin }: UpdateStatusDTO,
-  ): Promise<Transaction> {
+  ): Promise<IUpdateStatusResponse | Transaction> {
     return this.updateTransactionStatus.execute({
       id,
       new_status,

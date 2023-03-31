@@ -1,14 +1,29 @@
+import { SendGridService } from '@anchan828/nest-sendgrid';
+import { MailService } from '@sendgrid/mail';
+
 import {
   BusinessUnits,
   CollaborationsSubType,
   RedeemSubType,
   Roles,
   Status,
+  TransferSubTypes,
   Types,
 } from '@shared/constants';
 import { InMemoryTransactionsRepository } from '@transactions/test/in-memory';
 import { RegisterTransaction } from '@transactions/use-cases';
 import { InMemoryUsersRepository } from '@users/test/in-memory';
+
+jest.mock('@anchan828/nest-sendgrid', () => {
+  return {
+    SendGridService: jest.fn().mockImplementation(() => {
+      return {
+        send: jest.fn().mockImplementation(() => Promise.resolve()),
+        mailService: new MailService(),
+      };
+    }),
+  };
+});
 
 describe('Register a transaction', () => {
   let inMemoryTransactionsRepository: InMemoryTransactionsRepository;
@@ -16,15 +31,23 @@ describe('Register a transaction', () => {
 
   let sut: RegisterTransaction;
 
-  // beforeEach(() => {
-  //   inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
-  //   inMemoryUsersRepository = new InMemoryUsersRepository();
+  let sendGridMock: SendGridService;
 
-  //   sut = new RegisterTransaction(
-  //     inMemoryTransactionsRepository,
-  //     inMemoryUsersRepository,
-  //   );
-  // });
+  beforeEach(() => {
+    inMemoryTransactionsRepository = new InMemoryTransactionsRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
+
+    sendGridMock = new SendGridService(
+      { apikey: 'fake-api-key' },
+      new MailService(),
+    );
+
+    sut = new RegisterTransaction(
+      inMemoryTransactionsRepository,
+      inMemoryUsersRepository,
+      sendGridMock,
+    );
+  });
 
   it('should be able to register a collaboration if responsible is an academy', async () => {
     const academy = await inMemoryUsersRepository.create({
@@ -35,8 +58,16 @@ describe('Register a transaction', () => {
       role: Roles.ACADEMY,
     });
 
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
     const transaction = await sut.execute({
-      user: academy.email,
+      user: collaborator.email,
       responsible: academy.email,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
@@ -68,8 +99,8 @@ describe('Register a transaction', () => {
 
     await expect(
       sut.execute({
-        user: collaborator.id,
-        responsible: collaborator.id,
+        user: collaborator.email,
+        responsible: collaborator.email,
         type: Types.COLLABORATION,
         sub_type: CollaborationsSubType.CODEREVIEW,
         status: Status.PENDING,
@@ -138,23 +169,32 @@ describe('Register a transaction', () => {
   });
 
   it('should not be able to register a transfer if responsible is an academy', async () => {
-    const academy = await inMemoryUsersRepository.create({
-      name: 'Gustavo',
-      email: 'gustavo.wuelta@gcbinvestimentos.com',
+    const admin = await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
       password: 'gcb123',
       business_unit: BusinessUnits.ACADEMY,
-      role: Roles.ACADEMY,
+      role: Roles.ADMIN,
+    });
+
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
     });
 
     await expect(
       sut.execute({
-        user: academy.email,
-        responsible: academy.email,
+        user: collaborator.email,
+        responsible: admin.email,
         type: Types.TRANSFER,
+        sub_type: TransferSubTypes.ENTRY,
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('Sem autorização!');
+    ).rejects.toThrow('Você não pode registrar uma transação com esse status!');
   });
 
   it('should be able to register a redeem if responsible is a collaborator', async () => {
@@ -167,8 +207,8 @@ describe('Register a transaction', () => {
     });
 
     const transaction = await sut.execute({
-      user: collaborator.id,
-      responsible: collaborator.id,
+      user: collaborator.email,
+      responsible: collaborator.email,
       type: Types.REDEEM,
       sub_type: RedeemSubType.ACADEMY,
       status: Status.PENDING,
@@ -197,10 +237,36 @@ describe('Register a transaction', () => {
       role: Roles.COLLABORATOR,
     });
 
+    const collaborator2 = await inMemoryUsersRepository.create({
+      name: 'Thiago',
+      email: 'thiago.ribeiro@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.GRUPOGCB,
+      role: Roles.COLLABORATOR,
+    });
+
+    const admin = await inMemoryUsersRepository.create({
+      name: 'Kayke',
+      email: 'kayke.fujinaka@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ACADEMY,
+      role: Roles.ADMIN,
+    });
+
+    await sut.execute({
+      user: collaborator2.email,
+      responsible: admin.email,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.CODEREVIEW,
+      status: Status.APPROVED,
+      gcbits: 3000,
+    });
+
     const transaction = await sut.execute({
-      user: collaborator.id,
-      responsible: collaborator.id,
+      user: collaborator.email,
+      responsible: collaborator2.email,
       type: Types.TRANSFER,
+      sub_type: TransferSubTypes.ENTRY,
       status: Status.PENDING,
       gcbits: 2000,
     });
@@ -211,6 +277,7 @@ describe('Register a transaction', () => {
         user: transaction.user,
         responsible: transaction.responsible,
         type: transaction.type,
+        sub_type: transaction.sub_type,
         status: transaction.status,
         gcbits: transaction.gcbits,
       }),
@@ -228,8 +295,8 @@ describe('Register a transaction', () => {
 
     await expect(
       sut.execute({
-        user: collaborator.id,
-        responsible: collaborator.id,
+        user: collaborator.email,
+        responsible: collaborator.email,
         type: Types.PENALTY,
         status: Status.PENDING,
         gcbits: 3000,
@@ -248,8 +315,8 @@ describe('Register a transaction', () => {
 
     await expect(
       sut.execute({
-        user: collaborator.id,
-        responsible: collaborator.id,
+        user: collaborator.email,
+        responsible: collaborator.email,
         type: Types.CORRECTION,
         status: Status.PENDING,
         gcbits: 3000,
@@ -274,7 +341,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('User or responsible does not exist');
+    ).rejects.toThrow('Usuário ou responsável não existe!');
   });
 
   it('should not be able to register a transaction if responsible does not exist', async () => {
@@ -294,7 +361,7 @@ describe('Register a transaction', () => {
         status: Status.PENDING,
         gcbits: 3000,
       }),
-    ).rejects.toThrow('User or responsible does not exist');
+    ).rejects.toThrow('Usuário ou responsável não existe!');
   });
 
   it('should be able to register a collaboration if responsible is an administrator', async () => {
@@ -315,8 +382,8 @@ describe('Register a transaction', () => {
     });
 
     const transaction = await sut.execute({
-      user: collaborator.id,
-      responsible: admin.id,
+      user: collaborator.email,
+      responsible: admin.email,
       type: Types.COLLABORATION,
       sub_type: CollaborationsSubType.CODEREVIEW,
       status: Status.APPROVED,
@@ -354,8 +421,8 @@ describe('Register a transaction', () => {
     });
 
     const transaction = await sut.execute({
-      user: collaborator.id,
-      responsible: admin.id,
+      user: collaborator.email,
+      responsible: admin.email,
       type: Types.PENALTY,
       status: Status.APPROVED,
       gcbits: 3000,
@@ -391,8 +458,8 @@ describe('Register a transaction', () => {
     });
 
     const transaction = await sut.execute({
-      user: collaborator.id,
-      responsible: admin.id,
+      user: collaborator.email,
+      responsible: admin.email,
       type: Types.REDEEM,
       sub_type: RedeemSubType.COMPLEXPROJECT,
       status: Status.APPROVED,
@@ -430,8 +497,8 @@ describe('Register a transaction', () => {
     });
 
     const transaction = await sut.execute({
-      user: collaborator.id,
-      responsible: admin.id,
+      user: collaborator.email,
+      responsible: admin.email,
       type: Types.CORRECTION,
       status: Status.APPROVED,
       gcbits: 3000,
@@ -466,10 +533,20 @@ describe('Register a transaction', () => {
       role: Roles.COLLABORATOR,
     });
 
+    await sut.execute({
+      user: admin.email,
+      responsible: admin.email,
+      type: Types.COLLABORATION,
+      sub_type: CollaborationsSubType.CODEREVIEW,
+      status: Status.APPROVED,
+      gcbits: 3000,
+    });
+
     const transaction = await sut.execute({
-      user: collaborator.id,
-      responsible: admin.id,
+      user: collaborator.email,
+      responsible: admin.email,
       type: Types.TRANSFER,
+      sub_type: TransferSubTypes.ENTRY,
       status: Status.APPROVED,
       gcbits: 3000,
     });
@@ -484,5 +561,34 @@ describe('Register a transaction', () => {
         gcbits: transaction.gcbits,
       }),
     );
+  });
+
+  it('should not be able to register a transfer if doesnt have sufficient gcbits', async () => {
+    const collaborator = await inMemoryUsersRepository.create({
+      name: 'Levi',
+      email: 'levi.ciarrochi@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.ADIANTE,
+      role: Roles.COLLABORATOR,
+    });
+
+    const collaborator2 = await inMemoryUsersRepository.create({
+      name: 'Thiago',
+      email: 'thiago.ribeiro@gcbinvestimentos.com',
+      password: 'gcb123',
+      business_unit: BusinessUnits.GRUPOGCB,
+      role: Roles.COLLABORATOR,
+    });
+
+    await expect(
+      sut.execute({
+        user: collaborator.email,
+        responsible: collaborator2.email,
+        type: Types.TRANSFER,
+        sub_type: TransferSubTypes.ENTRY,
+        status: Status.PENDING,
+        gcbits: 2000,
+      }),
+    ).rejects.toThrow('Saldo insuficiente de GCBits!');
   });
 });

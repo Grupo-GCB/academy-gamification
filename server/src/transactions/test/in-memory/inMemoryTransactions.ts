@@ -58,6 +58,21 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     return transactions;
   }
 
+  async filterByUserAndResponsible({
+    user,
+    responsible,
+  }: {
+    user: any;
+    responsible: any;
+  }): Promise<Transaction> {
+    const transaction = this.transactions.find(
+      (transaction) =>
+        transaction.user === responsible && transaction.responsible === user,
+    );
+
+    return transaction;
+  }
+
   async findLatestTransactionByUserAndSubType({
     user,
     subType,

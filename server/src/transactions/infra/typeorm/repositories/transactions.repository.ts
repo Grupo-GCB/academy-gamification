@@ -2,8 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Status } from '@shared/constants';
 import {
   FilterByStatusDTO,
+  FilterByUserAndResponsibleDTO,
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
@@ -74,6 +76,15 @@ export class TransactionsRepository {
   }: FilterTransactionsByUserDTO): Promise<Transaction[]> {
     return this.transactionsRepository.find({
       where: { user },
+    });
+  }
+
+  async filterByUserAndResponsible({
+    user,
+    responsible,
+  }: FilterByUserAndResponsibleDTO): Promise<Transaction> {
+    return this.transactionsRepository.findOne({
+      where: { user, responsible, status: Status.PENDING },
     });
   }
 

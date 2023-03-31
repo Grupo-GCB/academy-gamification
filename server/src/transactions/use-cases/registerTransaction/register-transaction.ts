@@ -14,10 +14,7 @@ import {
   Types,
   CollaborationsCooldown,
 } from '@shared/constants';
-import {
-  FilterTransactionsByUserDTO,
-  RegisterTransactionDTO,
-} from '@transactions/dto';
+import { RegisterTransactionDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
 import { ITransactionsRepository } from '@transactions/interfaces';
 import { IUsersRepository } from '@users/interfaces';
@@ -130,7 +127,11 @@ export class RegisterTransaction {
       (data.type === Types.TRANSFER &&
         Object.values(TransferSubTypes).includes(
           data.sub_type as TransferSubTypes,
-        ));
+        )) ||
+      (data.type !== Types.REDEEM &&
+        data.type !== Types.COLLABORATION &&
+        data.type !== Types.TRANSFER &&
+        !data.sub_type);
 
     if (!isValidSubtype) {
       throw new BadRequestException(
@@ -191,12 +192,12 @@ export class RegisterTransaction {
         this.usersRepository,
       );
 
-      const sender_balance = await getGCBitsBalance.execute(
-        sender.id as unknown as FilterTransactionsByUserDTO,
-      );
+      const sender_balance = await getGCBitsBalance.execute({
+        user: sender.id,
+      });
 
       if (sender_balance.balance < data.gcbits) {
-        throw new UnauthorizedException('Saldo insufuciente de GCBits');
+        throw new UnauthorizedException('Saldo insuficiente de GCBits!');
       } else {
         const user_email = data.user;
         const responsible_email = data.responsible;

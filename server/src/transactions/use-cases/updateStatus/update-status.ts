@@ -6,10 +6,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { Roles, Status } from '@shared/constants';
+import { Roles, Status, Types } from '@shared/constants';
 import { UpdateStatusDTO } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
-import { ITransactionsRepository } from '@transactions/interfaces';
+import {
+  ITransactionsRepository,
+  IUpdateStatusResponse,
+} from '@transactions/interfaces';
 import { User } from '@users/infra/entities';
 import { IUsersRepository } from '@users/interfaces';
 
@@ -25,7 +28,7 @@ export class UpdateStatus {
     id,
     new_status,
     admin,
-  }: UpdateStatusDTO): Promise<Transaction> {
+  }: UpdateStatusDTO): Promise<IUpdateStatusResponse | Transaction> {
     if (!id || !admin || !new_status)
       throw new BadRequestException(
         'Id da transação, e-mail do administrador e novo status são exigido!',
@@ -56,7 +59,7 @@ export class UpdateStatus {
       throw new BadRequestException('Status inválido!');
     }
 
-    const user: User = await this.usersRepository.findById(transaction.user);
+    const user = await this.usersRepository.findById(transaction.user);
 
     if (new_status === Status.APPROVED) {
       await this.sendGrid.send({
@@ -108,10 +111,32 @@ export class UpdateStatus {
       });
     }
 
-    return this.transactionsRepository.updateStatus({
+    const updatedTransaction = await this.transactionsRepository.updateStatus({
       id,
       new_status,
       admin,
     });
+
+    if (transaction.type === Types.TRANSFER) {
+      const otherTransaction =
+        await this.transactionsRepository.filterByUserAndResponsible({
+          user: transaction.responsible,
+          responsible: transaction.user,
+        });
+
+      const updatedOtherTransaction =
+        await this.transactionsRepository.updateStatus({
+          id: otherTransaction.id,
+          new_status,
+          admin,
+        });
+
+      return {
+        transaction: updatedTransaction,
+        otherTransaction: updatedOtherTransaction,
+      };
+    }
+
+    return updatedTransaction;
   }
 }
