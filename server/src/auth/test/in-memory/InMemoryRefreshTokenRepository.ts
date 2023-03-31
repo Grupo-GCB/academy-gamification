@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'node:crypto';
 
 import { IRefreshTokenRepository } from '@/auth/interfaces';
 import { RefreshToken } from '@auth/infra/typeorm/entities';
@@ -14,9 +14,9 @@ export class InMemoryRefreshTokenRepository implements IRefreshTokenRepository {
     expiresAt: number;
   }): Promise<RefreshToken> {
     const refreshToken = new RefreshToken();
-    refreshToken.id = uuidv4();
+    refreshToken.id = crypto.randomUUID();
     refreshToken.user = user;
-    refreshToken.token = uuidv4();
+    refreshToken.token = crypto.randomUUID();
     refreshToken.expiresAt = new Date(Date.now() + expiresAt);
 
     this.refreshTokens.push(refreshToken);
