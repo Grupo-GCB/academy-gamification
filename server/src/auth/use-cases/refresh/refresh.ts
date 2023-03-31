@@ -1,9 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { IRefreshTokenRepository } from '@auth/interfaces';
+import { IRefreshTokenRepository, IJwtPayload } from '@auth/interfaces';
 import { User } from '@users/infra/entities';
-import { IJwtPayload } from '@auth/interfaces';
 import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
