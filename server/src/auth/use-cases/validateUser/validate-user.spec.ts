@@ -4,7 +4,7 @@ import { InMemoryUsersRepository } from '@users/test/in-memory';
 import { ValidateUser } from '@auth/use-cases';
 import { User } from '@users/infra/entities';
 
-describe('ValdiateUser', () => {
+describe('Valdiate User', () => {
   let inMemoryUserRepository: InMemoryUsersRepository;
   let sut: ValidateUser;
   let user: User;
@@ -26,8 +26,6 @@ describe('ValdiateUser', () => {
       'levi.ciarrochi@gcbinvestimentos.com',
       'gcb123',
     );
-
-    console.log(validatedUser);
 
     user.password = undefined;
 
