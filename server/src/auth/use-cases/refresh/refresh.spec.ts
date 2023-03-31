@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
 import { InMemoryRefreshTokenRepository } from '@auth/test/in-memory';
 import { BusinessUnits, Roles } from '@shared/constants';
@@ -60,7 +60,7 @@ describe('Refresh', () => {
     });
 
     await expect(refresh.execute(refreshToken.token)).rejects.toThrow(
-      UnauthorizedException,
+      BadRequestException,
     );
   });
 });
