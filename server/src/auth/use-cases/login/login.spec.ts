@@ -37,9 +37,6 @@ describe('Login', () => {
 
     const userToken = await sut.execute(user);
 
-    expect(userToken).toHaveProperty('accessToken');
-    expect(userToken).toHaveProperty('refreshToken');
-
     const storedRefreshToken =
       await inMemoryRefreshTokenRepository.findRefreshToken(
         userToken.refreshToken,
@@ -47,5 +44,7 @@ describe('Login', () => {
 
     expect(storedRefreshToken).toBeDefined();
     expect(storedRefreshToken.user).toEqual(user.id);
+    expect(userToken).toHaveProperty('accessToken');
+    expect(userToken).toHaveProperty('refreshToken');
   });
 });
