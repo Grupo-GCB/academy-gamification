@@ -32,7 +32,7 @@ export class Refresh {
 
     const user: User = await this.usersRepository.findById(refreshToken.user);
 
-    if (!user) throw new UnauthorizedException('Sem autorização!');
+    if (!user) throw new BadRequestException('Sem autorização!');
 
     const payload: IJwtPayload = {
       sub: user.id,
