@@ -16,14 +16,17 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { AuthService } from '@auth/auth.service';
 import { IsPublic } from '@auth/decorators';
 import { LocalAuthGuard, RefreshTokenGuard } from '@auth/guards';
 import { IAuthRequest } from '@auth/interfaces';
-
+import { Login, Logout, Refresh } from '@auth/use-cases';
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private loginUser: Login,
+    private logoutUser: Logout,
+    private refreshToken: Refresh,
+  ) {}
 
   @ApiTags('Auth')
   @ApiOperation({
@@ -69,7 +72,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   login(@Request() req: IAuthRequest) {
-    return this.authService.login(req.user);
+    return this.loginUser.execute(req.user);
   }
 
   @ApiTags('Auth')
@@ -119,7 +122,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(RefreshTokenGuard)
   async refresh(@Body() { refreshToken }: { refreshToken: string }) {
-    return this.authService.refresh(refreshToken);
+    return this.refreshToken.execute(refreshToken);
   }
 
   @ApiTags('Auth')
@@ -154,7 +157,7 @@ export class AuthController {
   @UseGuards(RefreshTokenGuard)
   async logout(@Request() req) {
     const refreshToken = req.body.refreshToken;
-    await this.authService.logout(refreshToken);
+    await this.logoutUser.execute(refreshToken);
     return;
   }
 }

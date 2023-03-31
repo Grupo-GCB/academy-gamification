@@ -9,8 +9,13 @@ import {
   FilterTransactionsByUserDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
+  FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
+import {
+  CollaborationsCooldown,
+  CollaborationsSubType,
+} from '@shared/constants';
 
 @Injectable()
 export class TransactionsRepository {
@@ -81,5 +86,22 @@ export class TransactionsRepository {
     return this.transactionsRepository.findOne({
       where: { user, responsible, status: Status.PENDING },
     });
+  }
+
+  async findLatestTransactionByUserAndSubType({
+    user,
+    subType,
+  }: FindLatestTransactionByUserAndSubTypeDTO): Promise<Transaction> {
+    const latestTransaction = await this.transactionsRepository.findOne({
+      where: {
+        user: user,
+        sub_type: subType,
+      },
+      order: {
+        created_at: 'DESC',
+      },
+    });
+
+    return latestTransaction;
   }
 }

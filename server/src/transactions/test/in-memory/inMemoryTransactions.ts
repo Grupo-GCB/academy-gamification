@@ -1,6 +1,7 @@
 import {
   FilterByStatusDTO,
   FilterTransactionsByUserDTO,
+  FindLatestTransactionByUserAndSubTypeDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
 } from '@transactions/dto';
@@ -12,6 +13,8 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
 
   async register(data: RegisterTransactionDTO): Promise<Transaction> {
     const transaction: Transaction = Object.assign(new Transaction(), data);
+
+    transaction.created_at = new Date();
 
     this.transactions.push(transaction);
 
@@ -68,5 +71,23 @@ export class InMemoryTransactionsRepository implements ITransactionsRepository {
     );
 
     return transaction;
+  }
+
+  async findLatestTransactionByUserAndSubType({
+    user,
+    subType,
+  }: FindLatestTransactionByUserAndSubTypeDTO): Promise<Transaction> {
+    const filteredTransactions = this.transactions.filter(
+      (transaction) =>
+        transaction.user === user && transaction.sub_type === subType,
+    );
+
+    if (filteredTransactions.length === 0) return null;
+
+    filteredTransactions.sort(
+      (a, b) => b.created_at.getTime() - a.created_at.getTime(),
+    );
+
+    return filteredTransactions[0];
   }
 }

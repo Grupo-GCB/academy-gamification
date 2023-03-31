@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { AuthModule } from '@auth/auth.module';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { TransactionsController } from '@shared/infra/http/controllers/transactions.controller';
@@ -9,13 +10,18 @@ import {
   FilterByStatus,
   FindAllTransactions,
   FindById,
+  FindLatestTransactionByUserAndSubType,
   RegisterTransaction,
   UpdateStatus,
 } from '@transactions/use-cases';
 import { UsersModule } from '@users/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Transaction]), UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([Transaction]),
+    UsersModule,
+    forwardRef(() => AuthModule),
+  ],
   controllers: [TransactionsController],
   providers: [
     RegisterTransaction,
@@ -23,6 +29,7 @@ import { UsersModule } from '@users/user.module';
     FindById,
     FilterByStatus,
     FindAllTransactions,
+    FindLatestTransactionByUserAndSubType,
     {
       provide: ITransactionsRepository,
       useClass: TransactionsRepository,

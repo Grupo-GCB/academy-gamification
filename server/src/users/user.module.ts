@@ -6,6 +6,8 @@ import { TransactionsModule } from '@transactions/transactions.module';
 import { User } from '@users/infra/entities';
 import { UsersRepository } from '@users/infra/repositories';
 import { IUsersRepository } from '@users/interfaces';
+import { AuthModule } from '@auth/auth.module';
+
 import {
   DeleteUser,
   FilterByRole,
@@ -22,6 +24,7 @@ import {
   imports: [
     TypeOrmModule.forFeature([User]),
     forwardRef(() => TransactionsModule),
+    forwardRef(() => AuthModule),
   ],
   controllers: [UsersController],
   providers: [

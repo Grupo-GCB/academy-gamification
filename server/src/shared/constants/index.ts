@@ -84,3 +84,12 @@ export enum TransferSubTypes {
   ENTRY = 'ENTRY',
   EXIT = 'EXIT',
 }
+
+export enum CollaborationsCooldown {
+  DOUBTS = 1 * 24 * 60000,
+  FEEDBACK = 30 * 24 * 60000,
+  TEAM_CEREMONY = 2 * 24 * 60000,
+  PAIR_PROGRAMMING = 1 * 24 * 60000,
+  CODE_REVIEW = 2 * 24 * 60000,
+  LOGIC_EXERCISE = 3 * 24 * 60000,
+}
