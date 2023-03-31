@@ -4,7 +4,7 @@ import { InMemoryUsersRepository } from '@users/test/in-memory';
 import { ValidateUser } from '@auth/use-cases';
 import { User } from '@users/infra/entities';
 
-describe('Valdiate User', () => {
+describe('Validate User', () => {
   let inMemoryUserRepository: InMemoryUsersRepository;
   let sut: ValidateUser;
   let user: User;
@@ -27,7 +27,7 @@ describe('Valdiate User', () => {
       'gcb123',
     );
 
-    user.password = undefined;
+    user.password = null;
 
     expect(validatedUser).toEqual(user);
   });
