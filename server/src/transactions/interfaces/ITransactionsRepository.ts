@@ -1,11 +1,10 @@
-import { CollaborationsSubType } from '@shared/constants';
 import {
   FilterByStatusDTO,
   FilterByUserAndResponsibleDTO,
   FilterTransactionsByUserDTO,
+  FindLatestTransactionByUserAndSubTypeDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
-  FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
 

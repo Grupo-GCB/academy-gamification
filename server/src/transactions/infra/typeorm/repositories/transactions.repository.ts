@@ -7,15 +7,11 @@ import {
   FilterByStatusDTO,
   FilterByUserAndResponsibleDTO,
   FilterTransactionsByUserDTO,
+  FindLatestTransactionByUserAndSubTypeDTO,
   RegisterTransactionDTO,
   UpdateStatusDTO,
-  FindLatestTransactionByUserAndSubTypeDTO,
 } from '@transactions/dto';
 import { Transaction } from '@transactions/infra/typeorm/entities';
-import {
-  CollaborationsCooldown,
-  CollaborationsSubType,
-} from '@shared/constants';
 
 @Injectable()
 export class TransactionsRepository {
