@@ -46,7 +46,7 @@ describe('Refresh', () => {
   });
 
   it('should throw UnauthorizedException when user is not found', async () => {
-    const user: User = await usersRepository.create({
+    await usersRepository.create({
       name: 'Levi Ciarrochi',
       email: 'levi.ciarrochi@gcbinvestimentos.com',
       password: '',
