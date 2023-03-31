@@ -13,11 +13,12 @@ export class InMemoryRefreshTokenRepository implements IRefreshTokenRepository {
     user: string;
     expiresAt: number;
   }): Promise<RefreshToken> {
-    const refreshToken = new RefreshToken();
-    refreshToken.id = crypto.randomUUID();
-    refreshToken.user = user;
-    refreshToken.token = crypto.randomUUID();
-    refreshToken.expiresAt = new Date(Date.now() + expiresAt);
+    const refreshToken = Object.assign(new RefreshToken(), {
+      id: crypto.randomUUID(),
+      user: user,
+      token: crypto.randomUUID(),
+      expiresAt: new Date(Date.now() + expiresAt),
+    });
 
     this.refreshTokens.push(refreshToken);
     return refreshToken;
