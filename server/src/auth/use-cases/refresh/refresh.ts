@@ -2,14 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { IRefreshTokenRepository } from '@auth/interfaces';
-import { FindById } from '@users/use-cases';
 import { User } from '@users/infra/entities';
 import { IJwtPayload } from '@auth/interfaces';
+import { IUsersRepository } from '@users/interfaces';
 
 @Injectable()
 export class Refresh {
   constructor(
-    private findById: FindById,
+    private usersRepository: IUsersRepository,
     private jwtService: JwtService,
     private refreshTokenRepository: IRefreshTokenRepository,
   ) {}
@@ -23,11 +23,11 @@ export class Refresh {
       throw new UnauthorizedException('Token de atualização inválido!');
     }
 
-    if (new Date() > refreshToken.expiresAt) {
+    if (new Date().getTime() > refreshToken.expiresAt.getTime()) {
       throw new UnauthorizedException('Token de atualização expirado!');
     }
 
-    const user: User = await this.findById.execute(refreshToken.user);
+    const user: User = await this.usersRepository.findById(refreshToken.user);
 
     if (!user) throw new UnauthorizedException('Sem autorização!');
 
